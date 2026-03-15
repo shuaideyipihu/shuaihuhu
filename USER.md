@@ -6,7 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** 帅哥
 - **Pronouns:** _(optional)_
 - **Timezone:**
-- **Notes:**
+- **Notes:** Prefers that persistent technical/system learnings stay in English; plans to gradually interact more in English over time.
 
 ## Context
 
