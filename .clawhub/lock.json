@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "skills": {
+    "summarize": {
+      "version": "1.0.0",
+      "installedAt": 1773520648094
+    },
+    "local-whisper": {
+      "version": "1.0.0",
+      "installedAt": 1773562922526
+    },
+    "openai-tts": {
+      "version": "1.0.0",
+      "installedAt": 1773562876795
+    },
+    "liang-tavily-search": {
+      "version": "1.0.1",
+      "installedAt": 1773578049839
+    }
+  }
+}
