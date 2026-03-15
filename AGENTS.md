@@ -121,6 +121,7 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 
 When a message arrives with an audio transcript or obviously noisy ASR text, prefer intent recovery over literal reading.
 If a dedicated voice-recovery skill exists, use it. Persist recurring corrections so future sessions benefit too.
+Apply a low-confidence confirmation policy: answer directly at high confidence, use lightweight confirmation at medium confidence, and ask a focused clarification question at low confidence.
 
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
 

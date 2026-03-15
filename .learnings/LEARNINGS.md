@@ -23,3 +23,51 @@ Use the `voice-intent-recovery` skill on noisy transcripts, maintain a persisten
 - Pattern-Key: voice.intent-recovery
 
 ---
+
+## [LRN-20260315-VOICE-002] best_practice
+
+**Logged**: 2026-03-15T15:46:00+01:00
+**Priority**: high
+**Status**: pending
+**Area**: config
+
+### Summary
+Use a low-confidence confirmation policy for noisy voice transcripts instead of treating all transcripts equally.
+
+### Details
+Voice interaction quality improves when transcript handling is confidence-aware. High-confidence transcripts can be answered directly, medium-confidence transcripts should use lightweight confirmation, and low-confidence transcripts should trigger a short focused clarification question. This preserves speed while reducing semantic drift.
+
+### Suggested Action
+Maintain a dedicated low-confidence policy and apply it whenever ASR text is noisy or ambiguous.
+
+### Metadata
+- Source: conversation
+- Related Files: skills/voice-intent-recovery/references/low-confidence-policy.md
+- Tags: voice, asr, confirmation, ambiguity
+- Pattern-Key: voice.low-confidence-confirmation
+
+---
+
+## [LRN-20260315-VOICE-003] best_practice
+
+**Logged**: 2026-03-15T15:47:00+01:00
+**Priority**: high
+**Status**: pending
+**Area**: config
+
+### Summary
+A persistent personal dictionary improves recovery of user-specific terms across sessions.
+
+### Details
+Many voice-recognition failures come from domain terms, product names, recurring workflows, and user-preferred phrasing. Storing these in a persistent dictionary provides a reusable adaptation layer that survives session resets and improves future interpretation.
+
+### Suggested Action
+Maintain and expand a per-user voice dictionary with recurring tools, concepts, intents, and restoration targets.
+
+### Metadata
+- Source: conversation
+- Related Files: skills/voice-intent-recovery/references/personal-dictionary-v1.md
+- Tags: voice, asr, personalization, dictionary
+- Pattern-Key: voice.personal-dictionary
+
+---

@@ -43,8 +43,15 @@ Prioritize **intended meaning** over literal tokens when transcript text looks p
 5. **Persist useful corrections**
    If the user corrects a transcript misunderstanding, or if a recurring mistranscription pattern becomes clear:
    - update `references/user-lexicon.md`
+   - update `references/personal-dictionary-v1.md` when the term is user-specific
    - append a short note to `references/correction-patterns.md`
    - if broadly useful, add a concise workflow note to workspace memory/docs
+
+6. **Apply low-confidence policy**
+   Use `references/low-confidence-policy.md` to decide whether to:
+   - answer directly
+   - answer with lightweight confirmation
+   - ask a focused clarification question
 
 ## Response policy
 
