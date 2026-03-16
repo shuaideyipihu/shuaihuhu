@@ -30,7 +30,11 @@
   - 08:15 — A-share close summary
   - 14:15 — U.S. premarket brief
   - 21:40 — U.S. close summary
-- Let this run for a day first, then evaluate and refine.
+- Refinement after first run:
+  - Drop the "A-shares/China implications for U.S. stocks" section unless it is truly material.
+  - For both A-shares and U.S. equities, emphasize specific leading stocks and explain why they rose or fell.
+  - For A-shares, include stronger board/sector + leading-stock coverage rather than only index-level summary.
+  - For A-share tracking, prioritize nonferrous metals, power/utilities, grid equipment, gold/silver futures, crude oil, and other hot sectors.
 
 ## Telegram config choice
 - Telegram group access is currently disabled because the user mainly uses the bot in direct chat.
