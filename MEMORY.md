@@ -36,5 +36,12 @@
   - For A-shares, include stronger board/sector + leading-stock coverage rather than only index-level summary.
   - For A-share tracking, prioritize nonferrous metals, power/utilities, grid equipment, gold/silver futures, crude oil, and other hot sectors.
 
+## Quant finance teaching project
+- The user wants a long-term, systematic quant finance learning program with me acting as teacher.
+- Goal: progress from beginner level toward independent quant research, backtesting, and eventual small-scale practical trading use; do not frame this as guaranteed profits.
+- Start with stock quant as the entry point, then later expand to ETF / index, futures, options, and possibly crypto.
+- Preferred teaching format: one lesson per day, about 1–1.5 hours of study time, with Python examples and exercises by default.
+- A companion teaching website should host daily lessons, course maps, practice, progress, and future interactive review tools.
+
 ## Telegram config choice
 - Telegram group access is currently disabled because the user mainly uses the bot in direct chat.
