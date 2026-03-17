@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>量化金融学习站</title>
+  <meta name="description" content="面向个人长期学习的量化金融课程网站：一天一课，通俗 + 严谨 + Python + 练习。" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-badge">Q</div>
+        <div>
+          <h1>量化金融学习站</h1>
+          <p>教材 + 仪表盘混合版</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-link active" data-view="home">首页</button>
+        <button class="nav-link" data-view="roadmap">课程地图</button>
+        <button class="nav-link" data-view="lesson">今日课程</button>
+        <button class="nav-link" data-view="practice">练习区</button>
+        <button class="nav-link" data-view="glossary">术语卡片</button>
+        <button class="nav-link" data-view="progress">学习进度</button>
+      </nav>
+
+      <section class="sidebar-card">
+        <h2>当前定位</h2>
+        <ul>
+          <li>从股票量化入门</li>
+          <li>每日 1–1.5 小时</li>
+          <li>默认带 Python 与练习</li>
+        </ul>
+      </section>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Quant Course v0.1</p>
+          <h2 id="view-title">首页</h2>
+        </div>
+        <div class="topbar-actions">
+          <button id="mark-today-complete" class="ghost-btn">标记今日已学完</button>
+        </div>
+      </header>
+
+      <section id="view-home" class="view active"></section>
+      <section id="view-roadmap" class="view"></section>
+      <section id="view-lesson" class="view"></section>
+      <section id="view-practice" class="view"></section>
+      <section id="view-glossary" class="view"></section>
+      <section id="view-progress" class="view"></section>
+    </main>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
