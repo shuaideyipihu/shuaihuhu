@@ -49,6 +49,8 @@ python3 "{baseDir}/scripts/watchlist.py" quote NVDA MU --json
 ```bash
 python3 "{baseDir}/scripts/watchlist.py" alert NVDA --above 950
 python3 "{baseDir}/scripts/watchlist.py" alert SNDK --below 120
+python3 "{baseDir}/scripts/watchlist.py" alert LITE --flag possible-intraday-fade
+python3 "{baseDir}/scripts/watchlist.py" alert NBIS --flag near-day-high
 ```
 
 ## Practical guidance

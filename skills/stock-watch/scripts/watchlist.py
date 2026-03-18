@@ -54,8 +54,9 @@ def classify(meta: dict, timestamp=None, quote=None):
 
     recent_closes = closes[-30:] if closes else []
     recent_vols = vols[-30:] if vols else []
-    avg_recent_vol = statistics.mean(recent_vols[-20:]) if len(recent_vols) >= 5 else None
-    last_bar_vol = recent_vols[-1] if recent_vols else None
+    cleaned_vols = [v for v in recent_vols if v is not None and v > 0]
+    avg_recent_vol = statistics.mean(cleaned_vols[-20:]) if len(cleaned_vols) >= 5 else None
+    last_bar_vol = cleaned_vols[-1] if cleaned_vols else None
     volume_ratio = (last_bar_vol / avg_recent_vol) if (last_bar_vol is not None and avg_recent_vol not in (None, 0)) else None
 
     labels = []
@@ -284,6 +285,7 @@ def main():
     a.add_argument("symbol")
     a.add_argument("--above", type=float)
     a.add_argument("--below", type=float)
+    a.add_argument("--flag", type=str, help="Trigger when a label/setup/risk/bias flag is present")
     a.add_argument("--json", action="store_true")
     a.set_defaults(func=run_alert)
 
