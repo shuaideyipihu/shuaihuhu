@@ -15,6 +15,7 @@ Use this skill when the task is about monitoring a small list of U.S. stocks wit
   - near day high / near day low
   - possible breakout continuation
   - possible fade / intraday reversal
+  - chase risk / pullback watch / possible rebound stabilization
 - Check alert conditions against user-defined thresholds
 
 ## Data-source rule

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import statistics
 from urllib.request import Request, urlopen
 
 BASE = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1m&range=1d&includePrePost=true"
@@ -35,7 +36,7 @@ def intraday_position(price, low, high):
     return (price - low) / (high - low)
 
 
-def classify(meta: dict):
+def classify(meta: dict, timestamp=None, quote=None):
     price = safe_num(meta.get("regularMarketPrice"))
     prev = safe_num(meta.get("chartPreviousClose"))
     high = safe_num(meta.get("regularMarketDayHigh"))
@@ -44,6 +45,18 @@ def classify(meta: dict):
     volume = safe_num(meta.get("regularMarketVolume"))
     pct = pct_change(price, prev)
     intraday_pos = intraday_position(price, low, high)
+
+    closes = []
+    vols = []
+    if quote:
+        closes = [safe_num(x) for x in quote.get("close", []) if safe_num(x) is not None]
+        vols = [safe_num(x) for x in quote.get("volume", []) if safe_num(x) is not None]
+
+    recent_closes = closes[-30:] if closes else []
+    recent_vols = vols[-30:] if vols else []
+    avg_recent_vol = statistics.mean(recent_vols[-20:]) if len(recent_vols) >= 5 else None
+    last_bar_vol = recent_vols[-1] if recent_vols else None
+    volume_ratio = (last_bar_vol / avg_recent_vol) if (last_bar_vol is not None and avg_recent_vol not in (None, 0)) else None
 
     labels = []
     if pct is not None:
@@ -81,6 +94,25 @@ def classify(meta: dict):
         elif pct < 0 and intraday_pos > 0.55:
             bias = "down-but-rebounding"
 
+    setup_flags = []
+    if None not in (price, high, prev) and price > prev and high > prev:
+        if intraday_pos is not None and intraday_pos > 0.8 and pct is not None and pct > 2:
+            setup_flags.append("possible-breakout-continuation")
+    if None not in (price, high, low) and high > low:
+        off_high_pct = (high - price) / high * 100 if high else None
+        if off_high_pct is not None and off_high_pct >= 2 and pct is not None and pct > 2:
+            setup_flags.append("possible-intraday-fade")
+    if bias == "down-but-rebounding" and intraday_pos is not None and intraday_pos > 0.55:
+        setup_flags.append("possible-rebound-stabilization")
+    if bias == "short-term-strong" and pct is not None and pct > 3:
+        setup_flags.append("pullback-watch")
+
+    if volume_ratio is not None:
+        if volume_ratio >= 1.8:
+            setup_flags.append("volume-expansion")
+        elif volume_ratio <= 0.7:
+            setup_flags.append("light-volume")
+
     risk = []
     if pct is not None and pct >= 6:
         risk.append("extended-upside")
@@ -90,6 +122,8 @@ def classify(meta: dict):
         risk.append("chase-risk")
     if bias == "short-term-weak":
         risk.append("avoid-blind-bottom-fishing")
+    if "possible-intraday-fade" in setup_flags:
+        risk.append("fade-risk")
 
     action = "observe"
     if bias == "short-term-strong" and "near-day-high" in labels:
@@ -103,6 +137,11 @@ def classify(meta: dict):
     elif bias == "short-term-weak":
         action = "avoid-for-now"
 
+    if "possible-rebound-stabilization" in setup_flags and bias != "short-term-weak":
+        action = "watch-for-reclaim"
+    if "possible-breakout-continuation" in setup_flags and "volume-expansion" in setup_flags:
+        action = "strong-breakout-but-manage-chase-risk"
+
     return {
         "price": price,
         "prevClose": prev,
@@ -114,6 +153,8 @@ def classify(meta: dict):
         "intradayPos": intraday_pos,
         "labels": labels,
         "bias": bias,
+        "volumeRatio": volume_ratio,
+        "setupFlags": setup_flags,
         "riskFlags": risk,
         "assistantAction": action,
     }
@@ -124,8 +165,11 @@ def get_quote(symbol: str):
     result = data.get("chart", {}).get("result")
     if not result:
         raise ValueError(f"No chart result for {symbol}")
-    meta = result[0].get("meta", {})
-    stats = classify(meta)
+    root = result[0]
+    meta = root.get("meta", {})
+    timestamp = root.get("timestamp") or []
+    quote = ((root.get("indicators") or {}).get("quote") or [{}])[0]
+    stats = classify(meta, timestamp=timestamp, quote=quote)
     return {
         "symbol": symbol.upper(),
         "currency": meta.get("currency"),
@@ -143,10 +187,14 @@ def fmt(x, digits=2):
 
 
 def render_quote(row):
+    volume_part = f" | volRatio={fmt(row.get('volumeRatio'))}x" if row.get('volumeRatio') is not None else ""
+    setups = f" | setups={','.join(row.get('setupFlags', []))}" if row.get('setupFlags') else ""
+    risks = f" | risks={','.join(row.get('riskFlags', []))}" if row.get('riskFlags') else ""
     return (
         f"{row['symbol']}: ${fmt(row['price'])} | {fmt(row['pct'])}% | "
         f"day {fmt(row['low'])}-{fmt(row['high'])} | bias={row['bias']} | "
         f"action={row['assistantAction']} | labels={','.join(row['labels'])}"
+        f"{volume_part}{setups}{risks}"
     )
 
 
