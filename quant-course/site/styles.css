@@ -114,6 +114,7 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   border: 1px solid var(--line); background: var(--panel-2); color: var(--text); border-radius: 10px; padding: 8px 12px;
 }
 .copy-btn:hover, .toggle-btn:hover, .small-btn:hover { border-color: var(--accent); }
+.small-btn[disabled] { opacity: 0.45; cursor: not-allowed; }
 .exercise-answer { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 .exercise-answer.open { display: block; }
 .term-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
