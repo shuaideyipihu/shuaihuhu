@@ -43,6 +43,7 @@
 - Preferred teaching format: one lesson per day, about 1–1.5 hours of study time, with Python examples and exercises by default.
 - A companion teaching website should host daily lessons, course maps, practice, progress, and future interactive review tools.
 - For market/trading analysis, the user wants me to first try to obtain the most accurate and up-to-date concrete data available (price, move, range, volume/context, catalyst) before giving judgment; avoid vague analysis when precise data is not available.
+- A new local skill `skills/stock-watch/` is being built to support near-real-time U.S. stock watchlist monitoring and more concrete trading-assistant analysis.
 
 ## Telegram config choice
 - Telegram group access is currently disabled because the user mainly uses the bot in direct chat.
