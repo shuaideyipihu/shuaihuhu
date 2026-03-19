@@ -402,6 +402,105 @@ const courseData = {
   ],
 };
 
+courseData.referenceShelf = [
+  {
+    title: 'Ernest Chan · Quantitative Trading / Algorithmic Trading',
+    role: '用于建立零售量化研究流程、策略原型、风险与执行的整体直觉。',
+    why: '适合作为“先看全貌，再逐步深入”的入门主线。',
+  },
+  {
+    title: 'Bodie / Kane / Marcus · Investments',
+    role: '用于校正风险—收益、资产配置、投资分析等基础金融语言。',
+    why: '帮助课程不滑向“只有代码，没有金融学骨架”。',
+  },
+  {
+    title: 'Ruey S. Tsay · Analysis of Financial Time Series',
+    role: '用于时间序列、波动、统计建模等更严谨的数量分析框架。',
+    why: '帮助后续课程从“会算”升级到“知道为什么这样建模”。',
+  },
+  {
+    title: 'QuantStart beginner reading path',
+    role: '用于补充量化交易入门的主题划分和阅读顺序。',
+    why: '适合把网站中的“下一步读什么”做得更清楚。',
+  },
+];
+
+function buildRigorPack(lesson) {
+  const base = {
+    prerequisites: ['会读基础价格图', '知道股票/ETF是可交易资产', '具备最基础的 Python 阅读能力'],
+    checkpoints: [
+      '我能说清这节课要解决的核心问题。',
+      '我能解释代码为什么出现在这一课，而不是把它当作装饰。',
+      '我能把本课结论和真实交易/研究场景联系起来。',
+    ],
+    rigorNotes: '本课优先建立定义、边界和研究语言，不追求公式堆砌。重点是让概念、数据与代码形成同一套表达。',
+    referenceTrack: ['Chan 路线：先建立量化研究流程，再补策略与执行细节。'],
+  };
+
+  const byDay = {
+    1: {
+      prerequisites: ['理解“主观判断”和“规则判断”有区别', '能接受用数据而不是感觉验证观点'],
+      rigorNotes: '这一课的严谨性重点不在公式，而在把“模糊市场观点”改写成“可被检验的规则问题”。这是后续全部课程的方法论起点。',
+      referenceTrack: [
+        'Chan 路线：量化交易首先是研究流程，不是写机器人。',
+        'QuantStart 路线：入门阶段先掌握全流程轮廓，再逐步深入细节。',
+      ],
+    },
+    2: {
+      prerequisites: ['能区分价格水平和价格变化', '知道百分比变化比绝对价差更可比'],
+      rigorNotes: '本课开始统一使用“收益率”而不是“价格涨了多少”来描述变化，这是金融统计和资产比较的基础语言。',
+      referenceTrack: [
+        'Bodie / Kane / Marcus：投资分析以风险—收益刻画资产，而非只看价格水平。',
+        'Tsay 路线：时间序列分析通常以收益率序列而非价格序列为基础对象。',
+      ],
+    },
+    3: {
+      prerequisites: ['知道收益率是逐期变化量', '能接受投资结果是复合而非简单加总'],
+      rigorNotes: '这里开始把单期收益推进到路径视角：净值、峰值、回撤。回撤不是附加指标，而是资金曲线风险的核心表达。',
+      referenceTrack: [
+        'Bodie / Kane / Marcus：风险不能脱离路径和持有体验来理解。',
+        'Chan 路线：策略评估必须同时看收益、回撤与可执行性。',
+      ],
+    },
+    4: {
+      prerequisites: ['知道市场里不只有个股', '理解不同资产容器会改变研究问题'],
+      rigorNotes: '本课的严谨性重点在“先定义研究对象，再设计策略”。如果对象边界混乱，后续任何统计和回测都容易失真。',
+      referenceTrack: [
+        'Bodie / Kane / Marcus：资产类别与组合视角是投资分析的基本框架。',
+        'Chan 路线：零售量化入门常从 ETF / 更稳定标的开始更有利于建立研究习惯。',
+      ],
+    },
+    5: {
+      prerequisites: ['已会看收益率序列', '愿意把单次涨跌放回整体分布里看'],
+      rigorNotes: '本课引入“分布思维”，是为了对抗人脑对随机波动过度叙事的倾向。统计视角不是装饰，而是识别噪声与异常的基本工具。',
+      referenceTrack: [
+        'Tsay 路线：金融时间序列分析需要先理解收益分布与波动特征。',
+        'QuantStart 路线：初学者应尽快从图形直觉走向样本分布与统计描述。',
+      ],
+    },
+    6: {
+      prerequisites: ['知道收益率可以比较资产表现', '知道回撤和波动都属于风险语言'],
+      rigorNotes: '这一课把“谁涨得多”替换成“谁的风险调整后表现更好”的评估视角，是从散户看盘转向专业研究的重要分水岭。',
+      referenceTrack: [
+        'Bodie / Kane / Marcus：风险—收益权衡是投资学主轴。',
+        'Chan 路线：任何策略结果都必须带着风险标签阅读。',
+      ],
+    },
+    7: {
+      prerequisites: ['已接触收益率、复利、回撤、噪声、风险收益这些关键词'],
+      rigorNotes: '复盘课不新增花哨内容，而是检查这些概念能否被组织成一套研究语言。框架感比继续加概念更重要。',
+      referenceTrack: [
+        'QuantStart 路线：先建立稳定的知识框架，再推进更深的策略与工程模块。',
+        'Tsay / Investments 路线：后续统计、时间序列与风险模型都以本周语言为前提。',
+      ],
+    },
+  };
+
+  return { ...base, ...(byDay[lesson.day] || {}) };
+}
+
+courseData.lessons = courseData.lessons.map(lesson => ({ ...lesson, ...buildRigorPack(lesson) }));
+
 const lessonMap = new Map(courseData.lessons.map((lesson, idx) => [lesson.id, { lesson, idx }]));
 
 function setView(view) {
@@ -522,6 +621,20 @@ function renderHome() {
     </section>
 
     <section class="panel" style="margin-top:18px;">
+      <p class="kicker">参考教材脉络</p>
+      <h3>这套网站现在开始按经典教材路线校正</h3>
+      <div class="reference-grid">
+        ${courseData.referenceShelf.map(item => `
+          <article class="reference-card">
+            <h4>${item.title}</h4>
+            <p><strong>用途：</strong>${item.role}</p>
+            <p class="muted"><strong>为什么接进课程：</strong>${item.why}</p>
+          </article>
+        `).join('')}
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:18px;">
       <p class="kicker">第一周全部课程</p>
       <h3>按顺序推进</h3>
       <div class="lesson-list">
@@ -574,6 +687,11 @@ function renderLesson() {
         <div class="section-block callout-block">
           <h4>这节课为什么重要</h4>
           <p>${lesson.whyItMatters}</p>
+        </div>
+
+        <div class="section-block">
+          <h4>前置知识</h4>
+          <ul>${lesson.prerequisites.map(item => `<li>${item}</li>`).join('')}</ul>
         </div>
 
         <div class="section-block">
@@ -632,8 +750,23 @@ function renderLesson() {
         </div>
 
         <div class="section-block">
+          <h4>严谨性说明</h4>
+          <p>${lesson.rigorNotes}</p>
+        </div>
+
+        <div class="section-block">
           <h4>常见误区</h4>
           <ul>${lesson.mistakes.map(item => `<li>${item}</li>`).join('')}</ul>
+        </div>
+
+        <div class="section-block">
+          <h4>本课自检</h4>
+          <ul>${lesson.checkpoints.map(item => `<li>${item}</li>`).join('')}</ul>
+        </div>
+
+        <div class="section-block">
+          <h4>参考脉络</h4>
+          <ul>${lesson.referenceTrack.map(item => `<li>${item}</li>`).join('')}</ul>
         </div>
 
         <div class="section-block">
