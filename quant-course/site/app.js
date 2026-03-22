@@ -6,500 +6,349 @@ const state = {
 };
 
 const courseData = {
-  title: '量化金融学习站',
-  subtitle: '从零开始，面向个人投资 / 交易者的长期量化学习系统',
-  goal: '逐步达到能够独立做基础量化研究、构建和评估策略、并尝试小规模实操。',
-  promise: '不是把量化包装成“自动赚钱机器”，而是把你训练成能用数据、规则和风险视角看市场的人。',
+  title: 'Quant Finance Study System',
+  subtitle: '以美股为主舞台，用教材骨架 + 研究训练重建量化金融入门前 8 周。',
+  goal: '在 8 周内建立金融语言、统计框架、时间序列直觉、数据工程习惯与基础回测纪律，为后续策略研究打下硬地基。',
+  promise: '这不是指标拼盘或“量化致富故事”，而是一套从投资学、统计学和研究流程出发的系统课程。',
   roadmap: [
     {
-      stage: '第 1 周：建立量化语言',
-      weeks: 'Day 1–7',
-      focus: '理解量化投资是什么，建立收益率、复利、风险收益的基本语言。',
-      outcomes: ['知道量化不是自动赚钱机器', '能区分价格与收益率', '开始形成风险收益一起看的习惯'],
+      stage: '模块 1：金融对象、收益率与组合语言',
+      weeks: '第 1–2 周',
+      focus: '用 Investments 的骨架建立收益率、复利、风险、组合、基准与因子语言，先学“研究什么”，再学“如何计算”。',
+      outcomes: ['能正确使用价格、收益率、净值、回撤、超额收益这些概念', '理解分散化、协方差、风险预算与基准思维', '能把个股、ETF、指数和因子暴露区分开来'],
     },
     {
-      stage: '第 2 周：统计与风险入门',
-      weeks: 'Day 8–14',
-      focus: '重新激活均值、方差、波动率、相关性、Sharpe、回撤等基础工具。',
-      outcomes: ['能解释波动率和最大回撤', '会比较两只资产的风险收益', '能用滚动窗口看市场变化'],
+      stage: '模块 2：统计推断、回归与时间序列',
+      weeks: '第 3–4 周',
+      focus: '把市场数据从故事变成样本，把回归、估计误差、非平稳性、波动簇集和因子检验接到同一条方法链上。',
+      outcomes: ['会解释估计误差、置信区间、显著性和多重检验风险', '能读懂 OLS 输出并理解回归残差意味着什么', '理解 AR / MA / ACF / PACF / 波动聚集等时间序列语言'],
     },
     {
-      stage: '第 3 周：时间序列与策略雏形',
-      weeks: 'Day 15–21',
-      focus: '建立趋势、均值回归、动量、信号与持仓之间的联系。',
-      outcomes: ['理解三类经典策略雏形', '能写出最简单的规则策略', '知道信号不等于收益'],
+      stage: '模块 3：数据工程、研究日志与回测管线',
+      weeks: '第 5–6 周',
+      focus: '学习美股数据对象、复权、存活偏差、点时数据、特征构造、样本切分与信号到 PnL 的完整研究管线。',
+      outcomes: ['知道 OHLCV、adj close、corporate actions 和 universe 定义的区别', '会把信号、仓位、收益、交易成本放到同一张研究表里', '能写出最小可复现回测与研究日志'],
     },
     {
-      stage: '第 4 周：回测与陷阱入门',
-      weeks: 'Day 22–30',
-      focus: '把策略放进回测框架，并理解交易成本、未来函数、过拟合等陷阱。',
-      outcomes: ['知道回测到底在测什么', '能看懂几个基础策略指标', '不会轻易被漂亮历史曲线骗到'],
+      stage: '模块 4：策略家族、组合构建与风险控制',
+      weeks: '第 7–8 周',
+      focus: '在前面地基上进入动量、均值回归、横截面排序、组合构建、风险预算和执行现实。',
+      outcomes: ['能区分时间序列动量、横截面动量和均值回归', '会做基础的组合权重、波动目标和风险归因', '知道样本外失效、交易摩擦和执行风险如何摧毁纸面 alpha'],
     },
   ],
-  lessons: [
+  coreModules: [
     {
-      id: 'day-1',
-      day: 1,
-      title: '量化投资到底在做什么',
-      phase: '第 1 周：建立量化语言',
-      duration: '建议 60–80 分钟',
-      objective: '理解量化投资不是自动赚钱机器，而是把想法写成规则、再用数据验证的研究框架。',
-      whyItMatters: '如果这一步理解错了，后面学再多指标、回测和代码，都容易变成“拿技术给幻觉加滤镜”。量化最先训练的不是编程，而是“把模糊观点变成可检验问题”的习惯。',
-      studyFlow: [
-        '先理解量化研究流程：想法 → 规则 → 数据 → 检验。',
-        '再看为什么价格序列必须被转成“可运算的数据对象”。',
-        '最后理解：代码不是装饰，而是把研究流程落地的语言。',
-      ],
-      intuitiveBlocks: [
-        '很多人第一次听到量化投资，会以为它就是“写程序自动买股票”。这只说对了一小部分。更准确地说，量化投资是：先提出一个市场想法，再把它翻译成明确规则，最后用历史数据去检验这个规则到底有没有价值。',
-        '比如一句主观判断：“最近 AI 板块很强，后面可能还会涨。”量化不会停在这种说法上，而是继续追问：什么叫“很强”？是过去 20 日涨幅排前 10% 吗？后面是未来 5 日继续涨，还是未来 20 日更强？历史上这种情况出现后，胜率、平均收益、最大回撤分别是多少？',
-        '所以量化的核心，不是先预测，而是先定义；不是先相信感觉，而是先把规则说清楚，再让数据说话。你以后学到的收益率、波动率、回测、因子、风控，本质上都是在为这个流程服务。',
-      ],
-      conceptBridge: '把主观判断翻译成量化问题，通常要经过三个动作：第一，把语言变清楚；第二，把清楚的条件写成规则；第三，把规则放进数据里验证。这就是从“我觉得”走向“我能证明到什么程度”的过程。',
-      math: '这一课先不强调公式，先强调流程：想法 → 假设 → 数据 → 规则 → 回测 → 风控 → 迭代。以后学到的统计、回归、因子、回测，都是在为这个流程服务。',
-      codeContext: '下面这段代码看起来只是打印价格和收益率，但它承担了一个关键训练：把市场变化从“肉眼看图”变成“机器可读、可计算的数据序列”。没有这个动作，后面所有量化分析都无从谈起。',
-      python: `import pandas as pd\n\nprices = pd.Series([100, 102, 101, 105])\nreturns = prices.pct_change()\n\nprint('prices:')\nprint(prices)\nprint('returns:')\nprint(returns)`,
-      codeWalkthrough: [
-        { line: 'prices = pd.Series([100, 102, 101, 105])', meaning: '先把一串价格放进 pandas 的 Series 里。Series 是最基础的一维数据容器，后面几乎所有价格序列、收益率序列都会以类似形式出现。' },
-        { line: 'returns = prices.pct_change()', meaning: '把价格序列转换成收益率序列。`pct_change()` 会计算相邻两个价格之间的百分比变化。量化里通常分析的是变化，而不是单纯的价格水平。' },
-        { line: "print('prices:') / print(prices)", meaning: '先看原始数据。你要养成一个习惯：任何分析前都先确认你手里到底是什么数据。' },
-        { line: "print('returns:') / print(returns)", meaning: '再看转换后的收益率。第一行通常是空值，因为第一天没有前一天作为比较基准。这个细节以后会频繁出现。' },
-      ],
-      explanation: '这段代码的课程意义非常直接：它把“资产价格每天在变”翻译成“资产每天变化了多少比例”。前者只是现象，后者才是可以继续做统计、风险分析和策略研究的对象。你不是在背代码，而是在学量化最底层的数据语言。',
-      interpretation: [
-        '看到价格序列时，你知道市场在怎么走；看到收益率序列时，你才开始能比较、聚合、统计。',
-        '如果两只股票价格一个是 10 元、一个是 1000 元，直接比价格几乎没有意义；但比收益率就有了统一尺度。',
-        '所以这段代码虽然短，却在搭建后面全部课程的地基。',
-      ],
-      mistakes: [
-        '把量化误解成“自动赚钱机器”',
-        '一上来就找圣杯策略，而不是先建立研究流程',
-        '只看收益，不看风险、回撤和执行难度',
-      ],
-      summary: [
-        '量化投资的核心是规则化研究，而不是情绪化判断。',
-        '想法本身不值钱，能否被清晰定义、被历史检验，才有意义。',
-        '代码不是课程装饰，而是把研究流程落地的工具。',
-      ],
-      nextLessonId: 'day-2',
-      exercises: [
-        {
-          id: 'ex-1-1',
-          title: '概念题',
-          prompt: '请用你自己的话区分“主观交易”和“量化研究”最大的不同。',
-          hint: '想想：一个更依赖感觉，一个更依赖规则。',
-          answer: '参考答案：主观交易常依赖临场判断、经验和情绪；量化研究更强调把条件写清楚，并用历史数据去验证和迭代。',
-        },
-        {
-          id: 'ex-1-2',
-          title: '代码理解题',
-          prompt: '为什么这节课不是直接讲策略，而是先让你把价格变成收益率？',
-          hint: '想想量化后面要做的统计、比较和回测，依赖的到底是价格还是变化。',
-          answer: '因为量化后续大多数分析都依赖“变化”而不是单纯价格水平。收益率更适合比较不同资产、计算波动率、累计净值和评估策略表现。',
-        },
-        {
-          id: 'ex-1-3',
-          title: 'Python 动手题',
-          prompt: '把示例价格改成你自己的一组 5 天价格，并运行 `pct_change()` 看输出，再描述第一行为什么会是 NaN。',
-          hint: '第一天没有“前一天”，所以没法算变化。',
-          answer: '你应该能看到：第一行通常是 NaN，因为收益率需要和前一个时点比较；第一天没有前值，所以无法计算。',
-        },
-      ],
+      title: 'Investments backbone',
+      description: '以 Bodie / Kane / Marcus 为主脉络，建立收益率、风险收益权衡、基准、分散化、组合与因子语言。',
+      anchors: ['Bodie / Kane / Marcus', 'Portfolio intuition', 'Benchmark and factor language'],
     },
     {
-      id: 'day-2',
-      day: 2,
-      title: '价格、收益率、对数收益率',
-      phase: '第 1 周：建立量化语言',
-      duration: '建议 70–90 分钟',
-      objective: '理解为什么量化里更常分析收益率，而不是只盯价格，并建立对数收益率的初步直觉。',
-      whyItMatters: '如果你不知道为什么要用收益率，你之后学波动率、相关性、回测收益、风险指标时会一直觉得“公式很多但不知道在算什么”。这节课的任务，是把“价格”和“变化”分开。',
-      studyFlow: [
-        '先理解为什么同样涨 1 元，意义可能完全不同。',
-        '再区分简单收益率与对数收益率。',
-        '最后理解为什么量化模型喜欢用收益率做统一比较。',
-      ],
-      intuitiveBlocks: [
-        '如果一只 10 元的股票涨到 11 元，和一只 100 元的股票涨到 101 元，看起来都涨了 1 元，但意义完全不同。前者涨了 10%，后者只涨了 1%。',
-        '量化之所以更喜欢研究收益率，是因为收益率能把不同价格水平的资产拉回到同一个可比较尺度。这样你才能公平地比较不同标的、不同时间段。',
-        '对数收益率现在先不用害怕。你可以把它理解成另一种记录涨跌的方法，优势在于多期累计更方便、数学处理更自然。入门时先掌握简单收益率，知道对数收益率是进阶工具就够了。',
-      ],
-      conceptBridge: '价格回答的是“现在贵不贵”；收益率回答的是“变化了多少”；对数收益率回答的是“如果我要更方便地做多期累加和连续时间分析，有没有更顺手的表达方式”。',
-      math: '简单收益率 = (Pt - Pt-1) / Pt-1。对数收益率 = ln(Pt / Pt-1)。当单期涨跌幅不大时，两者数值往往很接近。',
-      codeContext: '下面代码不是单纯展示两个公式，而是在训练你看到同一段价格数据时，能从不同“变化定义”得到不同但相关的分析对象。',
-      python: `import pandas as pd\nimport numpy as np\n\nprices = pd.Series([10, 10.5, 10.2, 10.8, 10.6])\nsimple_returns = prices.pct_change()\nlog_returns = np.log(prices / prices.shift(1))\n\nprint(simple_returns)\nprint(log_returns)`,
-      codeWalkthrough: [
-        { line: 'prices = pd.Series([10, 10.5, 10.2, 10.8, 10.6])', meaning: '先准备一段价格路径。路径比单独某一天价格更重要，因为量化看的不是静态点，而是动态变化。' },
-        { line: 'simple_returns = prices.pct_change()', meaning: '计算最常见的简单收益率。这是你后面大多数入门分析最常用的表示。' },
-        { line: 'log_returns = np.log(prices / prices.shift(1))', meaning: '先把当天价格除以前一天价格，得到涨跌倍数，再取自然对数。这就是对数收益率。' },
-        { line: 'print(simple_returns) / print(log_returns)', meaning: '把两种结果并排观察。你会发现很多时候它们很接近，但思维上不能把它们混成一回事。' },
-      ],
-      explanation: '课程上这段代码的意义在于：它迫使你把“价格变化”拆成不同的数学语言。以后你会发现，量化不是只有一个正确表达，而是要根据问题选择更合适的表达方式。',
-      interpretation: [
-        '简单收益率更直观，适合初学和大多数日常分析。',
-        '对数收益率更适合做多期累加、统计建模和一些连续时间框架。',
-        '真正关键的不是死记哪一个更“高级”，而是知道你为什么在这里选它。',
-      ],
-      mistakes: [
-        '把“涨了 1 元”当成统一尺度',
-        '以为涨 50% 再跌 50% 会回到原点',
-        '不知道收益率是复利过程而不是简单加减',
-      ],
-      summary: [
-        '价格描述水平，收益率描述变化。',
-        '不同价格区间的资产，只有放到收益率尺度上才公平。',
-        '对数收益率先建立直觉，不必急着深入。',
-      ],
-      nextLessonId: 'day-3',
-      exercises: [
-        {
-          id: 'ex-2-1',
-          title: '手算题',
-          prompt: '一只股票昨天 50，今天 52，简单收益率是多少？',
-          hint: '先算变化，再除以昨天价格。',
-          answer: '答案： (52 - 50) / 50 = 4%。',
-        },
-        {
-          id: 'ex-2-2',
-          title: '理解题',
-          prompt: '为什么量化比较不同股票时通常更愿意看收益率而不是价格？',
-          hint: '关键在“统一尺度”。',
-          answer: '因为价格水平不同，直接比较没有统一标准；收益率把变化放到比例尺度上，更适合横向比较。',
-        },
-      ],
+      title: 'Statistics and time series backbone',
+      description: '以统计推断、回归与 Tsay 式金融时间序列为主线，训练从样本到模型的基本判断能力。',
+      anchors: ['Tsay', 'OLS and inference', 'Financial time series'],
     },
     {
-      id: 'day-3',
-      day: 3,
-      title: '复利、累计收益与回撤直觉',
-      phase: '第 1 周：建立量化语言',
-      duration: '建议 70–90 分钟',
-      objective: '理解复利、累计净值和回撤为什么是交易者必须具备的直觉。',
-      whyItMatters: '如果你只盯最终收益，而不理解路径、净值和回撤，你会很容易被“高收益故事”骗。真实交易体验里，回撤往往比平均收益更能决定你能不能拿得住策略。',
-      studyFlow: [
-        '先建立“投资结果是乘法结构”的直觉。',
-        '再理解累计净值如何从收益率一步步长出来。',
-        '最后理解回撤为什么更接近真实痛感。',
-      ],
-      intuitiveBlocks: [
-        '很多人知道“涨跌幅”，但没有真正理解“路径”这件事。100 涨 50% 变成 150，再跌 50% 不是回到 100，而是跌到 75。',
-        '这说明交易结果不是简单加减，而是乘法结构。路径不同，终点就不同。看似相同的平均收益，可能对应完全不同的资金曲线体验。',
-        '回撤的本质就是：在你已经赚到一部分之后，后来又回吐了多少。它非常贴近真实投资体验，因为人往往不是被“最终收益不够高”击败，而是先被中途深跌吓跑。',
-      ],
-      conceptBridge: '收益率序列让你知道每一步怎么变；累计净值把这些变化连起来；回撤则告诉你这条路径中最痛的部分在哪里。三者一起，才接近真实的投资过程。',
-      math: '累计净值通常按 (1+r1)(1+r2)...(1+rn) 连乘得到。回撤 = (当前净值 - 历史最高净值) / 历史最高净值。',
-      codeContext: '下面这段代码第一次把“单期收益”往“资金曲线”推进。它让你看到：收益率不只是每天涨跌，而是会堆出一条净值路径，而回撤就是对这条路径的痛感刻画。',
-      python: `import pandas as pd\n\nreturns = pd.Series([0.1, -0.05, 0.08, -0.12])\nnav = (1 + returns).cumprod()\nrunning_max = nav.cummax()\ndrawdown = (nav - running_max) / running_max\n\nprint(nav)\nprint(drawdown)`,
-      codeWalkthrough: [
-        { line: 'returns = pd.Series([0.1, -0.05, 0.08, -0.12])', meaning: '先设定几期收益率。你可以把它看成策略或资产在几天里的收益表现。' },
-        { line: 'nav = (1 + returns).cumprod()', meaning: '把每期收益率变成增长倍数后连乘，得到累计净值曲线。这里的 `cumprod()` 是理解复利最关键的函数之一。' },
-        { line: 'running_max = nav.cummax()', meaning: '记录每个时点之前出现过的历史最高净值。只有知道历史峰值，才能定义“从高点回落了多少”。' },
-        { line: 'drawdown = (nav - running_max) / running_max', meaning: '用当前净值相对历史最高净值的跌幅，计算回撤。结果通常是负数，越小代表跌得越深。' },
-      ],
-      explanation: '这段代码和课程目标的关系很紧：它把“复利”“净值”“回撤”这三个本来容易抽象的概念放到同一条路径里。你不是在学三个分散名词，而是在学资金曲线是如何被构造和评估的。',
-      interpretation: [
-        '同样是“赚过钱”，但如果中间回吐很大，你的实际体验会非常差。',
-        '回撤小的策略不一定收益最高，但往往更容易长期执行。',
-        '以后看到任何漂亮收益图，都要反射性地问一句：它的最大回撤是多少？',
-      ],
-      mistakes: ['只看最终收益，不看途中最大回撤', '忽视复利路径的影响', '把净值曲线想得过于平滑'],
-      summary: ['复利是乘法，不是加法。', '累计收益和回撤必须一起看。', '回撤是以后所有风控课程的核心语言之一。'],
-      nextLessonId: 'day-4',
-      exercises: [
-        { id: 'ex-3-1', title: '理解题', prompt: '为什么涨 50% 再跌 50% 不会回本？', hint: '先代入 100 去算。', answer: '因为 100→150→75，第二次跌的基数已经不是 100，而是 150。' },
-        { id: 'ex-3-2', title: '思考题', prompt: '一个策略年收益 20%，但最大回撤 45%；另一个年收益 15%，最大回撤 8%。为什么后者可能更值得研究？', hint: '把“赚多少”和“怎么赚到”一起看。', answer: '因为策略是否可执行，不只取决于收益，也取决于过程是否稳定、回撤是否可承受。较低回撤通常意味着更高的真实可持有性。' },
-      ],
+      title: 'Research engineering backbone',
+      description: '以数据工程、点时数据、特征构造、样本切分、回测与研究日志为核心，建立可复现研究习惯。',
+      anchors: ['Chan', 'Research artifacts', 'Backtest pipeline'],
     },
     {
-      id: 'day-4',
-      day: 4,
-      title: '市场基础——股票、指数、ETF、行业',
-      phase: '第 1 周：建立量化语言',
-      duration: '建议 50–70 分钟',
-      objective: '搞清楚量化里常见研究对象分别是什么，以及它们各自适合研究什么。',
-      whyItMatters: '研究对象一旦混乱，策略设计就容易从一开始就跑偏。研究单个公司、研究板块轮动、研究市场风格，数据特征和策略逻辑都不一样。',
-      studyFlow: [
-        '先区分股票、指数、ETF、行业这几类对象。',
-        '再理解每类对象在量化里常见的研究用途。',
-        '最后建立“先明确对象，再设计策略”的习惯。',
-      ],
-      intuitiveBlocks: [
-        '股票是单一公司，指数是一篮子股票的整体表现，ETF 是可以交易的基金壳，行业则是把相似业务公司放在一起看的分类方式。',
-        '如果你研究一家公司，个股很重要；如果你研究市场风格，指数和行业更重要；如果你要做较稳的策略测试，ETF 常常是很好的入门对象，因为数据更干净、个体暴雷风险也较低。',
-        '这节课看起来像“常识课”，但它其实是在帮你建立研究对象的边界。很多量化初学者不是不会写代码，而是不知道自己到底在研究什么。',
-      ],
-      conceptBridge: '研究对象不同，会直接影响数据、噪声、波动结构和策略逻辑。你研究个股时要考虑公司事件风险；研究 ETF 时更强调篮子特征和市场因子；研究行业轮动时又会落到板块比较。',
-      math: '这一课数学最少，重点是对象分类和研究目的对应关系。',
-      codeContext: '这段代码虽然简单，但它在模拟最初级的“研究对象分层”。量化研究不是一股脑抓一堆 ticker，而是要先知道哪些属于个股、哪些属于 ETF、哪些属于行业代理。',
-      python: `watchlist = {\n    'stock': ['NVDA', 'AAPL'],\n    'etf': ['SPY', 'QQQ'],\n    'sector': ['SOXX', 'XLE']\n}\n\nfor kind, symbols in watchlist.items():\n    print(kind, symbols)`,
-      codeWalkthrough: [
-        { line: "'stock': ['NVDA', 'AAPL']", meaning: '这是单公司标的，更容易受财报、管理层、产品周期等公司级事件影响。' },
-        { line: "'etf': ['SPY', 'QQQ']", meaning: '这是篮子资产，更适合研究市场整体方向、风格暴露和较平滑的趋势。' },
-        { line: "'sector': ['SOXX', 'XLE']", meaning: '用行业 ETF 代理板块，有助于研究主题轮动，而不是被单一龙头公司的特殊事件扰动。' },
-        { line: 'for kind, symbols in watchlist.items()', meaning: '把对象按类别处理，是以后做批量回测和策略筛选的雏形。' },
-      ],
-      explanation: '这段代码的真正意义不是“会不会写字典”，而是训练你用结构化方式管理研究对象。量化研究里，研究对象的分层越清楚，后面策略设计越不容易混乱。',
-      interpretation: [
-        '初学者如果想尽快做出可解释的练习，ETF 往往比单个妖股更适合。',
-        '如果你研究行业轮动，只盯一只龙头股很容易把公司特异性当成行业规律。',
-        '明确对象，是从“看盘”走向“研究”的第一步。',
-      ],
-      mistakes: ['把 ETF 当成普通股票理解', '研究行业却只盯一只龙头票', '没区分个股波动和指数波动的不同'],
-      summary: ['研究对象不同，策略设计也不同。', 'ETF 是很适合初学者练手的量化对象。', '先定义研究对象，再谈信号和回测。'],
-      nextLessonId: 'day-5',
-      exercises: [
-        { id: 'ex-4-1', title: '分类题', prompt: '请举出一个你常看的股票、一个指数、一个 ETF。', hint: '比如美股、A股都可以。', answer: '参考：NVDA（股票）、纳指100（指数）、QQQ（ETF）。' },
-        { id: 'ex-4-2', title: '研究设计题', prompt: '如果你想研究“AI 板块是否强于大盘”，你更应该先比较什么对象？', hint: '不要直接拿单只公司和整个市场比较。', answer: '更适合比较 AI/半导体相关行业或 ETF 与大盘指数/ETF，而不是直接拿某一只热门个股对比整个市场。' },
-      ],
+      title: 'Strategy and risk backbone',
+      description: '以策略家族、组合构建、风险预算、交易成本与执行现实为核心，防止把纸面信号误当成可交易策略。',
+      anchors: ['Chan', 'Portfolio construction', 'Execution realism'],
     },
-    {
-      id: 'day-5',
-      day: 5,
-      title: '收益率分布与市场噪声',
-      phase: '第 1 周：建立量化语言',
-      duration: '建议 60–80 分钟',
-      objective: '建立“市场很吵”的直觉，知道为什么不能把每一次涨跌都看成信号。',
-      whyItMatters: '很多错误策略不是因为数学太差，而是因为人脑太会讲故事。你看到几根大阳线，就开始相信一个叙事；你看到几次反转，就以为找到了规律。分布思维是对抗这种幻觉的第一层防线。',
-      studyFlow: [
-        '先理解市场里的大量波动并没有信息含量。',
-        '再理解为什么“看起来有规律”常常只是噪声。',
-        '最后用一个简单分布图，建立统计视角。',
-      ],
-      intuitiveBlocks: [
-        '市场每天都在波动，但不是每一次波动都代表有意义的信息。很多波动只是噪声。',
-        '量化之所以需要统计，是因为肉眼看图很容易把随机性误当成规律。只要样本短一点、行情热一点，人脑几乎一定会开始脑补故事。',
-        '所以学量化的一个核心转变是：你不再问“这次涨是不是很厉害”，而开始问“这种波动在历史分布里算常见还是极端”。',
-      ],
-      conceptBridge: '从“事件思维”转向“分布思维”，意味着你开始把单次涨跌放回整个历史背景里看。单点现象不再自动等于信号，它必须在分布中显得异常，才更值得研究。',
-      math: '收益率分布帮助我们理解常态波动、极端波动和尾部风险。后面讲波动率、偏度、峰度时，都会在这个基础上展开。',
-      codeContext: '下面这段代码不是为了让你今天学会作图，而是让你第一次用可视化方式看收益率“散布成什么样”。这一步，是把“市场很吵”从一句感觉，变成一个可观察事实。',
-      python: `import pandas as pd\nimport matplotlib.pyplot as plt\n\nreturns = pd.Series([0.01, -0.02, 0.015, 0.03, -0.01, 0.005, -0.04])\nreturns.hist(bins=10)\nplt.title('Return Distribution')\nplt.show()`,
-      codeWalkthrough: [
-        { line: 'returns = pd.Series([...])', meaning: '先准备一小段收益率序列。真实研究里通常会更长，但这里先用小样本建立直觉。' },
-        { line: 'returns.hist(bins=10)', meaning: '把收益率画成直方图。不是按时间顺序看，而是看“不同区间的收益率出现得多不多”。' },
-        { line: "plt.title('Return Distribution')", meaning: '给图加标题，帮助你把图像和研究问题绑定起来。以后图表不是装饰，而是表达结论的工具。' },
-        { line: 'plt.show()', meaning: '把图真正显示出来。量化学习里，很多理解是要靠看图和算数配合建立的。' },
-      ],
-      explanation: '这段代码和本课目标的关系在于：它让你第一次从“路径视角”跳到“分布视角”。前几节课你在看序列怎么走，这节课你开始看这些变化总体长什么样。这个视角切换，对后面做风险判断非常关键。',
-      interpretation: [
-        '如果分布很散，说明波动大；如果尾部特别长，说明极端事件不罕见。',
-        '少数极端收益如果决定了大部分结果，策略稳定性就值得警惕。',
-        '看图的目的不是“好看”，而是帮助你识别：你面对的是普通波动，还是不寻常事件。',
-      ],
-      mistakes: ['把一两天的大涨大跌当成长久规律', '过度依赖肉眼看图', '忽视尾部风险'],
-      summary: ['市场里有大量噪声。', '量化学习要培养分布思维，而不是故事思维。', '单次大涨跌只有放回历史分布中才有意义。'],
-      nextLessonId: 'day-6',
-      exercises: [
-        { id: 'ex-5-1', title: '观察题', prompt: '如果一个策略只有几次特别大的盈利，其余时候都很平庸，你会担心什么？', hint: '想想“运气”和“稳定性”。', answer: '要担心收益是不是过度依赖少数极端时刻，稳定性和可重复性可能不足。' },
-        { id: 'ex-5-2', title: '理解题', prompt: '为什么量化学习里需要“分布思维”？', hint: '想想单次事件和整体历史背景的区别。', answer: '因为单次涨跌容易让人误判，而分布思维能把现象放回总体背景里看，减少把噪声错当信号的风险。' },
-      ],
-    },
-    {
-      id: 'day-6',
-      day: 6,
-      title: '从看涨跌到看风险收益',
-      phase: '第 1 周：建立量化语言',
-      duration: '建议 60–75 分钟',
-      objective: '建立“收益和风险必须一起看”的习惯。',
-      whyItMatters: '市场里最常见的误判之一就是只看谁涨得多。专业视角和业余视角最大的差别，往往不在收益预测，而在风险衡量。',
-      studyFlow: [
-        '先认识“同收益，不同风险”的区别。',
-        '再理解为什么波动与回撤会影响策略质量。',
-        '最后建立“风险收益一起评估”的框架。',
-      ],
-      intuitiveBlocks: [
-        '两只资产都涨了 20%，并不代表它们一样好。一个可能一路平稳上去，另一个可能中间先腰斩再拉回。',
-        '真正的交易判断不是“赚没赚”，而是“冒了多大风险赚到这些收益”。这也是为什么专业投资报告几乎不会只写收益率，而会同时写波动率、回撤、Sharpe 等指标。',
-        '如果一条曲线让你在中途无法坚持执行，那么它在真实世界里的价值就会大打折扣。',
-      ],
-      conceptBridge: '收益告诉你“拿到了什么”，风险告诉你“为此承受了什么”。只有把两者放在一起，策略评估才开始接近真实决策。',
-      math: '这一课先建立直觉：平均收益、波动率、回撤要一起看。后面我们再系统讲 Sharpe。',
-      codeContext: '下面代码故意把两个资产放在同样收益、不同波动的结构里，是为了让你先建立一个非常关键的判断框架：不是谁赚得多，而是谁更“划算”。',
-      python: `assets = {\n    'A': {'return': 0.20, 'vol': 0.10, 'max_drawdown': 0.08},\n    'B': {'return': 0.20, 'vol': 0.35, 'max_drawdown': 0.30}\n}\n\nfor name, metrics in assets.items():\n    print(name, metrics)`,
-      codeWalkthrough: [
-        { line: "'return': 0.20", meaning: '两只资产年化收益假设都为 20%，先把收益控制成一样。' },
-        { line: "'vol': 0.10 / 0.35", meaning: '波动率不同，意味着收益路径平稳程度不同。收益一样时，波动更低通常更有吸引力。' },
-        { line: "'max_drawdown': 0.08 / 0.30", meaning: '最大回撤补充了另一种风险视角：中途最痛的时候有多痛。' },
-        { line: 'for name, metrics in assets.items()', meaning: '循环输出各资产指标，模拟最基础的横向比较。以后你会把这种比较扩展到整个股票池或策略池。' },
-      ],
-      explanation: '代码在这里不是为了“展示数据结构”，而是为了训练你进行多指标比较。真实量化研究的很多决策，都源于这种简单但严格的比较框架。',
-      interpretation: [
-        '同收益时，更低的波动和回撤通常意味着更好的持有体验。',
-        '高收益如果伴随极深回撤，未必是更优策略。',
-        '这节课的重点不是记住某个公式，而是建立“收益必须带着风险标签一起看”的习惯。',
-      ],
-      mistakes: ['只盯涨跌幅排行榜', '忽略高波动带来的心理与资金压力', '把高收益默认等于高质量策略'],
-      summary: ['收益不是唯一指标。', '风险收益比才更接近专业视角。', '以后看到任何收益，都要反问：风险代价是什么？'],
-      nextLessonId: 'day-7',
-      exercises: [
-        { id: 'ex-6-1', title: '比较题', prompt: '如果两只资产年化收益一样，一只最大回撤 8%，另一只 35%，你更愿意先研究哪一只？为什么？', hint: '别只看收益。', answer: '通常更愿意先研究回撤更小的，因为它的资金曲线和可执行性更友好。' },
-        { id: 'ex-6-2', title: '迁移题', prompt: '为什么“中途能不能拿得住”也是量化评估的一部分？', hint: '量化不是只看回测终点。', answer: '因为策略再好，如果路径波动和回撤超出人的承受能力，就很难真实执行，回测收益也难以兑现。' },
-      ],
-    },
-    {
-      id: 'day-7',
-      day: 7,
-      title: '第 1 周复盘：把量化语言串起来',
-      phase: '第 1 周：建立量化语言',
-      duration: '建议 45–60 分钟',
-      objective: '把前 6 天学过的概念串成一套最基础的量化语言。',
-      whyItMatters: '很多人学量化不是卡在某个单独概念，而是学了一堆词却串不成框架。这节课就是把前面的碎片，重新拼成一张地图。',
-      studyFlow: [
-        '先回顾前六天分别解决了什么问题。',
-        '再把这些概念串成一个完整研究流程。',
-        '最后确认你是否已经从“看热闹”切换到“会描述、会比较、会验证”的学习状态。',
-      ],
-      intuitiveBlocks: [
-        '这一周你学的东西看起来分散：价格、收益率、复利、回撤、ETF、噪声、风险收益。但它们其实都在回答同一个问题：怎样用更清楚、更可比较的方式看市场。',
-        '如果你能用这套语言重新描述一只股票、一段走势、一个策略，那你就已经从纯直觉观察者，开始变成量化学习者了。',
-        '这周最重要的收获，不是你会了多少代码，而是你开始拥有一套更像研究者的思考骨架。',
-      ],
-      conceptBridge: '量化语言的核心链条是：先用收益率描述变化，再用复利和净值描述路径，用回撤和波动描述风险，用分布思维识别噪声，用研究对象分类明确你到底在分析什么。',
-      math: '这节课不加新公式，重点是把前 6 天的概念重新组织成自己的表述。',
-      codeContext: '这段代码不是为了技术难度，而是为了“结构化复盘”。你会看到，一周学习的关键词其实已经能组成一个最基础的研究词表。',
-      python: `topics = ['收益率', '复利', '回撤', 'ETF', '分布', '风险收益']\n\nfor topic in topics:\n    print('本周关键词:', topic)`,
-      codeWalkthrough: [
-        { line: "topics = ['收益率', '复利', '回撤', 'ETF', '分布', '风险收益']", meaning: '把这周关键词列出来，提醒你它们不是散点，而是课程骨架。' },
-        { line: 'for topic in topics:', meaning: '逐个输出关键词，像做提纲一样，把已学内容重新组织。' },
-        { line: "print('本周关键词:', topic)", meaning: '最简单的输出背后，其实是在练“结构化回顾”的习惯。量化学习不只是吸收，更要不断重组。' },
-      ],
-      explanation: '这段代码之所以放在复盘课里，是为了强调：代码也可以服务于结构化思考，而不只是拿来做复杂计算。真正成熟的学习方式，是能把概念、公式和代码放到同一个框架里。',
-      interpretation: [
-        '如果你能看着这些关键词，讲出它们彼此的关系，这周就算学扎实了。',
-        '如果你只能分别解释，却连不起来，说明你还需要再复盘一遍。',
-        '量化学习最怕“概念收集癖”，最需要“框架组织力”。',
-      ],
-      mistakes: ['急着往后学，而没有回头串联概念', '知道单点概念，但讲不出它们之间的关系', '把代码和课程内容割裂开来'],
-      summary: ['这一周的目标不是会写策略，而是先学会量化语言。', '只有语言坐标系稳了，后面统计和策略才不会漂。', '代码、概念和交易意义必须被一起理解。'],
-      nextLessonId: null,
-      exercises: [
-        { id: 'ex-7-1', title: '复盘题', prompt: '用 5 句话总结“量化投资和普通看盘最大的区别”。', hint: '可以从规则、收益率、风险、数据、验证几个词展开。', answer: '参考方向：量化投资更强调把想法规则化、用收益率而不是价格比较、把风险和收益一起看、用数据而不是感觉验证、并持续迭代。' },
-        { id: 'ex-7-2', title: '连接题', prompt: '请把“收益率、复利、回撤、风险收益”串成一段你自己的解释。', hint: '试着描述：先看变化，再看路径，再看痛感，再看是否值得。', answer: '参考：量化先用收益率描述资产变化，再用复利把变化连成净值路径，用回撤刻画中途最痛的下跌，最后把收益和风险放在一起判断策略是否值得持有。' },
-      ],
-    },
-  ],
-  practiceGroups: [
-    {
-      title: '基础概念练习',
-      items: ['收益率与价格区别', '复利与累计收益', '风险收益一起看'],
-    },
-    {
-      title: 'Python 动手练习',
-      items: ['使用 pandas 读取价格序列', '计算收益率', '画出收益率分布'],
-    },
-    {
-      title: '研究者思维练习',
-      items: ['把模糊判断翻成规则', '先定义研究对象', '看到收益先问风险'],
-    },
-  ],
-  glossary: [
-    { term: '收益率', tag: '基础', front: '收益率', back: '衡量资产在一段时间内相对于初始价格的涨跌比例。量化里比直接看价格更重要。' },
-    { term: '波动率', tag: '风险', front: '波动率', back: '通常用收益率的标准差来衡量，表示价格波动的剧烈程度，是最常见的风险语言之一。' },
-    { term: '最大回撤', tag: '风险', front: '最大回撤', back: '从历史高点到后续低点的最大跌幅。它非常接近投资者真实体感中的“最痛亏损”。' },
-    { term: 'Sharpe Ratio', tag: '评估', front: 'Sharpe Ratio', back: '风险调整后收益指标。不是只看赚了多少，而是看冒了多少风险才赚到这些收益。' },
-    { term: '过拟合', tag: '回测', front: '过拟合', back: '策略参数被调到特别适配历史数据，但对未来没有泛化能力。看起来很漂亮，实盘常翻车。' },
-    { term: '样本外', tag: '回测', front: '样本外', back: '没有参与策略开发或参数调优的数据，用来更真实地检验策略是否具备泛化能力。' },
   ],
 };
 
-courseData.referenceShelf = [
+const weekSpecs = [
   {
-    title: 'Ernest Chan · Quantitative Trading / Algorithmic Trading',
-    role: '用于建立零售量化研究流程、策略原型、风险与执行的整体直觉。',
-    why: '适合作为“先看全貌，再逐步深入”的入门主线。',
+    week: 1,
+    phase: '第 1 周：收益率、复利与市场对象',
+    overview: '先学市场研究对象、收益率语言、复利路径和风险度量，建立量化研究最基础的金融坐标系。',
+    lessons: [
+      {
+        title: '研究对象：个股、指数、ETF 与可交易宇宙',
+        objective: '明确美股量化研究中的基本对象，知道研究个股、ETF、指数时数据和问题为何不同。',
+        whyItMatters: '如果研究对象不清楚，后面的收益率、回归和回测都会建在错的经济对象上。',
+        conceptBridge: '量化研究先问“我到底在研究什么资产”，然后才问“我如何建模与交易它”。',
+        math: '本课重点不是公式，而是对象边界：单一证券、可交易基金、市场指数和研究样本池对应不同问题。',
+        python: `universe = {\n    "single_names": ["AAPL", "MSFT", "NVDA"],\n    "broad_index_proxy": ["SPY", "QQQ"],\n    "sector_proxy": ["XLF", "XLK", "XLE"]\n}\n\nfor kind, tickers in universe.items():\n    print(kind, tickers)`,
+        codeWalkthrough: [
+          { line: 'universe = {...}', meaning: '先把研究对象按经济含义分层，而不是一开始就随意抓 ticker。' },
+          { line: 'single_names', meaning: '个股研究更容易受到财报、事件与 idiosyncratic shock 影响。' },
+          { line: 'broad_index_proxy / sector_proxy', meaning: 'ETF 常被用来表达市场或板块暴露，研究逻辑更接近组合对象。' },
+          { line: 'for kind, tickers in universe.items()', meaning: '输出只是表面动作，真正训练的是先定义研究宇宙。' },
+        ],
+        interpretation: ['研究个股不等于研究市场；研究 ETF 不等于研究公司。', '样本池的定义本身就是模型假设的一部分。', '后续所有数据清洗、回测和风控都依赖这个起点。'],
+        mistakes: ['把 ETF 和指数混成一个概念', '用个股思路解释市场指数', '在没定义 universe 时直接开始回测'],
+        summary: ['研究对象先行。', '资产容器不同，数据与风险结构也不同。', '研究宇宙定义是量化流程的第一步。'],
+      },
+      {
+        title: '价格、简单收益率与对数收益率',
+        objective: '掌握价格与收益率的区别，并建立简单收益率与对数收益率的使用边界。',
+        whyItMatters: '不理解收益率，你后面的波动率、回归、累计收益与回测都没有统一语言。',
+        conceptBridge: '价格描述水平，收益率描述变化；量化研究大多围绕“变化”而不是“价格水平”展开。',
+        math: '简单收益率 r_t=(P_t-P_{t-1})/P_{t-1}；对数收益率 g_t=ln(P_t/P_{t-1})，小幅变化时两者接近。',
+        python: `import pandas as pd\nimport numpy as np\n\nprices = pd.Series([100, 102, 101, 105, 108])\nsimple_r = prices.pct_change()\nlog_r = np.log(prices / prices.shift(1))\nprint(simple_r)\nprint(log_r)`,
+        codeWalkthrough: [
+          { line: 'prices = pd.Series([...])', meaning: '用时间序列容器表达价格路径，而不是孤立的价格点。' },
+          { line: 'simple_r = prices.pct_change()', meaning: '计算最常见的单期简单收益率。' },
+          { line: 'log_r = np.log(prices / prices.shift(1))', meaning: '对数收益率更适合做时间累加和部分模型推导。' },
+          { line: 'print(...)', meaning: '并排比较，训练你对两种表达的数值直觉。' },
+        ],
+        interpretation: ['收益率比价格更适合跨资产比较。', '对数收益率不是更“高级”，而是更适合某些问题。', '研究时先说明用哪种收益率语言。'],
+        mistakes: ['把涨了 1 美元当成统一尺度', '混淆简单收益率与对数收益率', '不知道第一期会出现 NaN'],
+        summary: ['价格与收益率是不同层级的对象。', '收益率是后续统计和回测的主语言。', '对数收益率要会读，但不要滥用。'],
+      },
+      {
+        title: '复利、累计净值与回撤路径',
+        objective: '理解投资结果是乘法路径，掌握累计净值和回撤的基本计算与解释。',
+        whyItMatters: '策略是否能拿住，往往取决于回撤路径，而不是终点收益本身。',
+        conceptBridge: '收益率序列决定净值路径，净值路径决定回撤体验；这三者必须一起看。',
+        math: '累计净值 NAV_t=Π(1+r_t)；回撤 DD_t=(NAV_t-MaxNAV_t)/MaxNAV_t。',
+        python: `import pandas as pd\n\nreturns = pd.Series([0.02, -0.01, 0.015, -0.03, 0.01])\nnav = (1 + returns).cumprod()\npeak = nav.cummax()\ndrawdown = (nav - peak) / peak\nprint(nav)\nprint(drawdown)`,
+        codeWalkthrough: [
+          { line: 'returns = pd.Series([...])', meaning: '把单期收益率作为策略路径的原始输入。' },
+          { line: 'nav = (1 + returns).cumprod()', meaning: '复利是连乘结构，不是简单加总。' },
+          { line: 'peak = nav.cummax()', meaning: '回撤需要先知道历史峰值。' },
+          { line: 'drawdown = ...', meaning: '把“跌了多少”放在历史高点背景下衡量。' },
+        ],
+        interpretation: ['高收益策略也可能因为高回撤而不可持有。', '路径风险是专业研究必须先面对的现实。', '净值曲线和回撤曲线要一起读。'],
+        mistakes: ['只看累计收益不看回撤', '把复利当成加法', '忽略路径依赖'],
+        summary: ['复利是乘法。', '回撤是风险体验的核心语言。', '净值、峰值和回撤必须联立理解。'],
+      },
+      {
+        title: '风险、波动率与风险调整后收益',
+        objective: '把“谁赚得多”升级成“谁的单位风险收益更高”的专业评估视角。',
+        whyItMatters: '量化研究不能只比较收益，要比较收益是以什么风险代价换来的。',
+        conceptBridge: '风险语言把收益从故事变成可比较对象，波动率与 Sharpe 是最基础的一步。',
+        math: '样本均值、样本标准差、年化收益与年化波动率，Sharpe≈(年化收益-无风险收益)/年化波动率。',
+        python: `import pandas as pd\n\nreturns = pd.Series([0.01, -0.005, 0.012, 0.004, -0.003])\nmean_daily = returns.mean()\nvol_daily = returns.std(ddof=1)\nann_return = mean_daily * 252\nann_vol = vol_daily * (252 ** 0.5)\nsharpe = ann_return / ann_vol\nprint(ann_return, ann_vol, sharpe)`,
+        codeWalkthrough: [
+          { line: 'returns.mean()', meaning: '先估计日均收益，但要记住这是样本估计量。' },
+          { line: 'returns.std(ddof=1)', meaning: '样本标准差衡量波动率，是基础风险 proxy。' },
+          { line: 'ann_return / ann_vol', meaning: '风险调整后收益让比较更公平，但不能把 Sharpe 神化。' },
+          { line: 'print(...)', meaning: '输出的不是答案终点，而是继续追问估计误差的起点。' },
+        ],
+        interpretation: ['同等收益下，低波动策略更有吸引力。', '高 Sharpe 需要先核实样本长度和交易摩擦。', '风险调整后指标比绝对收益更接近专业语言。'],
+        mistakes: ['只看收益率排名', '忽视样本长度导致的估计误差', '把 Sharpe 当作唯一标准'],
+        summary: ['风险必须和收益一起读。', '波动率是第一层风险度量。', '风险调整后收益是专业比较的起点。'],
+      },
+      {
+        title: '周总结：把金融语言连成研究框架',
+        objective: '把第 1 周的对象、收益率、复利和风险语言组织成后续课程的共同底层。',
+        whyItMatters: '如果底层词汇还散着，后面学统计和回测时就会像在背新名词。',
+        conceptBridge: '这周的任务不是多学一个指标，而是把“研究对象—收益率—净值—风险”串成同一条逻辑链。',
+        math: '本课没有新公式，重点是回顾第 1 周各公式分别刻画什么经济对象。',
+        python: `lesson_map = {\n    "research_object": "what is traded",\n    "return_series": "how change is measured",\n    "nav_path": "how wealth evolves",\n    "risk_metrics": "how pain is measured"\n}\n\nfor k, v in lesson_map.items():\n    print(k, '->', v)`,
+        codeWalkthrough: [
+          { line: 'lesson_map = {...}', meaning: '用结构化字典把一周概念重新组织，而不是继续增加碎片。' },
+          { line: 'research_object', meaning: '先定义对象。' },
+          { line: 'return_series / nav_path / risk_metrics', meaning: '后续统计与回测都在这些对象之上展开。' },
+          { line: 'for k, v in ...', meaning: '输出动作很简单，但它训练的是课程结构意识。' },
+        ],
+        interpretation: ['课程系统性来自对象之间的关系，而不是单独概念数量。', '第一周学的是金融语法。', '后面统计课会把这些对象变成样本。'],
+        mistakes: ['把一周内容当作互不相关的知识点', '记了公式却不知道研究对象', '以为“量化”就是后面才开始'],
+        summary: ['第一周建立了金融语言。', '后续所有统计和回测都建立在这套语言上。', '系统性比继续堆概念更重要。'],
+      },
+    ],
   },
   {
-    title: 'Bodie / Kane / Marcus · Investments',
-    role: '用于校正风险—收益、资产配置、投资分析等基础金融语言。',
-    why: '帮助课程不滑向“只有代码，没有金融学骨架”。',
+    week: 2,
+    phase: '第 2 周：组合、基准与因子语言',
+    overview: '继续用 Investments 骨架，建立协方差、组合收益、分散化、基准、超额收益与因子暴露语言。',
+    lessons: [
+      { title: '协方差、相关性与分散化直觉', objective: '理解组合收益不是简单平均，风险也不是简单相加。', whyItMatters: '如果不知道协方差，组合构建和风险预算都只是口号。', conceptBridge: '分散化之所以成立，不是因为持有更多资产，而是因为共同波动结构不完全一样。', math: '组合方差包含单资产方差项和协方差项；协方差结构决定分散化收益。', python: `import pandas as pd\n\nr = pd.DataFrame({\n    "A": [0.01, 0.02, -0.01, 0.015],\n    "B": [0.008, -0.003, 0.004, 0.006]\n})\nprint(r.cov())\nprint(r.corr())`, codeWalkthrough: [{ line: 'pd.DataFrame({...})', meaning: '把多资产收益序列放进同一张表，组合问题从单序列变成矩阵问题。' }, { line: 'r.cov()', meaning: '协方差矩阵刻画共同波动结构。' }, { line: 'r.corr()', meaning: '相关系数把协方差标准化，便于比较。' }, { line: 'print(...)', meaning: '先学读矩阵，再学优化和配置。' }], interpretation: ['分散化收益来自低相关而非持仓数量本身。', '组合问题天然是矩阵问题。', '风险不是资产风险的简单平均。'], mistakes: ['把分散化理解成“买得越多越安全”', '忽略相关性会在危机中上升', '只看单资产波动不看组合协方差'], summary: ['协方差是组合理论核心。', '相关性影响分散化质量。', '组合风险必须用矩阵语言描述。'] },
+      { title: '组合收益、权重与再平衡', objective: '学会把资产收益序列映射成组合收益序列，理解权重和再平衡的经济含义。', whyItMatters: '后续无论是 ETF 组合、因子组合还是策略组合，都要先会写组合收益。', conceptBridge: '单资产研究回答“这个标的如何动”，组合研究回答“我的资本如何配置”。', math: '组合收益近似为权重向量与收益向量的内积；再平衡频率会改变路径与交易成本。', python: `import pandas as pd\n\nreturns = pd.DataFrame({\n    "SPY": [0.01, -0.004, 0.006],\n    "TLT": [0.002, 0.003, -0.001]\n})\nweights = pd.Series({"SPY": 0.6, "TLT": 0.4})\nportfolio_r = returns.mul(weights, axis=1).sum(axis=1)\nprint(portfolio_r)`, codeWalkthrough: [{ line: 'returns = pd.DataFrame({...})', meaning: '组合收益从多列资产收益表开始。' }, { line: 'weights = pd.Series(...)', meaning: '权重表达资本配置，而不是抽象偏好。' }, { line: 'returns.mul(weights, axis=1).sum(axis=1)', meaning: '把资产收益按权重加总，得到组合收益序列。' }, { line: 'print(portfolio_r)', meaning: '输出的序列就是后续净值与风险分析的输入。' }], interpretation: ['组合不是观点相加，而是资本约束下的配置结果。', '再平衡改变持仓路径和换手。', '权重设计就是风险表达。'], mistakes: ['只关心选股不关心配重', '忘记再平衡意味着重新交易', '把资金权重和名义权重混淆'], summary: ['组合收益是多资产研究的基本对象。', '权重是资本配置的语言。', '再平衡会改变结果与成本。'] },
+      { title: '基准、超额收益与主动管理问题', objective: '学会用 benchmark 视角重写收益评价，而不是只盯绝对收益。', whyItMatters: '量化策略如果没有基准，就很难回答自己到底创造了什么。', conceptBridge: '专业研究几乎总是在问“相对谁更好”，而不是“绝对看起来不错”。', math: '超额收益=组合收益-基准收益；主动收益、跟踪误差和信息比率构成主动管理语言。', python: `import pandas as pd\n\nstrategy = pd.Series([0.008, 0.004, -0.003, 0.01])\nbenchmark = pd.Series([0.006, 0.002, -0.004, 0.009])\nactive = strategy - benchmark\nprint(active.mean(), active.std(ddof=1))`, codeWalkthrough: [{ line: 'strategy / benchmark', meaning: '先把策略和基准放到同一频率和同一尺度。' }, { line: 'active = strategy - benchmark', meaning: '主动收益是相对基准的净贡献。' }, { line: 'active.mean()', meaning: '均值描述平均超额表现。' }, { line: 'active.std(ddof=1)', meaning: '超额收益的波动就是跟踪误差的基础。' }], interpretation: ['没有基准，收益评价会失真。', '超额收益比绝对收益更能刻画主动管理价值。', '基准选择本身也是研究设计的一部分。'], mistakes: ['把涨了很多就当成策略有效', '用不匹配的基准夸大战果', '忽略跟踪误差'], summary: ['基准是评价框架的一部分。', '超额收益回答相对价值。', '主动管理必须在 benchmark 之上讨论。'] },
+      { title: 'CAPM 与因子语言：把回报分成系统性与特异性', objective: '理解 CAPM / beta / alpha 的语言功能，并把它当作描述框架而不是终极真理。', whyItMatters: '后续做因子回归、风险归因和策略解释时，这套语言几乎无处不在。', conceptBridge: '因子模型不是说市场只由一个因素驱动，而是在问“这份收益里有多少只是市场暴露”。', math: 'r_i-r_f = alpha + beta(r_m-r_f)+epsilon；alpha 表示模型未解释部分，beta 表示市场暴露。', python: `import statsmodels.api as sm\nimport pandas as pd\n\nasset = pd.Series([0.012, 0.005, -0.004, 0.011, 0.003])\nmarket = pd.Series([0.01, 0.004, -0.006, 0.009, 0.002])\nX = sm.add_constant(market)\nmodel = sm.OLS(asset, X).fit()\nprint(model.params)`, codeWalkthrough: [{ line: 'sm.add_constant(market)', meaning: '回归里加常数项，常被解释为 alpha 项。' }, { line: 'sm.OLS(asset, X).fit()', meaning: '用线性回归估计资产对市场的暴露。' }, { line: 'model.params', meaning: '输出常数项与 beta。' }, { line: 'print(...)', meaning: '这里读到的是因子语言，不是财富密码。' }], interpretation: ['alpha 必须在模型假设下解释。', 'beta 高不代表差，只代表市场暴露大。', '因子模型首先是描述工具。'], mistakes: ['把回归 alpha 当成真实可交易 alpha', '忘记模型设定会改变解释', '把 CAPM 当成世界真理'], summary: ['CAPM 提供了最基础的风险分解语言。', 'alpha 和 beta 是条件性概念。', '因子回归是后续研究的重要接口。'] },
+      { title: '周总结：金融语言到组合语言的升级', objective: '把第 2 周的协方差、组合收益、基准与因子语言整理成一套组合研究框架。', whyItMatters: '如果第二周没把“资产收益”升级成“组合与基准收益”，后面会一直停在个股叙事层。', conceptBridge: '组合理论让研究从单一资产视角走向资本配置视角。', math: '本课回顾组合收益、组合方差、超额收益与因子分解之间的关系。', python: `concepts = ["covariance", "portfolio_return", "benchmark", "factor_exposure"]\nfor c in concepts:\n    print("week2 core:", c)`, codeWalkthrough: [{ line: 'concepts = [...]', meaning: '把第二周最关键的四个概念抽出来形成骨架。' }, { line: 'portfolio_return', meaning: '组合是资金配置对象。' }, { line: 'benchmark / factor_exposure', meaning: '评价和解释都开始依赖相对框架。' }, { line: 'for c in concepts', meaning: '复盘的重点是概念之间的结构，而不是加新内容。' }], interpretation: ['第二周完成了从单资产到组合研究的升级。', '后面统计与回归会直接作用在这些对象上。', '系统化学习必须定期收束结构。'], mistakes: ['只记住公式没记住用途', '把基准和因子当成旁枝', '忘记组合视角才是投资学主线'], summary: ['第二周建立了组合研究语言。', '组合、基准和因子是后续回归与风险分析的入口。', '从这一周开始，研究对象不再只是单资产。'] },
+    ],
   },
   {
-    title: 'Ruey S. Tsay · Analysis of Financial Time Series',
-    role: '用于时间序列、波动、统计建模等更严谨的数量分析框架。',
-    why: '帮助后续课程从“会算”升级到“知道为什么这样建模”。',
+    week: 3,
+    phase: '第 3 周：统计推断与回归基础',
+    overview: '把金融对象变成统计样本，学习估计误差、抽样分布、假设检验、OLS 和残差诊断。',
+    lessons: [
+      { title: '样本、总体与估计误差', objective: '理解金融数据分析里的样本均值、样本方差和估计误差。', whyItMatters: '没有估计误差概念，就会把样本中的好运气误读成稳定规律。', conceptBridge: '量化研究用样本推断总体，但样本本身带噪声，因此任何结论都应该附带不确定性。', math: '样本均值和样本标准差是估计量；估计量本身也有抽样分布。', python: `import pandas as pd\n\nreturns = pd.Series([0.01, -0.003, 0.012, 0.004, 0.006, -0.002])\nprint(returns.mean())\nprint(returns.std(ddof=1))`, codeWalkthrough: [{ line: 'returns = pd.Series(...)', meaning: '先把有限观测看作一个样本，而不是世界全部。' }, { line: 'returns.mean()', meaning: '样本均值不是“真均值”，而是对总体均值的估计。' }, { line: 'returns.std(ddof=1)', meaning: '样本方差同样带估计误差。' }, { line: 'print(...)', meaning: '每次估计都应该带着误差意识。' }], interpretation: ['样本结果不等于总体真相。', '估计误差是量化研究的常态，不是例外。', '后面置信区间和检验都建立在这里。'], mistakes: ['把样本均值当成稳定收益率', '忽视样本长度的影响', '只看点估计不看不确定性'], summary: ['统计分析从样本和总体区别开始。', '估计量也有误差。', '不确定性必须进入研究语言。'] },
+      { title: '置信区间、t 统计量与显著性直觉', objective: '建立统计显著性直觉，知道为什么“看起来有效”并不等于可信。', whyItMatters: '没有显著性概念，量化研究会很容易沦为挑故事和挑样本。', conceptBridge: '统计检验在问：这份样本结果如果只是随机噪声，出现的概率大不大？', math: '均值的 t 统计量≈样本均值 / (样本标准差 / √n)；置信区间描述估计量可能落在哪些范围。', python: `import numpy as np\nimport pandas as pd\n\nreturns = pd.Series([0.011, 0.004, -0.002, 0.013, 0.006, -0.001, 0.003])\nt_stat = returns.mean() / (returns.std(ddof=1) / np.sqrt(len(returns)))\nprint(t_stat)`, codeWalkthrough: [{ line: 'len(returns)', meaning: '样本量直接影响标准误。' }, { line: 'returns.std(ddof=1) / np.sqrt(len(returns))', meaning: '标准误把波动和样本量同时考虑进去。' }, { line: 'returns.mean() / ...', meaning: 't 统计量衡量均值离零有多“远”。' }, { line: 'print(t_stat)', meaning: '数值本身不是结论，还要结合问题背景和检验假设。' }], interpretation: ['“有正收益”不等于“统计上可信”。', '样本越短，偶然性越大。', '显著性不能替代经济意义。'], mistakes: ['看见正均值就兴奋', '把 p 值当作真理按钮', '忽略经济量级'], summary: ['显著性评估样本结果的可信度。', 't 统计量依赖样本量和波动率。', '统计显著不代表经济上重要。'] },
+      { title: '线性回归：把关系写成可检验模型', objective: '掌握 OLS 的基本角色，理解回归并不是神秘机器，而是结构化比较工具。', whyItMatters: '后续因子回归、预测建模和风险归因都以回归作为基础接口。', conceptBridge: '回归把“X 和 Y 似乎有关”变成可以检验的参数关系。', math: 'OLS 通过最小化残差平方和估计线性关系；系数可解释为边际变化。', python: `import statsmodels.api as sm\nimport pandas as pd\n\nx = pd.Series([1, 2, 3, 4, 5])\ny = pd.Series([1.2, 1.9, 3.1, 4.2, 4.8])\nX = sm.add_constant(x)\nresult = sm.OLS(y, X).fit()\nprint(result.params)`, codeWalkthrough: [{ line: 'sm.add_constant(x)', meaning: '为回归加入截距项。' }, { line: 'sm.OLS(y, X).fit()', meaning: '拟合最小二乘回归。' }, { line: 'result.params', meaning: '读取截距和斜率参数。' }, { line: 'print(...)', meaning: '回归输出让“关系”转化为参数对象。' }], interpretation: ['回归是结构化比较工具。', '系数解释要依赖模型设定。', '回归不是因果证明器。'], mistakes: ['把相关关系误当因果关系', '忽略变量定义和量纲', '只看 R² 不看残差'], summary: ['OLS 是经验金融的基础工具。', '回归把关系变成参数。', '解释系数前先检查设定。'] },
+      { title: '残差、异方差与模型诊断', objective: '理解回归诊断为什么必要，知道模型结果不只是系数表。', whyItMatters: '如果不做诊断，就可能在坏模型上读出很漂亮但不可靠的结论。', conceptBridge: '模型输出之所以可信，不只因为估计了参数，还因为残差行为没有明显违背基本假设。', math: '残差是实际值减拟合值；异方差、序列相关和异常点都会扭曲推断。', python: `import statsmodels.api as sm\nimport pandas as pd\n\nx = pd.Series([1, 2, 3, 4, 5])\ny = pd.Series([1.0, 2.1, 2.8, 4.5, 5.2])\nX = sm.add_constant(x)\nfit = sm.OLS(y, X).fit()\nprint(fit.resid)`, codeWalkthrough: [{ line: 'fit = sm.OLS(...).fit()', meaning: '先得到回归模型对象。' }, { line: 'fit.resid', meaning: '残差是诊断模型的重要窗口。' }, { line: 'print(fit.resid)', meaning: '先看残差形状，再谈模型质量。' }, { line: '...', meaning: '专业研究从不只盯回归系数。' }], interpretation: ['模型结果要连同残差一起读。', '异方差会影响标准误和显著性。', '经验金融里诊断不是可选项。'], mistakes: ['只看系数显著性', '忽略异常值和残差结构', '把回归输出当最终答案'], summary: ['残差诊断是回归工作流的一部分。', '坏模型也能给出漂亮系数。', '统计推断依赖模型诊断。'] },
+      { title: '周总结：从金融对象到统计对象', objective: '把前 3 周的内容连起来，完成从投资对象到统计样本的转换。', whyItMatters: '如果这一步没有打通，后面的时间序列和回测会像在不同课程里切换。', conceptBridge: '金融对象提供经济含义，统计工具提供检验框架；量化研究必须同时拥有两者。', math: '回顾收益率、协方差、超额收益、样本均值、t 统计与回归系数之间的逻辑位置。', python: `pipeline = ["asset", "return", "sample", "estimate", "test"]\nfor step in pipeline:\n    print(step)`, codeWalkthrough: [{ line: 'pipeline = [...]', meaning: '把课程主线写成一条管线。' }, { line: 'asset -> return', meaning: '先有经济对象，再有统计对象。' }, { line: 'estimate -> test', meaning: '经验研究从估计走向检验。' }, { line: 'print(step)', meaning: '复盘时强调的是流程，而非新知识点。' }], interpretation: ['统计不是脱离金融对象的空中楼阁。', '量化课程的系统性来自研究流程。', '前三周已经从市场语言推进到统计语言。'], mistakes: ['把统计当成独立数学课', '忘记每个估计量对应的经济问题', '只背工具不看流程'], summary: ['前三周完成了从金融对象到统计对象的过渡。', '后续时间序列会继续深化样本结构问题。', '研究流程开始成形。'] },
+    ],
   },
   {
-    title: 'QuantStart beginner reading path',
-    role: '用于补充量化交易入门的主题划分和阅读顺序。',
-    why: '适合把网站中的“下一步读什么”做得更清楚。',
+    week: 4,
+    phase: '第 4 周：金融时间序列入门',
+    overview: '正式进入 Tsay 脉络：平稳性、自相关、AR / MA 直觉、波动聚集和因子时间序列。',
+    lessons: [
+      { title: '平稳性与非平稳性：为什么价格常常不能直接建模', objective: '理解价格序列和收益率序列在统计性质上的关键差别。', whyItMatters: '很多时间序列模型默认稳定结构，如果你拿非平稳序列直接上模型，结果经常会失真。', conceptBridge: '价格往往带趋势和单位根问题，收益率更接近平稳对象，因此经验金融通常优先建模收益率。', math: '平稳性关注均值、方差和协方差结构是否随时间稳定。', python: `import pandas as pd\n\nprices = pd.Series([100, 101, 102, 104, 103, 105])\nreturns = prices.pct_change().dropna()\nprint(prices)\nprint(returns)`, codeWalkthrough: [{ line: 'prices = pd.Series(...)', meaning: '价格序列常带趋势和水平变化。' }, { line: 'prices.pct_change().dropna()', meaning: '收益率常被视为更适合建模的对象。' }, { line: 'print(prices)', meaning: '先观察水平序列。' }, { line: 'print(returns)', meaning: '再观察变化序列。' }], interpretation: ['价格与收益率不是同一统计对象。', '金融时间序列建模通常从收益率开始。', '平稳性问题决定模型能否合理使用。'], mistakes: ['直接对价格做回归预测', '不知道为何要转收益率', '把趋势错当预测力'], summary: ['平稳性是时间序列建模前提。', '价格常非平稳，收益率更接近平稳对象。', '模型对象要先选对。'] },
+      { title: '自相关、ACF 与 PACF 直觉', objective: '理解时间序列中的滞后相关结构，以及 ACF / PACF 图想回答什么。', whyItMatters: '不理解滞后结构，就很难区分动量、均值回归和噪声。', conceptBridge: 'ACF 看总体滞后相关，PACF 看剔除中间滞后后的直接关系。', math: '自相关衡量序列与其滞后值的相关性；PACF 可帮助识别 AR 结构。', python: `import pandas as pd\nfrom statsmodels.tsa.stattools import acf, pacf\n\nreturns = pd.Series([0.01, 0.005, -0.002, 0.004, 0.006, -0.001, 0.003, 0.002])\nprint(acf(returns, nlags=3))\nprint(pacf(returns, nlags=3))`, codeWalkthrough: [{ line: 'acf(returns, nlags=3)', meaning: '看总体滞后相关结构。' }, { line: 'pacf(returns, nlags=3)', meaning: '看在控制中间滞后后剩下的直接相关。' }, { line: 'nlags=3', meaning: '这里只演示短滞后，核心是建立直觉。' }, { line: 'print(...)', meaning: '先读数值，再逐步过渡到图形和识别。' }], interpretation: ['时间序列结构来自时间依赖，而不是横截面差异。', 'ACF / PACF 是识别 AR / MA 的经验入口。', '看到相关不代表可交易。'], mistakes: ['把少数样本相关当成强信号', '不知道 ACF 与 PACF 区别', '忽略样本长度不足'], summary: ['滞后结构是时间序列分析的核心。', 'ACF 与 PACF 是结构识别工具。', '可交易性判断还要更严格。'] },
+      { title: 'AR / MA / ARIMA 的直觉边界', objective: '建立 AR、MA 和 ARIMA 的基本直觉，知道它们各自试图描述什么。', whyItMatters: '很多人会背模型名，但并不知道模型结构对应的经济含义和数据条件。', conceptBridge: 'AR 强调序列自己的滞后，MA 强调冲击残差的延续，ARIMA 处理差分后的结构。', math: 'AR(p) 用过去 p 期值解释当前值；MA(q) 用过去 q 期误差解释当前值。', python: `from statsmodels.tsa.arima.model import ARIMA\nimport pandas as pd\n\nreturns = pd.Series([0.01, 0.002, -0.004, 0.006, 0.003, -0.001, 0.002, 0.004])\nmodel = ARIMA(returns, order=(1, 0, 0)).fit()\nprint(model.params)`, codeWalkthrough: [{ line: 'ARIMA(returns, order=(1, 0, 0))', meaning: '这里用最简单的 AR(1) 演示建模入口。' }, { line: 'fit()', meaning: '拟合模型得到参数。' }, { line: 'model.params', meaning: '读取模型估计结果。' }, { line: 'print(...)', meaning: '参数本身并不代表有稳定 alpha。' }], interpretation: ['ARIMA 是描述序列结构的工具，不是自动预测神器。', '模型有效性高度依赖对象是否适合。', '金融收益率常难出现稳定可利用的线性结构。'], mistakes: ['把模型拟合等同于可交易预测', '忽略模型稳定性', '不检查样本外表现'], summary: ['AR / MA / ARIMA 提供了基础的时间序列结构语言。', '模型选择依赖数据性质。', '金融数据上的预测力通常有限且脆弱。'] },
+      { title: '波动聚集与条件异方差直觉', objective: '理解为什么收益率均值难预测，但波动率结构往往更有持续性。', whyItMatters: '风险管理和仓位控制高度依赖对波动状态的理解。', conceptBridge: '金融市场常表现为“方向难猜，但风险状态会成团出现”，这就是波动聚集。', math: '条件异方差意味着方差不是常数；GARCH 系列模型正是用来描述这种现象。', python: `import pandas as pd\n\nreturns = pd.Series([0.01, -0.012, 0.009, 0.002, -0.025, 0.018, -0.017, 0.004])\nrealized_proxy = returns.pow(2)\nprint(realized_proxy)`, codeWalkthrough: [{ line: 'returns.pow(2)', meaning: '平方收益率是最简单的波动 proxy 之一。' }, { line: 'realized_proxy', meaning: '这里不预测方向，而是观察波动强弱。' }, { line: 'print(realized_proxy)', meaning: '大波动往往成簇出现。' }, { line: '...', meaning: '后续风险模型会在此基础上扩展。' }], interpretation: ['市场波动状态常比均值更有持续性。', '风险管理问题和方向预测问题不同。', '波动建模是仓位控制的重要基础。'], mistakes: ['把波动问题和收益预测混为一谈', '只关心方向不关心风险状态', '忽略高波动 regime'], summary: ['波动聚集是金融时间序列的重要事实。', '方向和风险状态是两类不同问题。', '波动结构直接影响仓位和风控。'] },
+      { title: '周总结：时间序列语言接入研究流程', objective: '把第四周的平稳性、滞后结构和波动聚集接到前面的金融与统计框架上。', whyItMatters: '时间序列课如果不接回研究流程，就会变成公式游览。', conceptBridge: '第四周的价值不在于掌握多少模型，而在于知道什么时候该质疑数据结构本身。', math: '回顾平稳性、自相关、AR 结构和条件异方差在研究流程中的位置。', python: `week4 = ["stationarity", "acf_pacf", "ARIMA intuition", "volatility clustering"]\nfor item in week4:\n    print(item)`, codeWalkthrough: [{ line: 'week4 = [...]', meaning: '把本周模型与概念压缩成一条主线。' }, { line: 'stationarity', meaning: '先问对象是否适合建模。' }, { line: 'acf_pacf / ARIMA', meaning: '再问结构长什么样。' }, { line: 'volatility clustering', meaning: '最后识别风险状态的持续性。' }], interpretation: ['时间序列分析先看结构，再谈预测。', '第四周让研究流程更接近金融数据本身的性质。', '模型识别力比模型名字更重要。'], mistakes: ['沉迷模型名词', '忽略数据结构前提', '把时间序列技术和经济问题脱节'], summary: ['第四周建立了基础时间序列语言。', '后面数据工程和回测会直接用到这些判断。', '建模前先问序列是否适合建模。'] },
+    ],
+  },
+  {
+    week: 5,
+    phase: '第 5 周：数据工程与研究对象清洗',
+    overview: '进入研究工程层：OHLCV、adj close、corporate actions、survivorship bias、universe 和 point-in-time 数据。',
+    lessons: [
+      { title: '美股数据对象：OHLCV、Adj Close 与企业行为', objective: '分清原始价格、调整价格、成交量与企业行为对研究结果的影响。', whyItMatters: '如果价格对象选错，累计收益和回测结果会系统性失真。', conceptBridge: '数据工程不是后勤工作，而是研究结论可信度的第一道防线。', math: '复权的核心在于把分红和拆股等企业行为正确映射到总回报序列。', python: `columns = ["open", "high", "low", "close", "adj_close", "volume"]\nfor c in columns:\n    print(c)`, codeWalkthrough: [{ line: 'columns = [...]', meaning: '美股行情数据至少要知道这些列各代表什么。' }, { line: 'adj_close', meaning: '调整收盘价通常更接近总回报分析对象。' }, { line: 'volume', meaning: '成交量连接到流动性、换手和交易能力。' }, { line: 'for c in columns', meaning: '先学清数据对象，再做策略。' }], interpretation: ['close 与 adj_close 的混用会污染研究。', 'corporate actions 会改变历史路径。', '行情列本身就包含研究假设。'], mistakes: ['直接拿 close 做长期总回报分析', '忽略拆股和分红', '不知道 volume 也有研究用途'], summary: ['数据列不是装饰。', '调整价格对象关系到收益真实性。', '数据工程从理解字段开始。'] },
+      { title: '存活偏差、样本选择与 point-in-time 思维', objective: '理解 survivorship bias 与 point-in-time 数据为什么是量化研究的硬约束。', whyItMatters: '忽略退市和样本时点，会把很多策略回测变成幸存者童话。', conceptBridge: '研究样本不是今天看起来存在的样本，而是历史当时真实可见的样本。', math: '偏差的核心不是公式，而是“数据在当时是否可得”这一因果顺序。', python: `universe_today = ["AAPL", "MSFT", "NVDA"]\nuniverse_then = ["AAPL", "MSFT", "INTC", "CSCO"]\nprint(universe_today)\nprint(universe_then)`, codeWalkthrough: [{ line: 'universe_today / universe_then', meaning: '今天看到的成分股并不等于历史当时的可交易宇宙。' }, { line: 'print(...)', meaning: '用最简单的列表差异提醒你样本会随时间变化。' }, { line: '...', meaning: '这正是 survivorship bias 的入口。' }, { line: '...', meaning: 'point-in-time 思维要求数据严格按时间可得性使用。' }], interpretation: ['存活偏差会系统性夸大战略表现。', '历史研究必须站在当时视角。', '样本定义错误比模型错误更致命。'], mistakes: ['拿今天的成分股回测十年前', '忘记退市样本', '用未来可见信息定义过去样本'], summary: ['survivorship bias 是量化研究经典陷阱。', 'point-in-time 是研究纪律。', '样本定义必须尊重时间顺序。'] },
+      { title: '特征工程：滞后、窗口与避免未来函数', objective: '学习如何构造 rolling features，同时避免 look-ahead bias。', whyItMatters: '很多初学者不是策略逻辑错，而是特征构造时偷看了未来。', conceptBridge: '研究特征必须严格从历史信息集合生成，不能越过时间边界。', math: '滚动均值、滚动波动率和动量信号都是基于窗口统计的特征。', python: `import pandas as pd\n\nprices = pd.Series([100, 101, 103, 102, 104, 106])\nreturns = prices.pct_change()\nmomentum_3 = prices / prices.shift(3) - 1\nvol_3 = returns.rolling(3).std()\nprint(momentum_3)\nprint(vol_3)`, codeWalkthrough: [{ line: 'prices.pct_change()', meaning: '先得到变化序列，作为后续 rolling 风险特征输入。' }, { line: 'prices / prices.shift(3) - 1', meaning: '这是简单的 3 期动量特征，只使用过去信息。' }, { line: 'returns.rolling(3).std()', meaning: '滚动波动率是基础风险特征。' }, { line: 'print(...)', meaning: '检查特征是否天然带有滞后边界。' }], interpretation: ['特征构造本身就是策略定义。', 'look-ahead bias 往往发生在滚动窗口边界处理上。', '研究工程要先保证时间顺序正确。'], mistakes: ['用未来价格构造当前信号', '没有 shift 导致偷看未来', '不检查特征对齐问题'], summary: ['特征工程必须尊重信息时序。', 'rolling 特征是基础研究部件。', '未来函数会直接毁掉回测可信度。'] },
+      { title: '研究日志、notebook hygiene 与可复现性', objective: '建立研究留痕习惯，让实验结果能被复查和复做。', whyItMatters: '不能复现的策略结果通常也不值得信。', conceptBridge: '研究日志把“我试过很多东西”变成可审核的实验轨迹。', math: '本课重点不是数学，而是研究过程控制：输入、参数、版本、结果都要可追溯。', python: `research_log = {\n    "question": "Does 20-day momentum predict 5-day forward return?",\n    "sample": "US liquid equities 2015-2024",\n    "cost_model": "10 bps round-trip",\n    "result": "pending"\n}\nprint(research_log)`, codeWalkthrough: [{ line: 'research_log = {...}', meaning: '把研究问题、样本、成本假设和状态明确写下来。' }, { line: 'question', meaning: '每次实验必须有清楚问题。' }, { line: 'cost_model', meaning: '交易摩擦假设要显式写出。' }, { line: 'print(research_log)', meaning: '研究记录本身就是产出物。' }], interpretation: ['研究日志是对抗自我欺骗的工具。', 'Notebook 不只是展示图表，也要记录实验条件。', '可复现性是研究质量门槛。'], mistakes: ['只保留“最好看的结果”', '不记录样本和参数', '多次试验后忘记原始问题'], summary: ['可复现性是研究纪律。', '日志让实验结果可审计。', '研究工程和策略逻辑同等重要。'] },
+      { title: '周总结：从数据对象到研究资产', objective: '把第五周的数据对象、偏差控制、特征工程和日志规范整合成研究工程基础。', whyItMatters: '工程纪律不到位，再好的统计和策略都站不住。', conceptBridge: '第五周把“金融对象”进一步加工成“可被严谨研究的数据资产”。', math: '回顾调整价格、点时数据、滚动特征和实验留痕在研究流程中的位置。', python: `engineering_chain = ["raw data", "clean object", "feature", "research log"]\nfor item in engineering_chain:\n    print(item)`, codeWalkthrough: [{ line: 'engineering_chain = [...]', meaning: '研究工程是从原始数据到实验资产的转换链。' }, { line: 'raw data -> clean object', meaning: '先保证对象正确。' }, { line: 'feature -> research log', meaning: '再保证实验可追踪。' }, { line: 'print(item)', meaning: '复盘时强调工程链，而不是分散技巧。' }], interpretation: ['第五周让研究更接近真实量化工作流。', '数据偏差问题必须早于回测讨论。', '好的研究工程会显著降低自我欺骗。'], mistakes: ['把工程问题视为小事', '先做策略再想数据是否正确', '没有实验记录'], summary: ['第五周建立了研究工程基础。', '干净数据与可复现性是量化工作的底层能力。', '下周开始把这些对象接入最小回测。'] },
+    ],
+  },
+  {
+    week: 6,
+    phase: '第 6 周：最小回测系统与研究管线',
+    overview: '把前面的金融、统计和工程对象接成最小可运行回测：信号、持仓、PnL、成本、样本切分与结果诊断。',
+    lessons: [
+      { title: '从信号到持仓：研究对象变成交易规则', objective: '把特征和规则连接起来，知道 signal、position、return 三者如何对应。', whyItMatters: '没有 signal→position→PnL 管线，前面的特征只是分析对象，还不是策略。', conceptBridge: '策略不是某个指标，而是“何时持有什么仓位”的规则系统。', math: '基础策略收益常写作 position_{t-1} × asset_return_t，强调信号与实现收益要错位。', python: `import pandas as pd\n\nsignal = pd.Series([1, 1, 0, -1, -1])\nasset_r = pd.Series([0.01, -0.004, 0.003, -0.008, 0.002])\nposition = signal.shift(1).fillna(0)\nstrategy_r = position * asset_r\nprint(strategy_r)`, codeWalkthrough: [{ line: 'signal = pd.Series(...)', meaning: '信号表达你的方向性判断。' }, { line: 'position = signal.shift(1).fillna(0)', meaning: '持仓必须滞后于信号，避免未来函数。' }, { line: 'strategy_r = position * asset_r', meaning: '仓位与资产收益相乘得到策略收益。' }, { line: 'print(strategy_r)', meaning: '这就是最小策略收益管线。' }], interpretation: ['信号不是收益，持仓才与收益相连。', 'shift 是回测中防止偷看未来的关键操作。', '策略必须写成可执行仓位规则。'], mistakes: ['用当期信号乘当期收益', '把信号和持仓混成一个对象', '不区分预测和执行'], summary: ['最小回测从 signal→position→return 开始。', '执行时序必须严格。', '仓位规则比指标名更重要。'] },
+      { title: '交易成本、换手率与纸面 alpha 折损', objective: '把交易成本接入回测，理解 turnover 为什么能摧毁漂亮信号。', whyItMatters: '很多纸面 alpha 在考虑成本后会迅速蒸发。', conceptBridge: '策略真实收益 = 理论收益 - 交易摩擦；摩擦不是附属项，而是策略定义的一部分。', math: '净策略收益≈毛收益-成本率×换手；换手常由仓位变动绝对值近似。', python: `import pandas as pd\n\nposition = pd.Series([0, 1, 1, -1, 0])\ngross_r = pd.Series([0.0, 0.01, -0.003, 0.012, -0.001])\nturnover = position.diff().abs().fillna(position.abs())\ncost = turnover * 0.001\nnet_r = gross_r - cost\nprint(net_r)`, codeWalkthrough: [{ line: 'position.diff().abs()', meaning: '仓位变化可近似表示换手。' }, { line: 'cost = turnover * 0.001', meaning: '用简单成本模型先建立直觉。' }, { line: 'net_r = gross_r - cost', meaning: '净收益才更接近真实结果。' }, { line: 'print(net_r)', meaning: '比较净毛收益差异。' }], interpretation: ['高换手策略特别脆弱。', '成本模型粗糙也比完全忽略好。', '策略研究必须从毛收益走向净收益。'], mistakes: ['完全不计成本', '低估换手对净值的侵蚀', '看 gross pnl 就宣布策略有效'], summary: ['交易成本是策略定义的一部分。', '换手率连接到交易摩擦。', '净收益比毛收益更接近真实能力。'] },
+      { title: '样本内、验证集与样本外测试', objective: '理解为什么要切分样本，以及为什么“全部历史都拿来调参数”是危险的。', whyItMatters: '没有样本切分，过拟合几乎是默认结局。', conceptBridge: '样本内用于建模，验证集用于筛选，样本外用于检验泛化；三者职责不能混。', math: '本课重点在实验设计而非新公式：训练 / validation / test 是反过拟合基本流程。', python: `import pandas as pd\n\nreturns = pd.Series(range(12))\ntrain = returns.iloc[:6]\nvalid = returns.iloc[6:9]\ntest = returns.iloc[9:]\nprint(len(train), len(valid), len(test))`, codeWalkthrough: [{ line: 'iloc[:6] / [6:9] / [9:]', meaning: '按时间顺序切分样本，不要随机打散金融时间序列。' }, { line: 'train / valid / test', meaning: '每段样本有不同任务。' }, { line: 'print(len(...))', meaning: '先理解结构，再讨论更复杂的 walk-forward。' }, { line: '...', meaning: '切分方式本身就是研究设计。' }], interpretation: ['金融时间序列切分必须尊重时间顺序。', '验证集和测试集不能混用。', '样本外表现才更接近真实能力。'], mistakes: ['在全部历史上调完参数再回测', '随机切分时间序列', '把测试集也拿来调模型'], summary: ['样本切分是反过拟合的基本纪律。', '金融数据切分要按时间。', '样本外结果比样本内结果更重要。'] },
+      { title: '回测评价：收益、回撤、胜率、t 统计与稳定性', objective: '建立更完整的回测阅读框架，避免只盯一个指标。', whyItMatters: '策略评价是多维问题：收益、风险、稳定性、样本可信度和执行可行性缺一不可。', conceptBridge: '好的回测不是单点最大化，而是多维约束下的整体质量评估。', math: '评价至少包括年化收益、年化波动、Sharpe、最大回撤、换手率、样本长度和简单显著性。', python: `metrics = {\n    "ann_return": 0.12,\n    "ann_vol": 0.15,\n    "max_drawdown": -0.09,\n    "turnover": 1.8,\n    "t_stat": 2.1\n}\nprint(metrics)`, codeWalkthrough: [{ line: 'metrics = {...}', meaning: '把回测评价写成结构化对象。' }, { line: 'ann_return / ann_vol', meaning: '收益与风险必须同时存在。' }, { line: 'max_drawdown / turnover', meaning: '路径痛感和执行摩擦同样重要。' }, { line: 't_stat', meaning: '简单统计可信度也要纳入。' }], interpretation: ['回测阅读是多维问题。', '高收益但高换手或高回撤未必值得做。', '指标之间常常存在 trade-off。'], mistakes: ['只看 CAGR 或累计收益', '忽略样本长度与稳定性', '把一个高 Sharpe 当成绝对胜利'], summary: ['回测评价必须多维。', '统计可信度和执行现实要一起看。', '最好的策略往往是约束下的平衡解。'] },
+      { title: '周总结：研究管线第一次闭环', objective: '把数据工程、信号、持仓、成本、样本切分和评价连成第一条完整研究管线。', whyItMatters: '这一周标志着课程第一次从“讲概念”走到“能做一个最小研究闭环”。', conceptBridge: '量化研究不是一个指标或模型，而是一条从数据到决策再到审计的流程。', math: '回顾 position×return、cost-adjusted pnl、样本切分和多维评价在回测管线中的位置。', python: `pipeline = ["feature", "signal", "position", "pnl", "cost", "evaluation"]\nfor step in pipeline:\n    print(step)`, codeWalkthrough: [{ line: 'pipeline = [...]', meaning: '用流程图方式回顾本周。' }, { line: 'feature -> signal -> position', meaning: '先从研究对象生成规则。' }, { line: 'pnl -> cost -> evaluation', meaning: '再进入真实收益与评价。' }, { line: 'print(step)', meaning: '闭环思维比增加新模型更重要。' }], interpretation: ['第六周是前 6 周知识第一次工程化闭环。', '从这里开始，策略研究有了最小执行框架。', '后面进入策略家族会更有落点。'], mistakes: ['把回测当作单个函数', '忽略流程中任何一个环节', '没有把评价和设计闭环'], summary: ['第六周完成了最小回测闭环。', '研究开始具备工程属性。', '后续策略家族会在这条管线上展开。'] },
+    ],
+  },
+  {
+    week: 7,
+    phase: '第 7 周：策略家族入门',
+    overview: '在已有回测管线上进入三类核心策略：时间序列动量、横截面排序和均值回归。',
+    lessons: [
+      { title: '时间序列动量：趋势跟随的最小表达', objective: '理解时间序列动量在经济与统计上的最小定义，并实现简单信号。', whyItMatters: '动量是最常见也最容易被误解的策略家族之一。', conceptBridge: '时间序列动量关注单个资产自己的过去趋势是否延续，不是与别人比较。', math: '最简单形式可写为过去 L 期收益的符号决定未来持仓方向。', python: `import pandas as pd\n\nprices = pd.Series([100, 102, 103, 105, 107, 106, 108])\nsignal = (prices / prices.shift(3) - 1).apply(lambda x: 1 if x > 0 else -1)\nprint(signal)`, codeWalkthrough: [{ line: 'prices / prices.shift(3) - 1', meaning: '用过去 3 期收益作为最简单趋势 proxy。' }, { line: 'apply(lambda x: ...)', meaning: '把连续信号离散成方向仓位。' }, { line: 'print(signal)', meaning: '这里只构造信号，还没进入成本和持仓层。' }, { line: '...', meaning: '后续会把它接回完整回测。' }], interpretation: ['时间序列动量是单资产时间维度的问题。', '趋势信号不一定稳定，必须样本外检验。', '持有周期和形成窗口是关键设计参数。'], mistakes: ['把所有涨得多的东西都叫动量', '混淆时间序列动量和横截面动量', '只看某一段趋势行情'], summary: ['时间序列动量先比较资产自己与自己的过去。', '窗口和持有期决定策略形态。', '趋势策略需要严格样本外检验。'] },
+      { title: '横截面动量与排序组合', objective: '理解横截面排序策略如何在资产之间做相对强弱比较。', whyItMatters: '很多实务中的风格轮动、行业排序和因子投资都带横截面排序结构。', conceptBridge: '横截面动量不是问“它自己是否在涨”，而是问“它是否比同组资产更强”。', math: '排序策略常按过去 L 期收益打分，再构建 long-short 或 top bucket 组合。', python: `import pandas as pd\n\nscores = pd.Series({"AAPL": 0.12, "MSFT": 0.08, "NVDA": 0.16, "AMZN": 0.05})\nranked = scores.sort_values(ascending=False)\nprint(ranked)`, codeWalkthrough: [{ line: 'scores = pd.Series({...})', meaning: '先用横截面分数表示同一时点不同资产的相对强弱。' }, { line: 'sort_values(ascending=False)', meaning: '排序是横截面策略的基本操作。' }, { line: 'ranked', meaning: '排名结果可进一步映射成 top/bottom 组合。' }, { line: 'print(ranked)', meaning: '先建立横截面思维，再进入组合构建。' }], interpretation: ['横截面策略天然需要 universe 定义。', '排序与分组决定组合形态。', '行业中性或市值中性等约束会进一步改变结果。'], mistakes: ['把横截面排序和单资产趋势混淆', '忽略 universe 变化对分位数的影响', '只看 top names 不看组合约束'], summary: ['横截面策略是“资产之间”的比较。', '排序和分组是它的核心动作。', '组合约束会显著改变结果。'] },
+      { title: '均值回归：什么时候偏离会回到中心', objective: '建立均值回归的统计直觉，知道它依赖什么前提。', whyItMatters: '均值回归比趋势策略更依赖对象特征与交易摩擦控制。', conceptBridge: '均值回归不是“跌多了就会涨”，而是“相对某个稳定中心的偏离会被纠正”。', math: '最简单表达可用 z-score 或偏离均值程度刻画；关键是“中心”是否稳定。', python: `import pandas as pd\n\nspread = pd.Series([0.2, 0.1, -0.1, -0.3, 0.0, 0.15])\nz = (spread - spread.mean()) / spread.std(ddof=1)\nprint(z)`, codeWalkthrough: [{ line: 'spread = pd.Series(...)', meaning: '均值回归通常从某种价差或偏离序列开始。' }, { line: '(spread - spread.mean()) / spread.std(ddof=1)', meaning: 'z-score 衡量偏离中心有多远。' }, { line: 'print(z)', meaning: '极端 z 值常被用作反转触发候选。' }, { line: '...', meaning: '但中心稳定性和交易成本同样关键。' }], interpretation: ['均值回归依赖稳定中心假设。', '高换手会严重伤害这类策略。', '对象选错时“回归”可能根本不存在。'], mistakes: ['把超跌反弹口号当成均值回归', '不验证中心是否稳定', '忽略高频换手成本'], summary: ['均值回归先要求有稳定中心。', 'z-score 只是起点，不是完整策略。', '均值回归策略对对象和成本很敏感。'] },
+      { title: '因子排序、行业中性与风险暴露控制', objective: '理解为什么排序策略常需要做中性化与风险暴露约束。', whyItMatters: '不做约束时，你以为自己在做 alpha，实际可能只是在押行业或 beta。', conceptBridge: '排序信号只是候选观点，组合约束才决定你到底暴露了什么风险。', math: '中性化的本质是控制组合对某些系统性因子的净暴露接近零。', python: `raw_scores = {"AAPL": 0.9, "MSFT": 0.7, "XOM": -0.2, "CVX": -0.1}\nfor name, score in raw_scores.items():\n    print(name, score)`, codeWalkthrough: [{ line: 'raw_scores = {...}', meaning: '原始分数只是排序起点。' }, { line: 'AAPL / MSFT / XOM / CVX', meaning: '跨行业资产混在一起时，分数可能隐含行业押注。' }, { line: 'for name, score...', meaning: '先看分数分布，再思考中性化。' }, { line: '...', meaning: '后续行业中性和 beta 中性会让组合更可解释。' }], interpretation: ['排序信号不等于纯 alpha。', '行业中性和 beta 中性能减少意外暴露。', '组合约束是风险解释的一部分。'], mistakes: ['把原始排序直接当成可交易组合', '不知道自己押了什么风险因子', '只看收益不看暴露'], summary: ['约束让策略更可解释。', '因子分数要和风险暴露控制一起看。', 'alpha 研究离不开暴露分解。'] },
+      { title: '周总结：三类策略放进同一研究坐标系', objective: '比较趋势、横截面排序和均值回归的对象、统计前提与交易现实。', whyItMatters: '如果只是逐个记住策略名字，而不比较它们的结构差异，就无法形成研究判断力。', conceptBridge: '策略家族差异体现在研究对象、持有周期、换手特征和风险来源上。', math: '回顾 signal 定义、持仓生成、换手特征与风险暴露如何因策略家族而异。', python: `families = ["time-series momentum", "cross-sectional ranking", "mean reversion"]\nfor f in families:\n    print(f)`, codeWalkthrough: [{ line: 'families = [...]', meaning: '把本周三类策略并列放在一起对比。' }, { line: 'time-series momentum', meaning: '单资产时间维度。' }, { line: 'cross-sectional ranking / mean reversion', meaning: '前者更偏相对比较，后者更偏偏离纠正。' }, { line: 'print(f)', meaning: '复盘关键是结构差异。' }], interpretation: ['不同策略家族对应不同研究对象。', '它们的成本、换手和风险暴露也不同。', '研究判断力来自横向比较而不是单独背诵。'], mistakes: ['把不同策略家族混为一谈', '只比较历史收益不比较结构', '没有把策略放回研究管线'], summary: ['第七周建立了策略家族地图。', '不同策略家族对应不同统计前提与交易现实。', '后续需要进入组合构建与风险控制。'] },
+    ],
+  },
+  {
+    week: 8,
+    phase: '第 8 周：组合构建、风险预算与执行现实',
+    overview: '把策略信号推进到组合和执行层：权重、波动目标、风险预算、容量、滑点和研究后评估。',
+    lessons: [
+      { title: '从信号分数到组合权重', objective: '学习如何把分数或观点映射成可执行权重，而不是停留在“看多/看空”。', whyItMatters: '没有权重映射，策略研究无法进入真正的资本配置问题。', conceptBridge: '权重是资本分配规则，它把抽象信号转成真实风险承担。', math: '最简单权重可来自等权、分数归一化或波动逆权；不同权重会改变暴露和换手。', python: `import pandas as pd\n\nscores = pd.Series({"AAPL": 0.8, "MSFT": 0.6, "NVDA": 1.2})\nweights = scores / scores.abs().sum()\nprint(weights)`, codeWalkthrough: [{ line: 'scores = pd.Series(...)', meaning: '先有连续分数，而不只是方向。' }, { line: 'scores / scores.abs().sum()', meaning: '把分数归一化成可解释权重。' }, { line: 'weights', meaning: '权重之和受到资本约束。' }, { line: 'print(weights)', meaning: '不同映射方式会产生不同组合。' }], interpretation: ['同一信号在不同权重规则下会变成不同策略。', '权重设计就是资本分配设计。', '组合问题不能只停留在分数层面。'], mistakes: ['把排序结果直接当成组合', '不知道权重映射也是模型假设', '忽略权重与风险的关系'], summary: ['权重映射是从信号到组合的关键一步。', '资本约束进入了模型。', '组合构建与信号设计同等重要。'] },
+      { title: '波动目标与风险预算', objective: '理解为什么很多策略用目标波动率或风险预算来控制组合行为。', whyItMatters: '不控制风险强度，信号再好也可能在高波动环境中失控。', conceptBridge: '资本配置不是只看预期收益，还要控制承担风险的速度和规模。', math: '目标波动思想是按估计波动率缩放仓位；风险预算则按资产风险贡献分配资本。', python: `import pandas as pd\n\nvol = pd.Series({"AAPL": 0.28, "MSFT": 0.22, "TLT": 0.11})\ninv_vol = 1 / vol\nweights = inv_vol / inv_vol.sum()\nprint(weights)`, codeWalkthrough: [{ line: 'vol = pd.Series(...)', meaning: '先估计各资产风险强度。' }, { line: 'inv_vol = 1 / vol', meaning: '逆波动权重是基础风险平价直觉。' }, { line: 'weights = inv_vol / inv_vol.sum()', meaning: '把风险缩放映射成组合权重。' }, { line: 'print(weights)', meaning: '风险预算开始明确写进组合。' }], interpretation: ['目标波动是控制风险强度的实用方法。', '风险预算常比简单等权更稳定。', '风险控制不是策略之后才考虑的补丁。'], mistakes: ['先满仓做策略再事后讨论风控', '不知道波动调整会改变仓位', '把风险预算误解成收益预测'], summary: ['风险预算是组合设计的一部分。', '目标波动让仓位更可控。', '风控必须前置到权重层。'] },
+      { title: '容量、流动性与滑点：纸面组合为什么落不了地', objective: '理解容量和流动性约束如何限制真实可交易规模。', whyItMatters: '很多回测在小资金下好看，大资金下会被冲击成本和流动性彻底改变。', conceptBridge: '可交易性不是二元问题，而是随资金规模、成交量和换手逐渐恶化。', math: '本课重点是数量级判断：成交量、ADV、仓位规模和冲击成本之间的约束关系。', python: `portfolio_dollar = 5_000_000\nadv = 80_000_000\nparticipation = portfolio_dollar / adv\nprint(participation)`, codeWalkthrough: [{ line: 'portfolio_dollar = ...', meaning: '先把策略规模显式写出来。' }, { line: 'adv = 80_000_000', meaning: '日均成交额是容量判断常用参考。' }, { line: 'portfolio_dollar / adv', meaning: '参与率越高，冲击成本压力通常越大。' }, { line: 'print(participation)', meaning: '容量是数量级问题，不是抽象口号。' }], interpretation: ['容量约束会随着资金规模迅速显性化。', '高换手策略比低换手策略更受流动性约束。', '滑点和冲击成本必须进入策略讨论。'], mistakes: ['完全不谈容量', '以为成交量大就一定能无成本交易', '忽略组合规模和持仓换手的交互'], summary: ['可交易性受流动性和容量约束。', '容量问题会改变策略经济价值。', '纸面回测必须接入执行现实。'] },
+      { title: '研究 post-mortem：样本外失效时如何复盘', objective: '建立研究失败后的复盘框架，而不是盲目继续调参。', whyItMatters: '真正的研究能力很大一部分体现在策略失效后的诊断，而不是成功故事。', conceptBridge: 'post-mortem 不是承认失败，而是把失效拆成数据、模型、成本、暴露和 regime 五类问题。', math: '本课无新增公式，重点是失败归因框架：样本、设定、执行、风险暴露、市场环境。', python: `post_mortem = {\n    "sample_shift": False,\n    "cost_underestimated": True,\n    "factor_crowding": "possible",\n    "regime_change": "needs review"\n}\nprint(post_mortem)`, codeWalkthrough: [{ line: 'post_mortem = {...}', meaning: '把失败复盘写成结构化检查表。' }, { line: 'sample_shift / cost_underestimated', meaning: '先问是样本和摩擦问题还是模型问题。' }, { line: 'factor_crowding / regime_change', meaning: '再问是否存在暴露拥挤或市场环境切换。' }, { line: 'print(post_mortem)', meaning: '结构化复盘比情绪化否定更专业。' }], interpretation: ['失败复盘是研究工作流一部分。', '样本外失效不意味着前面都白学。', '系统性诊断比继续调参更重要。'], mistakes: ['一失效就疯狂调参数', '不记录失败原因', '把样本外失效全归咎于市场随机性'], summary: ['post-mortem 是研究成熟度标志。', '失效诊断应结构化。', '研究能力体现在失败后的处理方式。'] },
+      { title: '阶段总结：前 8 周课程地图与研究产出', objective: '回顾前 8 周主干，明确已经掌握什么、下一阶段应该研究什么。', whyItMatters: '系统课程必须在阶段末把知识图谱、研究产出和下一阶段入口重新钉牢。', conceptBridge: '前 8 周不是为了产出“圣杯策略”，而是为了训练成为能独立做基础研究的人。', math: '回顾收益率、组合、推断、时间序列、数据工程、最小回测、策略家族与风险控制的主线连接。', python: `deliverables = [\n    "return notebook",\n    "risk summary",\n    "regression exercise",\n    "time-series notes",\n    "clean data pipeline",\n    "minimal backtest",\n    "strategy comparison memo",\n    "post-mortem template"\n]\nfor d in deliverables:\n    print(d)`, codeWalkthrough: [{ line: 'deliverables = [...]', meaning: '把前 8 周应该留下的研究产出物写清楚。' }, { line: 'return notebook / risk summary', meaning: '前两周产出金融与风险基础 notebook。' }, { line: 'minimal backtest / strategy comparison memo', meaning: '后几周产出工程化研究记录。' }, { line: 'for d in deliverables', meaning: '阶段总结的重点是可验证产出。' }], interpretation: ['前 8 周完成的是研究底座，而不是策略终局。', '真正的学习成果应当体现为 notebook、备忘录和最小回测。', '下一阶段才能更严肃地进入因子研究和组合优化。'], mistakes: ['把阶段总结写成鸡汤', '只记得概念，不知道产出物', '以为课程结束就该直接实盘'], summary: ['前 8 周建立了量化研究底座。', '课程成果应体现为一组可审计研究产出。', '下一阶段才适合进入更复杂的因子和组合优化。'] },
+    ],
   },
 ];
 
-function buildRigorPack(lesson) {
+function buildLesson(weekSpec, lessonDef, idx, totalDays) {
+  const day = idx + 1;
+  const id = `day-${day}`;
+  const prevId = day > 1 ? `day-${day - 1}` : null;
+  const nextId = day < totalDays ? `day-${day + 1}` : null;
   const base = {
-    prerequisites: ['会读基础价格图', '知道股票/ETF是可交易资产', '具备最基础的 Python 阅读能力'],
-    checkpoints: [
-      '我能说清这节课要解决的核心问题。',
-      '我能解释代码为什么出现在这一课，而不是把它当作装饰。',
-      '我能把本课结论和真实交易/研究场景联系起来。',
+    id,
+    day,
+    title: lessonDef.title,
+    phase: weekSpec.phase,
+    duration: '建议 75–110 分钟',
+    objective: lessonDef.objective,
+    whyItMatters: lessonDef.whyItMatters,
+    prerequisites: day === 1
+      ? ['高中代数与基础 Python 足够开始', '愿意把市场问题写成结构化研究问题']
+      : [`已完成前 ${day - 1} 课的核心概念`, '能阅读基础 pandas / numpy 代码', '愿意把概念接回研究流程'],
+    studyFlow: [
+      `先理解本课的经济对象：${lessonDef.title}到底在研究什么。`,
+      '再用最小数学框架和 Python 示例把概念落到数据对象上。',
+      '最后把本课内容接回“研究设计—回测—风险—解释”主线。',
     ],
-    rigorNotes: '本课优先建立定义、边界和研究语言，不追求公式堆砌。重点是让概念、数据与代码形成同一套表达。',
-    referenceTrack: ['Chan 路线：先建立量化研究流程，再补策略与执行细节。'],
+    intuitiveBlocks: [
+      weekSpec.overview,
+      lessonDef.whyItMatters,
+      '本课的目标不是把术语讲得像科普文章，而是让你把这个概念放到教材骨架和研究流程里。',
+    ],
+    conceptBridge: lessonDef.conceptBridge,
+    math: lessonDef.math,
+    codeContext: `这段 Python 不是为了“展示一下代码”，而是为了把“${lessonDef.title}”变成一个可计算、可检验、可接入研究管线的数据对象。`,
+    python: lessonDef.python,
+    codeWalkthrough: lessonDef.codeWalkthrough,
+    explanation: `本课代码和正文是一体的：你要同时看懂经济对象、统计对象和工程对象如何在“${lessonDef.title}”这里汇合。`,
+    interpretation: lessonDef.interpretation,
+    rigorNotes: `严谨性要求：本课必须同时回答三个问题——研究对象是什么、统计上如何刻画、工程上如何避免自我欺骗。对于“${lessonDef.title}”，如果只停留在直觉比喻而没有把它接回样本、回测或风险约束，就还没有真正学会。`,
+    mistakes: lessonDef.mistakes,
+    checkpoints: [
+      `我能否用自己的话解释“${lessonDef.title}”在整个 8 周课程中的位置？`,
+      '我能否指出这节课最容易出现的数据偏差、统计误读或执行幻觉？',
+      '我能否把本课代码修改成自己的小实验，而不只是复制运行？',
+    ],
+    referenceTrack: [
+      `教材主线：${weekSpec.phase}对应的核心脉络已经接入本课。`,
+      'Investments / Tsay / Chan 三条线索在这里分别对应经济含义、统计结构和研究工程。',
+      '复习时不要只背结论，要把它放回“对象—样本—信号—组合—风险”流程。',
+    ],
+    summary: lessonDef.summary,
+    exercises: [
+      {
+        id: `${id}-ex-1`,
+        title: '概念解释题',
+        prompt: `请不用大白话复述，而是用“研究对象 / 统计对象 / 风险含义”三层结构解释：${lessonDef.title}。`,
+        hint: '至少分别回答：它研究什么、怎么量化、为什么会误用。',
+        answer: `参考答案应包含：${lessonDef.title}的研究对象、对应的数据或统计表示、以及至少一个常见误区。`,
+      },
+      {
+        id: `${id}-ex-2`,
+        title: '代码改写题',
+        prompt: '修改本课代码中的参数、窗口、样本或资产集合，并观察结果如何变化。写下你的变化解释。',
+        hint: '不要只改数字，要说清为什么结果会变。',
+        answer: '合格答案应描述：修改了什么、结果如何变化、变化背后对应的金融或统计原因是什么。',
+      },
+      {
+        id: `${id}-ex-3`,
+        title: '研究日志题',
+        prompt: `把“${lessonDef.title}”写成一条研究日志：问题、样本、方法、主要风险、下一步验证。`,
+        hint: '练习把课程内容转成研究产出物。',
+        answer: '合格答案应该包含清楚的问题定义、数据样本、方法选择、潜在偏差或风险，以及下一步验证计划。',
+      },
+    ],
+    nextLessonId: nextId,
   };
-
-  const byDay = {
-    1: {
-      prerequisites: ['理解“主观判断”和“规则判断”有区别', '能接受用数据而不是感觉验证观点'],
-      rigorNotes: '这一课的严谨性重点不在公式，而在把“模糊市场观点”改写成“可被检验的规则问题”。这是后续全部课程的方法论起点。',
-      referenceTrack: [
-        'Chan 路线：量化交易首先是研究流程，不是写机器人。',
-        'QuantStart 路线：入门阶段先掌握全流程轮廓，再逐步深入细节。',
-      ],
-    },
-    2: {
-      prerequisites: ['能区分价格水平和价格变化', '知道百分比变化比绝对价差更可比'],
-      rigorNotes: '本课开始统一使用“收益率”而不是“价格涨了多少”来描述变化，这是金融统计和资产比较的基础语言。',
-      referenceTrack: [
-        'Bodie / Kane / Marcus：投资分析以风险—收益刻画资产，而非只看价格水平。',
-        'Tsay 路线：时间序列分析通常以收益率序列而非价格序列为基础对象。',
-      ],
-    },
-    3: {
-      prerequisites: ['知道收益率是逐期变化量', '能接受投资结果是复合而非简单加总'],
-      rigorNotes: '这里开始把单期收益推进到路径视角：净值、峰值、回撤。回撤不是附加指标，而是资金曲线风险的核心表达。',
-      referenceTrack: [
-        'Bodie / Kane / Marcus：风险不能脱离路径和持有体验来理解。',
-        'Chan 路线：策略评估必须同时看收益、回撤与可执行性。',
-      ],
-    },
-    4: {
-      prerequisites: ['知道市场里不只有个股', '理解不同资产容器会改变研究问题'],
-      rigorNotes: '本课的严谨性重点在“先定义研究对象，再设计策略”。如果对象边界混乱，后续任何统计和回测都容易失真。',
-      referenceTrack: [
-        'Bodie / Kane / Marcus：资产类别与组合视角是投资分析的基本框架。',
-        'Chan 路线：零售量化入门常从 ETF / 更稳定标的开始更有利于建立研究习惯。',
-      ],
-    },
-    5: {
-      prerequisites: ['已会看收益率序列', '愿意把单次涨跌放回整体分布里看'],
-      rigorNotes: '本课引入“分布思维”，是为了对抗人脑对随机波动过度叙事的倾向。统计视角不是装饰，而是识别噪声与异常的基本工具。',
-      referenceTrack: [
-        'Tsay 路线：金融时间序列分析需要先理解收益分布与波动特征。',
-        'QuantStart 路线：初学者应尽快从图形直觉走向样本分布与统计描述。',
-      ],
-    },
-    6: {
-      prerequisites: ['知道收益率可以比较资产表现', '知道回撤和波动都属于风险语言'],
-      rigorNotes: '这一课把“谁涨得多”替换成“谁的风险调整后表现更好”的评估视角，是从散户看盘转向专业研究的重要分水岭。',
-      referenceTrack: [
-        'Bodie / Kane / Marcus：风险—收益权衡是投资学主轴。',
-        'Chan 路线：任何策略结果都必须带着风险标签阅读。',
-      ],
-    },
-    7: {
-      prerequisites: ['已接触收益率、复利、回撤、噪声、风险收益这些关键词'],
-      rigorNotes: '复盘课不新增花哨内容，而是检查这些概念能否被组织成一套研究语言。框架感比继续加概念更重要。',
-      referenceTrack: [
-        'QuantStart 路线：先建立稳定的知识框架，再推进更深的策略与工程模块。',
-        'Tsay / Investments 路线：后续统计、时间序列与风险模型都以本周语言为前提。',
-      ],
-    },
-  };
-
-  return { ...base, ...(byDay[lesson.day] || {}) };
+  return base;
 }
 
-courseData.lessons = courseData.lessons.map(lesson => ({ ...lesson, ...buildRigorPack(lesson) }));
+const flatLessons = weekSpecs.flatMap(w => w.lessons.map(l => ({ weekSpec: w, lessonDef: l })));
+courseData.lessons = flatLessons.map((item, idx) => buildLesson(item.weekSpec, item.lessonDef, idx, flatLessons.length));
+
+courseData.practiceGroups = [
+  {
+    title: '金融语言与组合基础',
+    items: ['收益率与对数收益率手算', '净值与回撤 notebook', '基准与超额收益辨析', '组合收益矩阵练习'],
+  },
+  {
+    title: '统计、回归与时间序列',
+    items: ['t 统计量与显著性小实验', 'OLS 回归结果解读', 'ACF / PACF 识别练习', '波动聚集观察日志'],
+  },
+  {
+    title: '数据工程与回测',
+    items: ['复权与样本偏差检查', 'rolling 特征对齐练习', '最小 signal-position-pnl 回测', '交易成本敏感性分析'],
+  },
+  {
+    title: '策略与风险控制',
+    items: ['动量 vs 均值回归比较 memo', '横截面排序组合构建', '逆波动权重练习', 'post-mortem 复盘模板'],
+  },
+];
+
+courseData.glossary = [
+  { term: 'return', tag: '金融对象', front: '收益率', back: '描述资产在两个时点之间变化比例的核心对象，是量化研究的基础语言。' },
+  { term: 'log return', tag: '金融对象', front: '对数收益率', back: 'ln(P_t/P_{t-1})，在多期累加和部分模型中更方便，但需要明确使用边界。' },
+  { term: 'drawdown', tag: '风险语言', front: '回撤', back: '当前净值相对历史峰值的跌幅，最能体现策略路径痛感。' },
+  { term: 'benchmark', tag: '组合语言', front: '基准', back: '评价组合或策略表现的参照对象，没有基准就很难讨论主动价值。' },
+  { term: 'alpha', tag: '因子语言', front: 'Alpha', back: '在给定模型假设下无法被既定风险因子解释的收益部分，不等于天然可交易利润。' },
+  { term: 'beta', tag: '因子语言', front: 'Beta', back: '资产或组合对某个系统性因子的暴露强度，最常见的是市场 beta。' },
+  { term: 'stationarity', tag: '时间序列', front: '平稳性', back: '时间序列的均值、方差和协方差结构在时间上相对稳定，是很多模型的前提。' },
+  { term: 'acf', tag: '时间序列', front: 'ACF', back: '自相关函数，用来观察序列与其滞后值之间的整体相关结构。' },
+  { term: 'pacf', tag: '时间序列', front: 'PACF', back: '偏自相关函数，用于观察剔除中间滞后影响后的直接相关结构。' },
+  { term: 'survivorship bias', tag: '数据工程', front: '存活偏差', back: '只使用今天仍然存在的样本回看历史，导致历史结果被系统性美化。' },
+  { term: 'look-ahead bias', tag: '数据工程', front: '未来函数偏差', back: '在信号构造或回测中使用了当时并不可见的未来信息。' },
+  { term: 'turnover', tag: '执行现实', front: '换手率', back: '仓位变化强度的近似度量，直接连接到交易成本和执行压力。' },
+];
 
 const lessonMap = new Map(courseData.lessons.map((lesson, idx) => [lesson.id, { lesson, idx }]));
 
@@ -571,18 +420,20 @@ function renderLessonCards() {
 function renderHome() {
   const today = getCurrentLesson();
   const completedCount = state.completedLessons.length;
+  const total = courseData.lessons.length;
+  const ratio = total ? Math.round((completedCount / total) * 100) : 0;
   document.getElementById('view-home').innerHTML = `
     <div class="hero-grid">
       <section class="hero">
-        <p class="kicker">长期项目</p>
+        <p class="kicker">8-Week Core Rebuild</p>
         <h3>${courseData.title}</h3>
         <p>${courseData.subtitle}</p>
         <p><strong>目标：</strong>${courseData.goal}</p>
         <p><strong>课程定位：</strong>${courseData.promise}</p>
         <div class="stats-grid">
-          <div class="stat-card"><h3>当前主线</h3><strong>股票量化</strong><span class="muted">先打基础，再扩展 ETF / 期货 / 期权</span></div>
-          <div class="stat-card"><h3>日学习时长</h3><strong>1–1.5h</strong><span class="muted">每天一课，概念 + 代码 + 练习</span></div>
-          <div class="stat-card"><h3>已完成</h3><strong>${completedCount}</strong><span class="muted">按课推进，不求快，求稳</span></div>
+          <div class="stat-card"><h3>教学主舞台</h3><strong>美股</strong><span class="muted">统一案例、数据环境与文献语境</span></div>
+          <div class="stat-card"><h3>课程深度</h3><strong>教材 + 研究</strong><span class="muted">不是科普导览，而是可积累的研究底座</span></div>
+          <div class="stat-card"><h3>当前进度</h3><strong>${completedCount}/${total}</strong><span class="muted">已学课数 · ${ratio}%</span></div>
         </div>
       </section>
       <section class="panel">
@@ -592,54 +443,33 @@ function renderHome() {
         <div class="info-stack">
           <div class="info-chip">${today.phase}</div>
           <div class="info-chip">${today.duration}</div>
+          <div class="info-chip">${state.completedLessons.includes(today.id) ? '已完成' : '进行中'}</div>
         </div>
         <p class="muted" style="margin-top:14px;">${today.whyItMatters}</p>
         <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="small-btn" onclick="goToLesson('${today.id}')">进入课程</button>
-          <button class="small-btn" onclick="setView('practice')">查看练习</button>
-          <button class="small-btn" onclick="setView('roadmap')">看课程地图</button>
+          <button class="small-btn" onclick="goToLesson('${today.id}')">进入课程正文</button>
+          <button class="small-btn" onclick="setView('practice')">研究练习</button>
+          <button class="small-btn" onclick="setView('roadmap')">查看 8 周地图</button>
         </div>
       </section>
     </div>
 
     <section class="card-grid">
       <article class="panel">
-        <p class="kicker">课程理念</p>
-        <h3>先建立研究框架，再追求策略</h3>
-        <p class="muted">我们不把量化包装成“短期暴富工具”，而是把它当作一种更严谨的市场研究与交易决策方法。</p>
+        <p class="kicker">课程结构</p>
+        <h3>先金融，再统计；先数据，再回测；最后才谈策略</h3>
+        <p class="muted">这版课程把量化学习重新锚定在 Investments、统计推断、时间序列、数据工程和回测纪律上，而不是从“找策略”开始。</p>
       </article>
       <article class="panel">
-        <p class="kicker">本轮改版重点</p>
-        <h3>每天课程不再只有一句话</h3>
-        <p class="muted">现在每节课都包含：学习目标、课程意义、通俗讲解、方法框架、代码上下文、逐行解释、交易含义、误区与总结。</p>
+        <p class="kicker">学习产出</p>
+        <h3>每周都要留下研究痕迹</h3>
+        <p class="muted">不是只看课程正文。每一周都应该沉淀 notebook、研究日志、回测表、误差解释和 post-mortem 模板。</p>
       </article>
       <article class="panel">
-        <p class="kicker">学习方式</p>
-        <h3>概念、代码、交易意义绑在一起</h3>
-        <p class="muted">你不会再看到“硬塞一段 Python”却不知道它和课程有什么关系；每段代码都要回答：它为什么出现在这一课里。</p>
+        <p class="kicker">课程标准</p>
+        <h3>专业化，不搞大白话堆砌</h3>
+        <p class="muted">每节课都要求你同时理解研究对象、统计对象、代码对象，以及它们在策略研究流程中的位置。</p>
       </article>
-    </section>
-
-    <section class="panel" style="margin-top:18px;">
-      <p class="kicker">参考教材脉络</p>
-      <h3>这套网站现在开始按经典教材路线校正</h3>
-      <div class="reference-grid">
-        ${courseData.referenceShelf.map(item => `
-          <article class="reference-card">
-            <h4>${item.title}</h4>
-            <p><strong>用途：</strong>${item.role}</p>
-            <p class="muted"><strong>为什么接进课程：</strong>${item.why}</p>
-          </article>
-        `).join('')}
-      </div>
-    </section>
-
-    <section class="panel" style="margin-top:18px;">
-      <p class="kicker">第一周全部课程</p>
-      <h3>按顺序推进</h3>
-      <div class="lesson-list">
-        ${renderLessonCards()}
-      </div>
     </section>
   `;
 }
@@ -656,9 +486,9 @@ function renderRoadmap() {
         </article>
       `).join('')}
       <article class="timeline-item">
-        <p class="kicker">当前状态</p>
-        <h4>第一周课程已重写为“可学习正文”</h4>
-        <p class="muted">不是只挂一个标题，而是把每日课程写成真正可读、可跟、可练的内容。后续会继续按相同标准补齐第 2–4 周。</p>
+        <p class="kicker">学习原则</p>
+        <h4>研究流程比知识点数量更重要</h4>
+        <p class="muted">这 8 周不是为了收集术语，而是为了建立一条能落地的研究流程：定义对象、构造样本、做估计、写回测、控制偏差、解释结果、复盘失效。</p>
       </article>
     </div>
   `;
@@ -685,7 +515,7 @@ function renderLesson() {
         </div>
 
         <div class="section-block callout-block">
-          <h4>这节课为什么重要</h4>
+          <h4>为什么它在课程主线上不可跳过</h4>
           <p>${lesson.whyItMatters}</p>
         </div>
 
@@ -695,17 +525,17 @@ function renderLesson() {
         </div>
 
         <div class="section-block">
-          <h4>推荐学习顺序</h4>
+          <h4>建议学习流程</h4>
           <ol>${lesson.studyFlow.map(item => `<li>${item}</li>`).join('')}</ol>
         </div>
 
         <div class="section-block">
-          <h4>通俗讲解</h4>
+          <h4>课程讲解</h4>
           ${lesson.intuitiveBlocks.map(block => `<p>${block}</p>`).join('')}
         </div>
 
         <div class="section-block">
-          <h4>概念连接</h4>
+          <h4>概念桥接</h4>
           <p>${lesson.conceptBridge}</p>
         </div>
 
@@ -715,7 +545,7 @@ function renderLesson() {
         </div>
 
         <div class="section-block code-context">
-          <h4>这段 Python 为什么出现在这里</h4>
+          <h4>这段 Python 在研究流程里的作用</h4>
           <p>${lesson.codeContext}</p>
         </div>
 
@@ -740,23 +570,13 @@ function renderLesson() {
         </div>
 
         <div class="section-block">
-          <h4>代码和课程的关系</h4>
-          <p>${lesson.explanation}</p>
-        </div>
-
-        <div class="section-block">
-          <h4>你应该从这段代码读出什么</h4>
+          <h4>你应该从这节课读出什么</h4>
           <ul>${lesson.interpretation.map(item => `<li>${item}</li>`).join('')}</ul>
         </div>
 
         <div class="section-block">
-          <h4>严谨性说明</h4>
+          <h4>严谨性要求</h4>
           <p>${lesson.rigorNotes}</p>
-        </div>
-
-        <div class="section-block">
-          <h4>常见误区</h4>
-          <ul>${lesson.mistakes.map(item => `<li>${item}</li>`).join('')}</ul>
         </div>
 
         <div class="section-block">
@@ -766,7 +586,14 @@ function renderLesson() {
 
         <div class="section-block">
           <h4>参考脉络</h4>
-          <ul>${lesson.referenceTrack.map(item => `<li>${item}</li>`).join('')}</ul>
+          <div class="reference-grid">
+            ${lesson.referenceTrack.map(item => `<article class="reference-card"><p>${item}</p></article>`).join('')}
+          </div>
+        </div>
+
+        <div class="section-block">
+          <h4>常见误区</h4>
+          <ul>${lesson.mistakes.map(item => `<li>${item}</li>`).join('')}</ul>
         </div>
 
         <div class="section-block">
@@ -778,21 +605,21 @@ function renderLesson() {
       <aside class="lesson-sidebar">
         <section class="panel sticky-panel">
           <p class="kicker">课程导航</p>
-          <h3>第一周课程目录</h3>
+          <h3>8 周 / 40 课主干目录</h3>
           <div class="lesson-list compact">
             ${renderLessonCards()}
           </div>
           <div style="display:grid; gap:10px; margin-top:14px;">
             <button class="small-btn" ${prevLesson ? `onclick="goToLesson('${prevLesson.id}')"` : 'disabled'}>${prevLesson ? `上一课：Day ${prevLesson.day}` : '已经是第一课'}</button>
-            <button class="small-btn" ${nextLesson ? `onclick="goToLesson('${nextLesson.id}')"` : 'disabled'}>${nextLesson ? `下一课：Day ${nextLesson.day}` : '第一周已结束'}</button>
-            <button class="small-btn" onclick="setView('practice')">去做本课练习</button>
+            <button class="small-btn" ${nextLesson ? `onclick="goToLesson('${nextLesson.id}')"` : 'disabled'}>${nextLesson ? `下一课：Day ${nextLesson.day}` : '已经到第 8 周结尾'}</button>
+            <button class="small-btn" onclick="setView('practice')">切到研究练习</button>
           </div>
         </section>
 
         <section class="panel" style="margin-top:18px;">
-          <p class="kicker">本课提醒</p>
-          <h3>不要把代码当装饰</h3>
-          <p class="muted">每段代码都应该回答三个问题：它在算什么？为什么这一课要出现它？它会在后面哪种研究动作里继续被使用？</p>
+          <p class="kicker">学习提醒</p>
+          <h3>把每节课转成研究产出</h3>
+          <p class="muted">至少留下三样东西：一个可运行的小实验、一个简短研究日志、一个“这节课最容易骗到我的地方”的偏差提醒。</p>
         </section>
       </aside>
     </div>
@@ -805,7 +632,7 @@ function renderPractice() {
     <section class="panel" style="margin-bottom:18px;">
       <p class="kicker">当前练习</p>
       <h3>Day ${lesson.day} · ${lesson.title}</h3>
-      <p class="muted">先自己想，再看提示，最后再看答案。练习不是为了“做对”，而是为了逼自己把概念说清楚。</p>
+      <p class="muted">练习区不再只是复述概念，而是要求你把本课内容写成研究解释、代码改写和研究日志。</p>
     </section>
 
     <div class="card-grid">
@@ -833,8 +660,8 @@ function renderPractice() {
     </div>
 
     <section class="panel" style="margin-top:18px;">
-      <p class="kicker">练习区规划</p>
-      <h3>下一步会继续扩展</h3>
+      <p class="kicker">阶段练习组</p>
+      <h3>8 周训练包</h3>
       <ul>
         ${courseData.practiceGroups.map(group => `<li><strong>${group.title}</strong>：${group.items.join('、')}</li>`).join('')}
       </ul>
@@ -885,15 +712,15 @@ function renderProgress() {
   document.getElementById('view-progress').innerHTML = `
     <section class="panel">
       <p class="kicker">学习进度</p>
-      <h3>第一周可按完整正文推进</h3>
+      <h3>前 8 周主干课程推进情况</h3>
       <div class="progress-bar"><div class="progress-fill" style="width:${ratio}%"></div></div>
-      <p class="muted" style="margin-top:12px;">已完成 ${completed} / ${totalLessons} 节课</p>
+      <p class="muted" style="margin-top:12px;">已完成 ${completed} / ${totalLessons} 节课 · ${ratio}%</p>
     </section>
 
     <section class="card-grid" style="margin-top:18px;">
       <article class="stat-card"><h3>当前课程</h3><strong>Day ${lesson.day}</strong><span class="muted">${lesson.title}</span></article>
-      <article class="stat-card"><h3>本课状态</h3><strong>${state.completedLessons.includes(lesson.id) ? '完成' : '未完成'}</strong><span class="muted">右上角按钮可切换</span></article>
-      <article class="stat-card"><h3>已完成练习</h3><strong>${state.completedExercises.length}</strong><span class="muted">练习支持完成 / 取消完成</span></article>
+      <article class="stat-card"><h3>所在模块</h3><strong>${lesson.phase.replace('第 ', '').replace(' 周：', '周 · ')}</strong><span class="muted">${lesson.duration}</span></article>
+      <article class="stat-card"><h3>已完成练习</h3><strong>${state.completedExercises.length}</strong><span class="muted">研究练习可单独标记</span></article>
     </section>
   `;
 }

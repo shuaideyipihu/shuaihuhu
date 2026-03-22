@@ -1,14 +1,13 @@
 {
-  "state": "done",
-  "task": "钢铁侠化重构状态监测 app",
-  "phase": "refined",
+  "state": "working",
+  "task": "重构量化金融网站前 8 周核心课程",
+  "phase": "implementation",
   "startedAt": "2026-03-22T08:24:11",
-  "lastActiveAt": "2026-03-22T08:38:40",
-  "updatedAt": "2026-03-22T08:38:40",
-  "progressNote": "已按反馈收敛界面：去掉杂乱 HUD 噪音，保留反应堆、Stark 命名、红金装甲语言，并重建清晰层级。",
+  "lastActiveAt": "2026-03-22T09:01:03",
+  "updatedAt": "2026-03-22T09:01:03",
+  "progressNote": "继续清理展示层和导航层旧内容，并做自检，直到课程站点达到可交付标准。",
   "evidence": [
-    "status-monitor/index.html",
-    ".learnings/LEARNINGS.md"
+    "quant-course/site/app.js"
   ],
   "progressPercent": 100,
   "progressItems": [
