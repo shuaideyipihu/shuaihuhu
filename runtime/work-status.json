@@ -1,33 +1,31 @@
 {
   "state": "done",
   "task": "钢铁侠化重构状态监测 app",
-  "phase": "delivered",
+  "phase": "refined",
   "startedAt": "2026-03-22T08:24:11",
-  "lastActiveAt": "2026-03-22T08:35:08",
-  "updatedAt": "2026-03-22T08:35:08",
-  "progressNote": "已完成钢铁侠混合风重构：战甲 HUD 骨架、方舟反应堆主视觉、红金装甲面板、钢铁侠图标与启动信息均已落地。",
+  "lastActiveAt": "2026-03-22T08:38:40",
+  "updatedAt": "2026-03-22T08:38:40",
+  "progressNote": "已按反馈收敛界面：去掉杂乱 HUD 噪音，保留反应堆、Stark 命名、红金装甲语言，并重建清晰层级。",
   "evidence": [
     "status-monitor/index.html",
-    "status-monitor/icon.svg",
-    "status-monitor/manifest.json",
-    "runtime/quality-gate-status-monitor.md"
+    ".learnings/LEARNINGS.md"
   ],
   "progressPercent": 100,
   "progressItems": [
     {
-      "label": "战甲 HUD 页面骨架",
+      "label": "保留钢铁侠核心元素",
       "done": true
     },
     {
-      "label": "方舟反应堆主视觉",
+      "label": "移除过量装饰与噪音",
       "done": true
     },
     {
-      "label": "红金装甲化模块面板",
+      "label": "重建主次层级",
       "done": true
     },
     {
-      "label": "钢铁侠图标与启动信息",
+      "label": "重新整理模块区",
       "done": true
     },
     {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#210d0d" />
+  <meta name="theme-color" content="#1b0f10" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="IRON HUD" />
@@ -12,207 +12,125 @@
   <link rel="apple-touch-icon" href="/icon.svg" />
   <title>IRON HUD · 工作状态</title>
   <style>
-    :root {
-      --bg:#08090c;
-      --bg2:#120d0f;
-      --panel:#14171d;
-      --panel2:rgba(20,20,24,.88);
-      --armor:#561819;
-      --armor2:#8b2323;
-      --gold:#d69432;
-      --gold2:#ffbf5e;
-      --arc:#7ee9ff;
-      --arc2:#37c8ff;
-      --line:rgba(255,175,74,.22);
-      --line2:rgba(126,233,255,.18);
-      --text:#fff6ea;
-      --muted:#bda991;
-      --danger:#ff6d63;
-      --ok:#7ef2c8;
-      --shadow:0 0 0 1px rgba(255,185,94,.10),0 0 40px rgba(120,34,29,.28), inset 0 0 30px rgba(255,185,94,.04);
+    :root{
+      --bg:#0a0a0c;
+      --bg2:#171113;
+      --panel:#121316;
+      --panel-soft:rgba(20,20,24,.86);
+      --line:rgba(255,190,96,.18);
+      --line-soft:rgba(123,227,255,.12);
+      --gold:#d89438;
+      --gold2:#ffc36e;
+      --red:#832424;
+      --red2:#b03030;
+      --arc:#7be3ff;
+      --arc2:#2ec7ff;
+      --text:#fff3e4;
+      --muted:#c1aa91;
+      --ok:#7de7c5;
+      --danger:#ff7568;
+      --shadow:0 0 0 1px rgba(255,195,110,.08),0 20px 50px rgba(0,0,0,.45), inset 0 0 22px rgba(255,195,110,.03);
     }
     *{box-sizing:border-box}
     html,body{margin:0;min-height:100%;font-family:Inter,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;color:var(--text);background:
-      radial-gradient(circle at 50% -10%, rgba(255,183,94,.08), transparent 22%),
-      radial-gradient(circle at 18% 12%, rgba(139,35,35,.22), transparent 28%),
-      radial-gradient(circle at 85% 24%, rgba(55,200,255,.12), transparent 22%),
-      linear-gradient(180deg, var(--bg), var(--bg2) 48%, #070708);
-      overflow-x:hidden;
-    }
-    body::before{
-      content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;
-      background:
-        linear-gradient(rgba(255,191,94,.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,191,94,.05) 1px, transparent 1px),
-        radial-gradient(circle at center, transparent 0 58%, rgba(255,191,94,.05) 58.3%, transparent 58.6%),
-        radial-gradient(circle at center, transparent 0 67%, rgba(126,233,255,.04) 67.3%, transparent 67.6%);
-      background-size:30px 30px,30px 30px,100vw 100vh,100vw 100vh;
-      mix-blend-mode:screen;
-    }
-    body::after{
-      content:"";position:fixed;inset:0;pointer-events:none;opacity:.26;
-      background:linear-gradient(180deg, transparent, rgba(255,255,255,.03) 50%, transparent 100%);
-      background-size:100% 5px;
-    }
-    .app{max-width:1480px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 14px calc(38px + env(safe-area-inset-bottom));position:relative}
-    .topbar,.hero,.panel,.section{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+      radial-gradient(circle at 50% -10%, rgba(255,195,110,.09), transparent 24%),
+      radial-gradient(circle at 82% 18%, rgba(46,199,255,.08), transparent 18%),
+      linear-gradient(180deg,var(--bg),var(--bg2));}
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;background:
+      linear-gradient(rgba(255,195,110,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,195,110,.05) 1px, transparent 1px);
+      background-size:32px 32px;}
+    .app{max-width:1280px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 14px calc(36px + env(safe-area-inset-bottom));}
+    .topbar,.hero,.card{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
     .topbar{
-      position:sticky;top:0;z-index:20;display:grid;grid-template-columns:1.3fr 1fr auto;gap:12px;align-items:center;
-      margin-bottom:16px;padding:12px 16px;border:1px solid var(--line);border-radius:18px;
-      background:linear-gradient(180deg, rgba(26,10,10,.95), rgba(15,15,19,.88));box-shadow:var(--shadow);
-      clip-path:polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      position:sticky;top:0;z-index:20;display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;
+      margin-bottom:16px;padding:14px 16px;border:1px solid var(--line);border-radius:18px;
+      background:linear-gradient(180deg, rgba(33,15,15,.94), rgba(14,14,18,.9));box-shadow:var(--shadow);
     }
-    .sys-title{font-size:.76rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold2)}
-    .sys-sub{font-size:1.15rem;font-weight:900;margin-top:4px;text-transform:uppercase;letter-spacing:.08em}
-    .microgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .micro{
-      padding:10px 12px;border:1px solid rgba(255,191,94,.14);border-radius:12px;
-      background:linear-gradient(180deg, rgba(96,20,18,.35), rgba(15,16,20,.74));
+    .eyebrow{font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold2)}
+    .title{font-size:1.14rem;font-weight:950;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+    .status-pill{
+      display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;
+      background:rgba(88,24,22,.34);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:800;
     }
-    .micro span{display:block;font-size:.66rem;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
-    .micro strong{display:block;margin-top:5px;font-size:.92rem;color:var(--text)}
     .sync-btn{
-      border:none;cursor:pointer;color:#2d160a;background:linear-gradient(180deg, var(--gold2), var(--gold));
-      min-height:50px;padding:0 18px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;
-      box-shadow:0 0 22px rgba(255,191,94,.18), inset 0 -2px 0 rgba(65,28,9,.25);
+      border:none;cursor:pointer;padding:0 18px;min-height:46px;border-radius:999px;font-weight:900;
+      background:linear-gradient(180deg,var(--gold2),var(--gold));color:#2a1607;letter-spacing:.12em;text-transform:uppercase;
+      box-shadow:0 0 18px rgba(255,195,110,.2);
     }
 
     .hero{
-      position:relative;overflow:hidden;margin-bottom:16px;padding:20px;border:1px solid rgba(255,191,94,.22);
-      background:
-        linear-gradient(145deg, rgba(99,23,20,.24), transparent 22%),
-        linear-gradient(180deg, rgba(18,16,20,.94), rgba(10,10,12,.92));
-      box-shadow:var(--shadow);
-      clip-path:polygon(0 18px, 18px 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 18px 100%, 0 calc(100% - 18px));
+      padding:22px;border:1px solid var(--line);border-radius:28px;
+      background:linear-gradient(180deg, rgba(20,18,22,.94), rgba(13,13,16,.94));
+      box-shadow:var(--shadow);position:relative;overflow:hidden;
     }
     .hero::before{
       content:"";position:absolute;inset:0;pointer-events:none;
-      background:
-        linear-gradient(90deg, transparent 0 6%, rgba(255,191,94,.07) 6.2%, transparent 6.4%, transparent 93.6%, rgba(255,191,94,.07) 93.8%, transparent 94%),
-        linear-gradient(180deg, transparent 0 8%, rgba(126,233,255,.07) 8.2%, transparent 8.4%, transparent 91.6%, rgba(126,233,255,.07) 91.8%, transparent 92%),
-        radial-gradient(circle at center, rgba(126,233,255,.06), transparent 34%);
+      background:linear-gradient(90deg, transparent, rgba(255,195,110,.05) 50%, transparent), radial-gradient(circle at center, rgba(123,227,255,.06), transparent 34%);
     }
-    .hero::after{
-      content:"MARK // STARK ARMOR DIAGNOSTIC INTERFACE";position:absolute;top:14px;right:18px;
-      font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,191,94,.66);
+    .hero-grid{display:grid;grid-template-columns:1fr 430px 1fr;gap:18px;align-items:center}
+    .panel-title{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px}
+    .mission{padding-right:8px}
+    .mission h1{margin:0 0 12px;font-size:2.1rem;line-height:1.04;text-transform:uppercase;font-weight:1000}
+    .mission p{margin:0;color:var(--muted);line-height:1.7;font-size:1rem}
+    .meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+    .meta-card{
+      padding:14px 15px;border:1px solid var(--line-soft);border-radius:16px;background:linear-gradient(180deg, rgba(16,18,22,.92), rgba(43,17,15,.42));
     }
-    .hero-grid{display:grid;grid-template-columns:1.05fr 1.1fr .85fr;gap:16px;align-items:stretch;position:relative}
-    .hero-column{display:grid;gap:12px;position:relative}
-    .panel{
-      position:relative;padding:16px;border:1px solid var(--line);background:var(--panel2);box-shadow:var(--shadow);
-      clip-path:polygon(0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));
-    }
-    .panel::before{
-      content:"";position:absolute;inset:10px;border:1px solid rgba(255,191,94,.08);pointer-events:none;
-      clip-path:polygon(0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px));
-    }
-    .label{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px}
-    .headline{font-size:1.9rem;font-weight:950;line-height:1.08;margin:0 0 10px;text-transform:uppercase}
-    .subtext{margin:0;color:var(--muted);line-height:1.72}
-    .stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .stat{
-      padding:12px;border:1px solid rgba(126,233,255,.12);background:linear-gradient(180deg, rgba(14,18,24,.92), rgba(34,12,10,.58));
-      clip-path:polygon(0 10px, 10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
-    }
-    .stat span{display:block;font-size:.68rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
-    .stat strong{display:block;margin-top:6px;font-size:1.06rem;line-height:1.45}
+    .meta-card span{display:block;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+    .meta-card strong{display:block;margin-top:7px;font-size:1rem;line-height:1.5}
 
-    .reactor-bay{
-      position:relative;display:grid;place-items:center;min-height:520px;
-      background:
-        radial-gradient(circle at center, rgba(126,233,255,.12), transparent 22%),
-        radial-gradient(circle at center, rgba(255,191,94,.07), transparent 48%),
-        linear-gradient(180deg, rgba(15,17,20,.96), rgba(10,10,12,.92));
-      border:1px solid rgba(255,191,94,.22);
-      clip-path:polygon(8% 0, 92% 0, 100% 8%, 100% 92%, 92% 100%, 8% 100%, 0 92%, 0 8%);
-      overflow:hidden;
+    .reactor-zone{display:grid;place-items:center;min-height:420px;position:relative}
+    .reactor-zone::before{content:"";position:absolute;inset:22px;border:1px solid rgba(255,195,110,.08);border-radius:32px}
+    .reactor-wrap{position:relative;width:320px;height:320px;display:grid;place-items:center}
+    .reactor-ring-1,.reactor-ring-2,.reactor-ring-3,.reactor-core{position:absolute;border-radius:50%}
+    .reactor-ring-1{inset:0;border:2px solid rgba(255,195,110,.24);box-shadow:0 0 22px rgba(255,195,110,.08)}
+    .reactor-ring-1::before,.reactor-ring-1::after{content:"";position:absolute;inset:18px;border-radius:50%;border:1px dashed rgba(255,195,110,.32)}
+    .reactor-ring-1::after{inset:44px;border-style:solid;border-color:rgba(123,227,255,.18)}
+    .reactor-ring-2{inset:64px;border:10px solid rgba(112,30,30,.68);box-shadow:inset 0 0 24px rgba(0,0,0,.5)}
+    .reactor-ring-3{inset:104px;border:2px solid rgba(255,195,110,.24);background:radial-gradient(circle, rgba(123,227,255,.15), transparent 60%)}
+    .reactor-core{inset:126px;background:
+      radial-gradient(circle, rgba(255,255,255,.95) 0 18%, rgba(123,227,255,.95) 18% 34%, rgba(46,199,255,.55) 34% 52%, rgba(255,195,110,.14) 52% 64%, transparent 64%),
+      conic-gradient(from 0deg, rgba(255,195,110,.25), rgba(46,199,255,.9), rgba(255,195,110,.25), rgba(46,199,255,.9), rgba(255,195,110,.25));
+      box-shadow:0 0 34px rgba(123,227,255,.46),0 0 56px rgba(46,199,255,.14);
+      clip-path:polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
     }
-    .reactor-bay::before,.reactor-bay::after{content:"";position:absolute;inset:0;pointer-events:none}
-    .reactor-bay::before{
-      background:
-        linear-gradient(90deg, transparent 8%, rgba(255,191,94,.09) 8.2%, transparent 8.4%, transparent 91.6%, rgba(255,191,94,.09) 91.8%, transparent 92%),
-        linear-gradient(180deg, transparent 12%, rgba(126,233,255,.08) 12.2%, transparent 12.4%, transparent 87.6%, rgba(126,233,255,.08) 87.8%, transparent 88%);
-    }
-    .reactor-bay::after{
-      background:
-        radial-gradient(circle at center, transparent 0 31%, rgba(255,191,94,.06) 31.2%, transparent 31.5%),
-        radial-gradient(circle at center, transparent 0 42%, rgba(126,233,255,.08) 42.2%, transparent 42.6%),
-        radial-gradient(circle at center, transparent 0 48%, rgba(255,191,94,.06) 48.2%, transparent 48.6%);
-    }
-    .reactor-wrap{position:relative;width:440px;height:440px;display:grid;place-items:center}
-    .ring,.ring::before,.ring::after{position:absolute;border-radius:50%}
-    .ring.outer{inset:0;border:2px solid rgba(255,191,94,.22);box-shadow:0 0 34px rgba(126,233,255,.12), inset 0 0 24px rgba(255,191,94,.06)}
-    .ring.outer::before{content:"";inset:24px;border:1px dashed rgba(255,191,94,.4)}
-    .ring.outer::after{content:"";inset:42px;border:1px solid rgba(126,233,255,.26)}
-    .ring.middle{inset:62px;border:10px solid rgba(93,18,18,.55);box-shadow:inset 0 0 30px rgba(0,0,0,.7)}
-    .ring.middle::before{content:"";inset:-18px;border:8px solid transparent;border-top-color:rgba(255,191,94,.7);border-right-color:rgba(255,191,94,.3);transform:rotate(14deg)}
-    .ring.middle::after{content:"";inset:12px;border:1px solid rgba(126,233,255,.25)}
-    .ring.inner{inset:112px;background:
-      radial-gradient(circle at center, rgba(126,233,255,.95), rgba(126,233,255,.42) 22%, rgba(255,191,94,.14) 34%, rgba(10,13,16,.98) 58%),
-      conic-gradient(from 0deg, rgba(255,191,94,.42), rgba(126,233,255,.92), rgba(255,191,94,.42), rgba(126,233,255,.92), rgba(255,191,94,.42));
-      box-shadow:0 0 42px rgba(126,233,255,.44), 0 0 60px rgba(255,191,94,.12);
-    }
-    .ring.inner::before{content:"";inset:34px;border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,.98), rgba(126,233,255,.8) 26%, rgba(126,233,255,.18) 52%, transparent 68%);box-shadow:0 0 28px rgba(126,233,255,.7)}
-    .ring.inner::after{content:"";inset:18px;border:2px solid rgba(255,191,94,.26);clip-path:polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)}
-    .crosshair,.crosshair::before,.crosshair::after{position:absolute;content:"";background:rgba(255,191,94,.32)}
-    .crosshair{width:2px;height:100%;top:0;left:50%;transform:translateX(-50%)}
-    .crosshair::before{width:100%;height:2px;left:-219px;top:50%;transform:translateY(-50%)}
-    .crosshair::after{width:170px;height:170px;left:50%;top:50%;transform:translate(-50%,-50%);background:transparent;border:1px solid rgba(126,233,255,.28);border-radius:50%}
-    .target-box{position:absolute;inset:70px;border:1px solid rgba(255,191,94,.18);clip-path:polygon(14% 0, 86% 0, 100% 14%, 100% 86%, 86% 100%, 14% 100%, 0 86%, 0 14%)}
-    .reactor-copy{
-      position:absolute;bottom:42px;left:50%;transform:translateX(-50%);text-align:center;z-index:3;width:82%;
-      padding:12px 16px;border:1px solid rgba(255,191,94,.16);background:rgba(10,12,14,.68);
-      clip-path:polygon(0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
-    }
-    .reactor-copy .state{font-size:1.8rem;font-weight:1000;letter-spacing:.1em;text-transform:uppercase}
-    .reactor-copy .mode{margin-top:6px;font-size:.84rem;color:var(--gold2);letter-spacing:.28em;text-transform:uppercase}
-    .target-readout{position:absolute;z-index:3;font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2)}
-    .target-readout.top{top:36px;left:50%;transform:translateX(-50%)}
-    .target-readout.left{left:26px;top:50%;transform:translateY(-50%) rotate(-90deg)}
-    .target-readout.right{right:26px;top:50%;transform:translateY(-50%) rotate(90deg)}
-    .target-readout.bottom{bottom:16px;left:50%;transform:translateX(-50%)}
+    .reactor-label{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);text-align:center;width:100%}
+    .reactor-label strong{display:block;font-size:1.55rem;letter-spacing:.12em;text-transform:uppercase}
+    .reactor-label span{display:block;margin-top:8px;font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold2)}
 
-    .right-stack{display:grid;gap:12px}
-    .mode-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,191,94,.2);background:rgba(86,24,25,.38);font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:var(--gold2);clip-path:polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)}
-    .big-state{font-size:2rem;font-weight:1000;text-transform:uppercase;line-height:1.02;margin:8px 0 10px}
-    .meter{margin-top:12px}
-    .meter-track{position:relative;height:14px;border:1px solid rgba(255,191,94,.18);background:linear-gradient(90deg, rgba(65,17,16,.72), rgba(17,22,28,.92));overflow:hidden;clip-path:polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%, 10px 50%)}
-    .meter-fill{height:100%;width:0;background:linear-gradient(90deg, #7f2020 0%, #ca4d2e 22%, #ffbf5e 48%, #7ee9ff 76%, #3ccfff 100%);box-shadow:0 0 24px rgba(126,233,255,.38)}
-    .meter-scale{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase}
+    .summary{padding-left:8px}
+    .summary .big{font-size:2rem;font-weight:1000;line-height:1.02;text-transform:uppercase;margin:0 0 10px}
+    .summary .copy{color:var(--muted);line-height:1.7;margin:0 0 16px}
+    .progress-wrap{height:14px;border:1px solid var(--line);border-radius:999px;background:linear-gradient(90deg, rgba(88,24,22,.6), rgba(18,22,28,.96));overflow:hidden}
+    .progress-bar{height:100%;width:0;background:linear-gradient(90deg, var(--red2), var(--gold2), var(--arc));box-shadow:0 0 20px rgba(123,227,255,.22)}
+    .progress-meta{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+    .armor-line{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,195,110,.12)}
 
-    .sections{display:grid;grid-template-columns:1.1fr .9fr .95fr;gap:16px}
-    .section{
-      position:relative;padding:18px;border:1px solid var(--line);background:linear-gradient(180deg, rgba(18,19,23,.9), rgba(25,14,13,.8));box-shadow:var(--shadow);
-      clip-path:polygon(0 14px, 14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px));
-      min-height:260px;
+    .cards{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px;margin-top:18px}
+    .card{
+      padding:18px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg, rgba(19,20,24,.92), rgba(23,14,14,.88));box-shadow:var(--shadow);
     }
-    .section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
-    .section-title h2{margin:0;font-size:1rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2)}
-    .chip{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;color:var(--muted)}
-    .list,.history{display:grid;gap:10px}
-    .list-item,.history-item{
-      padding:12px;border:1px solid rgba(126,233,255,.12);background:linear-gradient(180deg, rgba(15,18,24,.92), rgba(43,15,13,.56));
-      clip-path:polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
-    }
-    .list-item strong,.history-item strong{display:block;font-size:.96rem;line-height:1.5}
-    .list-item span,.history-item span{display:block;margin-top:6px;color:var(--muted);font-size:.88rem;line-height:1.55}
-    .history-meta{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2)}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border-radius:999px;font-weight:900;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
-    .idle{color:#9bc4ff;background:rgba(155,196,255,.12)} .working{color:var(--ok);background:rgba(126,242,200,.12)} .blocked{color:var(--danger);background:rgba(255,109,99,.12)} .done{color:var(--gold2);background:rgba(255,191,94,.12)}
-    .muted{color:var(--muted)}
+    .card h2{margin:0 0 14px;font-size:.98rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2)}
+    .stack{display:grid;gap:10px}
+    .item{padding:12px 13px;border:1px solid var(--line-soft);border-radius:14px;background:linear-gradient(180deg, rgba(16,18,22,.92), rgba(39,16,14,.36))}
+    .item strong{display:block;font-size:.95rem;line-height:1.45}
+    .item span{display:block;margin-top:6px;color:var(--muted);font-size:.88rem;line-height:1.55}
+    .history-meta{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-weight:800;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+    .idle{color:#97c1ff;background:rgba(151,193,255,.12)} .working{color:var(--ok);background:rgba(125,231,197,.12)} .blocked{color:var(--danger);background:rgba(255,117,104,.12)} .done{color:var(--gold2);background:rgba(255,195,110,.12)}
 
-    @media (max-width:1200px){
-      .hero-grid{grid-template-columns:1fr}
-      .reactor-bay{min-height:460px}
-      .sections{grid-template-columns:1fr 1fr}
+    @media (max-width:1100px){
+      .hero-grid,.cards{grid-template-columns:1fr}
+      .mission,.summary{padding:0}
+      .reactor-zone{min-height:360px}
     }
-    @media (max-width:760px){
+    @media (max-width:720px){
       .topbar{grid-template-columns:1fr;}
-      .microgrid,.stats-grid,.sections{grid-template-columns:1fr}
-      .reactor-wrap{width:320px;height:320px}
-      .reactor-bay{min-height:380px}
-      .headline{font-size:1.48rem}
-      .big-state{font-size:1.5rem}
+      .meta-grid{grid-template-columns:1fr}
+      .reactor-wrap{width:270px;height:270px}
+      .mission h1{font-size:1.6rem}
+      .summary .big{font-size:1.5rem}
       .app{padding:calc(10px + env(safe-area-inset-top)) 10px calc(30px + env(safe-area-inset-bottom))}
     }
   </style>
@@ -221,92 +139,77 @@
   <div class="app">
     <header class="topbar">
       <div>
-        <div class="sys-title">Stark Systems / Armor OS</div>
-        <div class="sys-sub">Iron HUD · Mission Core Interface</div>
+        <div class="eyebrow">Stark Systems / Armor OS</div>
+        <div class="title">Iron HUD · Mission Status Interface</div>
       </div>
-      <div class="microgrid">
-        <div class="micro"><span>System</span><strong id="microSystem">Online</strong></div>
-        <div class="micro"><span>Reactor</span><strong id="microReactor">Stable</strong></div>
-        <div class="micro"><span>Protocol</span><strong id="microProtocol">Mark-Prime</strong></div>
-      </div>
+      <div class="status-pill" id="modeBadge">Armor Core Online</div>
       <button class="sync-btn" id="refreshBtn">Sync</button>
     </header>
 
     <section class="hero">
       <div class="hero-grid">
-        <div class="hero-column">
-          <div class="panel">
-            <div class="label">Primary Mission</div>
-            <h1 class="headline" id="heroTask">加载中…</h1>
-            <p class="subtext" id="heroNote">正在接入战甲任务链路。</p>
-          </div>
-          <div class="stats-grid">
-            <div class="stat"><span>Phase</span><strong id="phase">—</strong></div>
-            <div class="stat"><span>Status</span><strong id="statusTextCard">—</strong></div>
-            <div class="stat"><span>Last Active</span><strong id="lastActiveAt">—</strong></div>
-            <div class="stat"><span>Time Mark</span><strong id="times">—</strong></div>
-          </div>
-          <div class="panel">
-            <div class="label">Mission Drive</div>
-            <div class="big-state" id="signalTitle">—</div>
-            <p class="subtext" id="signalHint">这里显示当前推进方向。</p>
-            <p class="subtext" id="alertBox" style="margin-top:10px;">—</p>
+        <div class="mission">
+          <div class="panel-title">Primary Mission</div>
+          <h1 id="heroTask">加载中…</h1>
+          <p id="heroNote">正在接入任务状态。</p>
+          <div class="meta-grid">
+            <div class="meta-card"><span>Phase</span><strong id="phase">—</strong></div>
+            <div class="meta-card"><span>Status</span><strong id="statusTextCard">—</strong></div>
+            <div class="meta-card"><span>Last Active</span><strong id="lastActiveAt">—</strong></div>
+            <div class="meta-card"><span>Time Mark</span><strong id="times">—</strong></div>
           </div>
         </div>
 
-        <div class="reactor-bay">
-          <div class="target-readout top">Arc Reactor / Armor Core</div>
-          <div class="target-readout left">Target Lock</div>
-          <div class="target-readout right">Power Routing</div>
-          <div class="target-readout bottom">Stark Tactical Overlay</div>
+        <div class="reactor-zone">
           <div class="reactor-wrap">
-            <div class="crosshair"></div>
-            <div class="target-box"></div>
-            <div class="ring outer"></div>
-            <div class="ring middle"></div>
-            <div class="ring inner"></div>
-            <div class="reactor-copy">
-              <div class="state" id="stateText">—</div>
-              <div class="mode" id="modeText">Armor Core Online</div>
+            <div class="reactor-ring-1"></div>
+            <div class="reactor-ring-2"></div>
+            <div class="reactor-ring-3"></div>
+            <div class="reactor-core"></div>
+            <div class="reactor-label">
+              <strong id="stateText">—</strong>
+              <span id="modeText">Arc Reactor Stable</span>
             </div>
           </div>
         </div>
 
-        <div class="right-stack">
-          <div class="panel">
-            <div class="label">Armor Mode</div>
-            <div class="mode-badge" id="modeBadge">Combat Diagnostic</div>
-            <div class="big-state" id="progressPercent">0%</div>
-            <p class="subtext">把进度显示成能量输送，不再像普通网页进度条。</p>
-            <div class="meter">
-              <div class="meter-track"><div class="meter-fill" id="progressBar"></div></div>
-              <div class="meter-scale"><span>low power</span><span>charged</span><span>overdrive</span></div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="label">Operational Evidence</div>
-            <div class="list" id="evidence"><div class="list-item"><strong>暂无具体证据</strong></div></div>
-          </div>
-          <div class="panel">
-            <div class="label">Remaining Targets</div>
-            <div class="list" id="remainingItems"><div class="list-item"><strong>当前没有未完成项</strong></div></div>
+        <div class="summary">
+          <div class="panel-title">Mission Drive</div>
+          <div class="big" id="signalTitle">—</div>
+          <p class="copy" id="signalHint">这里显示当前任务推进状态。</p>
+          <p class="copy" id="alertBox">—</p>
+          <div class="armor-line">
+            <div class="big" id="progressPercent">0%</div>
+            <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-meta"><span>power routing</span><span>mission charge</span><span>arc flow</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="sections">
-      <div class="section">
-        <div class="section-title"><h2>Power Routing</h2><div class="chip">Live objective feed</div></div>
-        <div class="list" id="progressItems"><div class="list-item"><strong>暂无进度项</strong></div></div>
+    <section class="cards">
+      <div class="card">
+        <h2>Power Routing</h2>
+        <div class="stack" id="progressItems"><div class="item"><strong>暂无进度项</strong><span>当前没有可显示的装配记录。</span></div></div>
       </div>
-      <div class="section">
-        <div class="section-title"><h2>Diagnostic Log</h2><div class="chip">Verified history only</div></div>
-        <div class="history" id="history"><div class="history-item"><strong>暂无历史记录</strong></div></div>
+      <div class="card">
+        <h2>Operational Evidence</h2>
+        <div class="stack" id="evidence"><div class="item"><strong>暂无具体证据</strong><span>当前没有可验证的修改痕迹。</span></div></div>
       </div>
-      <div class="section">
-        <div class="section-title"><h2>Armor Task Switches</h2><div class="chip">Mission transitions</div></div>
-        <div class="history" id="switches"><div class="history-item"><strong>暂无切换记录</strong></div></div>
+      <div class="card">
+        <h2>Diagnostic Log</h2>
+        <div class="stack" id="history"><div class="item"><strong>暂无历史记录</strong></div></div>
+      </div>
+    </section>
+
+    <section class="cards" style="margin-top:16px;grid-template-columns:1fr 1fr;">
+      <div class="card">
+        <h2>Remaining Targets</h2>
+        <div class="stack" id="remainingItems"><div class="item"><strong>当前没有未完成项</strong><span>所有已登记模块均已完成。</span></div></div>
+      </div>
+      <div class="card">
+        <h2>Task Switches</h2>
+        <div class="stack" id="switches"><div class="item"><strong>暂无切换记录</strong></div></div>
       </div>
     </section>
   </div>
@@ -332,76 +235,56 @@
     const history = document.getElementById('history');
     const switches = document.getElementById('switches');
     const refreshBtn = document.getElementById('refreshBtn');
-    const microSystem = document.getElementById('microSystem');
-    const microReactor = document.getElementById('microReactor');
-    const microProtocol = document.getElementById('microProtocol');
 
-    const stateMap = { idle:'Standby', working:'Active', blocked:'Damaged', done:'Complete' };
-    const modeMap = {
-      idle:'Passive Monitoring',
-      working:'Combat Diagnostic',
-      blocked:'System Fault',
-      done:'Mission Complete'
-    };
+    const stateMap = { idle:'Standby', working:'Active', blocked:'Fault', done:'Complete' };
+    const modeMap = { idle:'Armor on Standby', working:'Arc Reactor Stable', blocked:'Armor Critical', done:'Mission Complete' };
 
-    function card(html, cls = 'list-item') {
-      return `<div class="${cls}">${html}</div>`;
-    }
+    function item(html) { return `<div class="item">${html}</div>`; }
 
     function renderMeaning(state, data) {
       const label = stateMap[state] || 'Unknown';
       statusTextCard.textContent = label;
       stateText.textContent = label;
-      modeText.textContent = modeMap[state] || 'Armor Core Online';
-      modeBadge.textContent = modeMap[state] || 'Armor Core Online';
-      microSystem.textContent = state === 'blocked' ? 'Critical' : state === 'working' ? 'Active' : state === 'done' ? 'Complete' : 'Standby';
-      microReactor.textContent = state === 'blocked' ? 'Unstable' : 'Stable';
-      microProtocol.textContent = state === 'working' ? 'Mark-Combat' : state === 'done' ? 'Mark-Resolved' : 'Mark-Prime';
+      modeText.textContent = modeMap[state] || 'Arc Reactor Stable';
+      modeBadge.textContent = modeMap[state] || 'Arc Reactor Stable';
 
       if (state === 'working') {
         signalTitle.textContent = 'Mission Push';
-        signalHint.textContent = '主任务正在推进，信息被投射到战甲 HUD 中。';
+        signalHint.textContent = '主任务正在推进，界面只保留必要信号。';
         alertBox.textContent = data.progressNote || '正在推进中。';
-        alertBox.className = 'subtext';
       } else if (state === 'blocked') {
         signalTitle.textContent = 'Damage Report';
-        signalHint.textContent = '当前存在明确阻塞，不能伪装成继续执行。';
+        signalHint.textContent = '当前存在明确阻塞，不伪装成继续执行。';
         alertBox.textContent = data.progressNote || '当前处于阻塞状态。';
-        alertBox.className = 'subtext';
       } else if (state === 'done') {
         signalTitle.textContent = 'Mission Cleared';
-        signalHint.textContent = '任务完成后，界面展示完成结果而不是空状态。';
+        signalHint.textContent = '任务已经完成，界面展示完成结果。';
         alertBox.textContent = data.progressNote || '任务已完成。';
-        alertBox.className = 'subtext';
       } else {
         signalTitle.textContent = 'Standby Shell';
         signalHint.textContent = '待命意味着没有在推进主任务。';
         alertBox.textContent = data.progressNote || '当前待命。';
-        alertBox.className = 'subtext';
       }
     }
 
     function renderHistory(items) {
       if (!items.length) {
-        history.innerHTML = card('<strong>暂无历史记录</strong>', 'history-item');
-        switches.innerHTML = card('<strong>暂无切换记录</strong>', 'history-item');
+        history.innerHTML = item('<strong>暂无历史记录</strong>');
+        switches.innerHTML = item('<strong>暂无切换记录</strong>');
         return;
       }
-
-      history.innerHTML = items.map(item => card(`
-        <div class="history-meta">${item.at || '—'}</div>
-        <div><span class="pill ${item.state || 'idle'}">${stateMap[item.state] || item.state || 'Unknown'}</span></div>
-        <strong style="margin-top:8px;">${item.task || '未命名任务'}</strong>
-        <span>phase · ${item.phase || '—'}</span>
-        <span>${item.progressNote || '—'}</span>
-      `, 'history-item')).join('');
-
-      const taskSwitches = items.filter((item, idx, arr) => idx === arr.length - 1 || item.task !== arr[idx + 1].task);
-      switches.innerHTML = taskSwitches.length ? taskSwitches.map(item => card(`
-        <div class="history-meta">${item.at || '—'}</div>
-        <strong>${item.task || '未命名任务'}</strong>
-        <span>${item.phase || '—'} · ${stateMap[item.state] || item.state || 'Unknown'}</span>
-      `, 'history-item')).join('') : card('<strong>暂无切换记录</strong>', 'history-item');
+      history.innerHTML = items.map(row => item(`
+        <div class="history-meta">${row.at || '—'}</div>
+        <div><span class="pill ${row.state || 'idle'}">${stateMap[row.state] || row.state || 'Unknown'}</span></div>
+        <strong style="margin-top:8px;">${row.task || '未命名任务'}</strong>
+        <span>${row.progressNote || '—'}</span>
+      `)).join('');
+      const taskSwitches = items.filter((row, idx, arr) => idx === arr.length - 1 || row.task !== arr[idx + 1].task);
+      switches.innerHTML = taskSwitches.length ? taskSwitches.map(row => item(`
+        <div class="history-meta">${row.at || '—'}</div>
+        <strong>${row.task || '未命名任务'}</strong>
+        <span>${row.phase || '—'} · ${stateMap[row.state] || row.state || 'Unknown'}</span>
+      `)).join('') : item('<strong>暂无切换记录</strong>');
     }
 
     async function loadStatus() {
@@ -420,18 +303,18 @@
 
       const pitems = Array.isArray(data.progressItems) ? data.progressItems : [];
       progressItems.innerHTML = pitems.length
-        ? pitems.map(item => card(`<strong>${item.done ? 'ONLINE' : 'PENDING'} · ${item.label}</strong><span>${item.done ? '模块已接入战甲主链路。' : '该模块尚未完成装配。'}</span>`)).join('')
-        : card('<strong>暂无进度项</strong><span>当前没有可显示的模块装配记录。</span>');
+        ? pitems.map(row => item(`<strong>${row.done ? 'ONLINE' : 'PENDING'} · ${row.label}</strong><span>${row.done ? '模块已完成装配。' : '等待继续推进。'}</span>`)).join('')
+        : item('<strong>暂无进度项</strong><span>当前没有可显示的装配记录。</span>');
 
-      const remaining = pitems.filter(item => !item.done);
+      const remaining = pitems.filter(row => !row.done);
       remainingItems.innerHTML = remaining.length
-        ? remaining.map(item => card(`<strong>${item.label}</strong><span>等待继续装配。</span>`)).join('')
-        : card('<strong>当前没有未完成项</strong><span>所有已登记模块均已完成。</span>');
+        ? remaining.map(row => item(`<strong>${row.label}</strong><span>等待继续推进。</span>`)).join('')
+        : item('<strong>当前没有未完成项</strong><span>所有已登记模块均已完成。</span>');
 
       const eitems = Array.isArray(data.evidence) ? data.evidence : [];
       evidence.innerHTML = eitems.length
-        ? eitems.map(item => card(`<strong>${item}</strong><span>已纳入当前任务证据链。</span>`)).join('')
-        : card('<strong>暂无具体证据</strong><span>当前没有可验证的修改痕迹。</span>');
+        ? eitems.map(path => item(`<strong>${path}</strong><span>已纳入当前任务证据链。</span>`)).join('')
+        : item('<strong>暂无具体证据</strong><span>当前没有可验证的修改痕迹。</span>');
 
       renderHistory(Array.isArray(data.history) ? data.history : []);
     }
