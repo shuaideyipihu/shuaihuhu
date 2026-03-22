@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#18090a"/>
+      <stop offset="55%" stop-color="#2b0f10"/>
+      <stop offset="100%" stop-color="#090b0e"/>
+    </linearGradient>
+    <linearGradient id="armor" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffcb6b"/>
+      <stop offset="100%" stop-color="#bb6c1f"/>
+    </linearGradient>
+    <radialGradient id="arc" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#86f0ff"/>
+      <stop offset="60%" stop-color="#37c8ff"/>
+      <stop offset="100%" stop-color="rgba(55,200,255,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#bg)"/>
+  <path d="M52 74l20-20h112l20 20v34l-18 20v54l-24 20H94l-24-20v-54l-18-20z" fill="#7d1f1f" stroke="#ffbf5e" stroke-width="6"/>
+  <path d="M90 74h76l14 14v24l-12 14v44l-14 12H102l-14-12v-44l-12-14V88z" fill="#a62b2b" opacity=".72"/>
+  <path d="M78 82l18-18M178 82l-18-18M86 170l14 12M170 170l-14 12" stroke="#ffbf5e" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="128" cy="124" r="46" fill="#11161c" stroke="#ffbf5e" stroke-width="6"/>
+  <circle cx="128" cy="124" r="34" fill="#172028" stroke="#7ee9ff" stroke-width="3"/>
+  <polygon points="128,94 154,108 154,140 128,154 102,140 102,108" fill="url(#arc)" stroke="#d9ffff" stroke-width="4"/>
+  <circle cx="128" cy="124" r="12" fill="#ffffff" opacity=".9"/>
+  <path d="M62 206h132" stroke="#ffbf5e" stroke-width="8" stroke-linecap="round" opacity=".85"/>
+</svg>

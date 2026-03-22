@@ -1,0 +1,17 @@
+{
+  "name": "IRON HUD · Stark Armor Status",
+  "short_name": "IRON HUD",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#120d0f",
+  "theme_color": "#210d0d",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

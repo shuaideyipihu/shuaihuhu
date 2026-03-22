@@ -1,38 +1,38 @@
 {
-  "state": "working",
-  "task": "修复任务接单不执行与假进度问题",
-  "phase": "verification",
+  "state": "done",
+  "task": "钢铁侠化重构状态监测 app",
+  "phase": "delivered",
   "startedAt": "2026-03-22T08:24:11",
-  "lastActiveAt": "2026-03-22T08:24:11",
-  "updatedAt": "2026-03-22T08:24:11",
-  "progressNote": "已切断 heartbeat 伪造 working 的链路，正在核验状态服务只展示真实证据。",
+  "lastActiveAt": "2026-03-22T08:35:08",
+  "updatedAt": "2026-03-22T08:35:08",
+  "progressNote": "已完成钢铁侠混合风重构：战甲 HUD 骨架、方舟反应堆主视觉、红金装甲面板、钢铁侠图标与启动信息均已落地。",
   "evidence": [
-    "skills/work-status-monitor/scripts/work_heartbeat.py",
-    "skills/work-status-monitor/scripts/update_status.py",
-    "status-monitor/app.py",
-    "runtime/status-heartbeat.json"
+    "status-monitor/index.html",
+    "status-monitor/icon.svg",
+    "status-monitor/manifest.json",
+    "runtime/quality-gate-status-monitor.md"
   ],
-  "progressPercent": 55,
+  "progressPercent": 100,
   "progressItems": [
     {
-      "label": "定位伪进度来源",
+      "label": "战甲 HUD 页面骨架",
       "done": true
     },
     {
-      "label": "禁止 heartbeat 刷写 working",
+      "label": "方舟反应堆主视觉",
       "done": true
     },
     {
-      "label": "可信度忽略 heartbeat 假证据",
+      "label": "红金装甲化模块面板",
       "done": true
     },
     {
-      "label": "重启并验证状态服务",
-      "done": false
+      "label": "钢铁侠图标与启动信息",
+      "done": true
     },
     {
-      "label": "提交持久化修复",
-      "done": false
+      "label": "最终自检",
+      "done": true
     }
   ]
 }
