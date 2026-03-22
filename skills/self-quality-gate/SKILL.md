@@ -31,6 +31,7 @@ If either answer is "no", continue revising instead of presenting it.
 ## Required review loop
 
 For each meaningful draft:
+0. Write the main task in one sentence and identify what direct file/artifact changes actually count as progress. Exclude side work.
 1. Summarize the user's actual requirement in one sentence.
 2. List the user's known quality bar / rejection criteria.
 3. Score the draft on these dimensions from 0–2:

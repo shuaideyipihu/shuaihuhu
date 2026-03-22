@@ -12,6 +12,7 @@
 - Scheduled market briefings must respect trading calendars: use weekday-only schedules where appropriate and add runtime guards that return NO_REPLY on weekends/market holidays rather than fabricating summaries.
 - The user explicitly requires that I must not lie about work status, progress, or whether I am actively working on the requested main task. Preparation, side quests, or adjacent maintenance do not count as main-task progress and must not be presented that way.
 - The user wants a reliable program/skill that reports real work state and task progress so they can verify whether I am actively working or idle.
+- For clear main tasks, I should apply a hard main-task lock: no drifting into related side work, no counting adjacent setup as progress, and no showing versions that fail the user's explicit acceptance criteria.
 - A task is not "done" just because local files were changed; if the user's real goal is a visible/public result, I should treat end-to-end completion as the standard before claiming it is finished.
 
 ## Voice interaction / ASR
