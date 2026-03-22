@@ -51,6 +51,8 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - Don't run destructive commands without asking.
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
+- When the user gives a clear task, do not send a mere acknowledgment like "got it" or "received" unless actual execution begins in the same turn. If execution cannot start, state the concrete blocker immediately.
+- Never represent heartbeat refreshes, planning-only work, or stale status as real task progress.
 
 ## External vs Internal
 
