@@ -5,6 +5,7 @@ from datetime import datetime
 from pathlib import Path
 
 STATUS_PATH = Path('/home/shuaideyipi/.openclaw/workspace/runtime/work-status.json')
+HISTORY_PATH = Path('/home/shuaideyipi/.openclaw/workspace/runtime/work-history.json')
 STATUS_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 DEFAULT = {
@@ -19,7 +20,7 @@ DEFAULT = {
 }
 
 
-def load():
+def load_status():
     if not STATUS_PATH.exists():
         return DEFAULT.copy()
     try:
@@ -28,8 +29,24 @@ def load():
         return DEFAULT.copy()
 
 
-def save(data):
+def save_status(data):
     STATUS_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+
+
+def load_history():
+    if not HISTORY_PATH.exists():
+        return {'events': []}
+    try:
+        data = json.loads(HISTORY_PATH.read_text(encoding='utf-8'))
+        if isinstance(data, dict) and isinstance(data.get('events'), list):
+            return data
+    except Exception:
+        pass
+    return {'events': []}
+
+
+def save_history(data):
+    HISTORY_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 
 
 def main(argv):
@@ -42,31 +59,57 @@ def main(argv):
     phase = argv[3] if len(argv) > 3 else ''
     progress = argv[4] if len(argv) > 4 else ''
     evidence = argv[5:] if len(argv) > 5 else []
+    is_heartbeat = evidence == ['heartbeat']
 
     now = datetime.now().isoformat(timespec='seconds')
-    data = load()
+    data = load_status()
+
+    if is_heartbeat:
+        print(json.dumps(data, ensure_ascii=False))
+        return 0
 
     if state == 'working' and not data.get('startedAt'):
         data['startedAt'] = now
     if state in {'idle', 'blocked', 'done'} and not task:
         task = data.get('task', '')
 
+    progress_percent = data.get('progressPercent', 0)
+    progress_items = data.get('progressItems', [])
+    if evidence:
+        progress_percent = min(100, max(progress_percent, 1) + 1)
     data.update({
         'state': state,
         'task': task,
         'phase': phase,
-        'lastActiveAt': now if state == 'working' else data.get('lastActiveAt'),
         'updatedAt': now,
         'progressNote': progress,
+        'progressPercent': progress_percent,
+        'progressItems': progress_items,
         'evidence': evidence,
     })
 
-    if state == 'done':
+    if state == 'working':
         data['lastActiveAt'] = now
-    if state == 'idle':
-        data['phase'] = phase or ''
+        if not data.get('startedAt'):
+            data['startedAt'] = now
+    elif state == 'done':
+        data['lastActiveAt'] = now
+    elif state == 'idle' and not data.get('startedAt'):
+        data['startedAt'] = None
 
-    save(data)
+    history = load_history()
+    history['events'].append({
+        'at': now,
+        'state': state,
+        'task': data.get('task', ''),
+        'phase': data.get('phase', ''),
+        'progressNote': progress,
+        'evidence': evidence,
+    })
+    history['events'] = history['events'][-50:]
+
+    save_status(data)
+    save_history(history)
     print(json.dumps(data, ensure_ascii=False))
     return 0
 

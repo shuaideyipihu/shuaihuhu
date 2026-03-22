@@ -1,10 +1,38 @@
 {
-  "state": "idle",
-  "task": "量化金融网站重构",
-  "phase": "",
-  "startedAt": null,
-  "lastActiveAt": null,
-  "updatedAt": "2026-03-22T06:53:38",
-  "progressNote": "当前未在实际推进；需重新开始并只以可见页面改动为进度。",
-  "evidence": []
+  "state": "working",
+  "task": "修复任务接单不执行与假进度问题",
+  "phase": "verification",
+  "startedAt": "2026-03-22T08:24:11",
+  "lastActiveAt": "2026-03-22T08:24:11",
+  "updatedAt": "2026-03-22T08:24:11",
+  "progressNote": "已切断 heartbeat 伪造 working 的链路，正在核验状态服务只展示真实证据。",
+  "evidence": [
+    "skills/work-status-monitor/scripts/work_heartbeat.py",
+    "skills/work-status-monitor/scripts/update_status.py",
+    "status-monitor/app.py",
+    "runtime/status-heartbeat.json"
+  ],
+  "progressPercent": 55,
+  "progressItems": [
+    {
+      "label": "定位伪进度来源",
+      "done": true
+    },
+    {
+      "label": "禁止 heartbeat 刷写 working",
+      "done": true
+    },
+    {
+      "label": "可信度忽略 heartbeat 假证据",
+      "done": true
+    },
+    {
+      "label": "重启并验证状态服务",
+      "done": false
+    },
+    {
+      "label": "提交持久化修复",
+      "done": false
+    }
+  ]
 }

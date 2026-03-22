@@ -1,0 +1,9 @@
+{
+  "enabled": false,
+  "pid": null,
+  "task": "",
+  "phase": "",
+  "detail": "",
+  "intervalSeconds": 20,
+  "lastBeatAt": null
+}

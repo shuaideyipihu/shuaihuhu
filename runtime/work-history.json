@@ -1,0 +1,40 @@
+{
+  "events": [
+    {
+      "at": "2026-03-22T08:09:24",
+      "state": "working",
+      "task": "状态监测 app 钢铁侠风格重构",
+      "phase": "design",
+      "progressNote": "正在把状态监测 app 重构成钢铁侠/Jarvis 风格，并直接修改主页面视觉。",
+      "evidence": [
+        "status-monitor/index.html",
+        "status-monitor/icon.svg"
+      ]
+    },
+    {
+      "at": "2026-03-22T08:14:44",
+      "state": "working",
+      "task": "状态监测 app 钢铁侠风格重构",
+      "phase": "design",
+      "progressNote": "正在修复实时工作进度更新逻辑。",
+      "evidence": [
+        "status-monitor/index.html",
+        "status-monitor/app.py",
+        "status-monitor/controller.py",
+        "runtime/work-status.json"
+      ]
+    },
+    {
+      "at": "2026-03-22T08:23:26",
+      "state": "working",
+      "task": "修复任务接单不执行与假进度问题",
+      "phase": "implementation",
+      "progressNote": "正在切断 heartbeat 伪造 working 的链路，并重启状态服务验证修复。",
+      "evidence": [
+        "skills/work-status-monitor/scripts/work_heartbeat.py",
+        "skills/work-status-monitor/scripts/update_status.py",
+        "status-monitor/app.py"
+      ]
+    }
+  ]
+}
