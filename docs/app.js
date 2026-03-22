@@ -12,28 +12,50 @@ const courseData = {
   promise: '不是把量化包装成“自动赚钱机器”，而是把你训练成能用数据、规则和风险视角看市场的人。',
   roadmap: [
     {
-      stage: '第 1 周：建立量化语言',
-      weeks: 'Day 1–7',
-      focus: '理解量化投资是什么，建立收益率、复利、风险收益的基本语言。',
-      outcomes: ['知道量化不是自动赚钱机器', '能区分价格与收益率', '开始形成风险收益一起看的习惯'],
+      stage: '模块 1：金融与投资语言',
+      weeks: '第 1–2 周',
+      focus: '先建立资产、收益率、复利、风险收益、组合与基准的金融语言，而不是一上来就讲策略。',
+      outcomes: ['能区分价格、收益率、累计净值与回撤', '理解风险收益权衡和基准的意义', '知道量化研究先是金融问题，再是代码问题'],
     },
     {
-      stage: '第 2 周：统计与风险入门',
-      weeks: 'Day 8–14',
-      focus: '重新激活均值、方差、波动率、相关性、Sharpe、回撤等基础工具。',
-      outcomes: ['能解释波动率和最大回撤', '会比较两只资产的风险收益', '能用滚动窗口看市场变化'],
+      stage: '模块 2：统计、回归与时间序列',
+      weeks: '第 3–5 周',
+      focus: '从分布、估计误差、回归、波动率、相关性走向金融时间序列，理解市场数据不是普通静态表格。',
+      outcomes: ['会用均值、方差、相关性描述资产', '理解回归是解释和检验工具', '知道非平稳、波动簇集、均值回归等时间序列特征'],
     },
     {
-      stage: '第 3 周：时间序列与策略雏形',
-      weeks: 'Day 15–21',
-      focus: '建立趋势、均值回归、动量、信号与持仓之间的联系。',
-      outcomes: ['理解三类经典策略雏形', '能写出最简单的规则策略', '知道信号不等于收益'],
+      stage: '模块 3：数据工程与回测纪律',
+      weeks: '第 6–8 周',
+      focus: '建立数据清洗、复权、样本内外划分、交易成本与研究留痕的纪律，避免“看上去有效”的伪量化。',
+      outcomes: ['知道 point-in-time 数据的重要性', '会把信号变成仓位和 PnL', '能识别过拟合、未来函数和忽略成本的假策略'],
     },
     {
-      stage: '第 4 周：回测与陷阱入门',
-      weeks: 'Day 22–30',
-      focus: '把策略放进回测框架，并理解交易成本、未来函数、过拟合等陷阱。',
-      outcomes: ['知道回测到底在测什么', '能看懂几个基础策略指标', '不会轻易被漂亮历史曲线骗到'],
+      stage: '模块 4：策略、组合与风险控制',
+      weeks: '第 9–12 周',
+      focus: '在前面基础上，再进入动量、均值回归、因子、组合优化、波动控制与执行现实。',
+      outcomes: ['理解策略家族的差异', '会用组合和仓位控制表达观点', '知道实盘和回测之间最大的裂缝在哪里'],
+    },
+  ],
+  coreModules: [
+    {
+      title: '金融基础模块',
+      description: '资产、收益率、复利、回撤、基准、风险收益权衡。先学金融对象和度量语言，再谈量化方法。',
+      anchors: ['Bodie / Kane / Marcus', '收益率与组合理论', '风险收益框架'],
+    },
+    {
+      title: '统计与时间序列模块',
+      description: '概率、分布、估计误差、回归、相关性、波动率、AR/MA/ARIMA、均值回归、波动簇集。',
+      anchors: ['Tsay', 'Regression & inference', 'Financial time series'],
+    },
+    {
+      title: '数据与回测模块',
+      description: '数据清洗、复权、样本内外、交易成本、容量、滑点、研究日志和复现实验。',
+      anchors: ['Chan', 'Backtesting discipline', 'Research artifacts'],
+    },
+    {
+      title: '策略与风险模块',
+      description: '动量、均值回归、横截面排序、因子、组合构建、风险预算、执行与监控。',
+      anchors: ['Chan', 'Portfolio construction', 'Risk control'],
     },
   ],
   lessons: [
@@ -621,6 +643,20 @@ function renderHome() {
     </section>
 
     <section class="panel" style="margin-top:18px;">
+      <p class="kicker">课程总结构</p>
+      <h3>专业版课程从这四个模块展开</h3>
+      <div class="reference-grid">
+        ${courseData.coreModules.map(item => `
+          <article class="reference-card">
+            <h4>${item.title}</h4>
+            <p>${item.description}</p>
+            <p class="muted"><strong>锚点：</strong>${item.anchors.join(' · ')}</p>
+          </article>
+        `).join('')}
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:18px;">
       <p class="kicker">参考教材脉络</p>
       <h3>这套网站现在开始按经典教材路线校正</h3>
       <div class="reference-grid">
@@ -657,8 +693,8 @@ function renderRoadmap() {
       `).join('')}
       <article class="timeline-item">
         <p class="kicker">当前状态</p>
-        <h4>第一周课程已重写为“可学习正文”</h4>
-        <p class="muted">不是只挂一个标题，而是把每日课程写成真正可读、可跟、可练的内容。后续会继续按相同标准补齐第 2–4 周。</p>
+        <h4>课程骨架已改成“先金融、再统计、再回测、后策略”</h4>
+        <p class="muted">这轮重构的核心不是继续堆 Day 1 / Day 2 文案，而是先把整站课程顺序改正：先学金融对象与风险收益语言，再进统计与时间序列，再进数据与回测纪律，最后才进入策略、组合与风控。</p>
       </article>
     </div>
   `;
